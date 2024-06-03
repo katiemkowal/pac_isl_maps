@@ -17,29 +17,6 @@ if test -f ${ncdir}/chirps_ld1.nc; then
     rm ${ncdir}/chirps*.nc
 fi
 
-#'d re(pp,721,linear,-180,0.5,201,linear,-50,0.5,ba)'
-
-#fraction to divide by to get correct predictor resolution (2 for 0.5 res; 4 for 0.25 res)
-# multiplier_x=4
-# multiplier_y=4
-
-# hres_1=$(echo "scale=1;1/$multiplier_x" | bc)
-# vres_1=$(echo "scale=1;1/$multiplier_y" | bc)
-
-# pred_w=0.125
-# pred_e=360
-# pred_s=-89.875
-# pred_n=90
-
-# chirps_w=
-
-# nc_lon=$(((${pred_w}-${pred_e})*${multiplier_x}))
-# nc_lat=$(((${pred_n}-${pred_s})*${multiplier_y}))
-# nc_lat=$((${nc_lat/-/}+1))
-# nc_lon=$((${nc_lon/-/}+1))
-# echo $nc_lat
-# echo $nc_lon
-
 
 mn=`date +"%b"`
 yrmndy=`date +"%Y"-"%m"-"%d"`
