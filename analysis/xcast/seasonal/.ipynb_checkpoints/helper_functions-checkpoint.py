@@ -18,3 +18,9 @@ def getYears(start, end):
     # >get YearStrings ("1981", "1982"... "2016")
     #return [expression for var is iterable if condition]
     return [year for year in range(start, end+1)]
+
+#change all day values to first of the month
+def change_dates_to_first(ds, time_var):
+    ds.coords[time_var] = ds.coords[time_var].dt.strftime('%Y-%m-01')
+    ds.coords[time_var] = pd.to_datetime(ds.coords[time_var])
+    return ds

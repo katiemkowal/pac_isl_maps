@@ -10,8 +10,22 @@ from pathlib import Path
 from datetime import datetime
 
 #import function and config files written to process code
-import helper_functions as helper
 import chirps_pacisl_config as cfg
+
+#to import functions from another folder
+import importlib.util
+# passing the file name and path as argument
+spec1 = importlib.util.spec_from_file_location(
+  "helper_functions", "/cpc/int_desk/pac_isl/analysis/helper_functions.py")    
+
+# importing the module as helper
+helper = importlib.util.module_from_spec(spec1) 
+spec1.loader.exec_module(helper)
+
+spec2 = importlib.util.spec_from_file_location(
+  "helper_dictionaries", "/cpc/int_desk/pac_isl/analysis/helper_dictionaries.py")    
+hdict = importlib.util.module_from_spec(spec2) 
+spec2.loader.exec_module(hdict)
 
 #setup years, months
 years = helper.getYears(cfg.first_year,cfg.last_year)
@@ -49,7 +63,7 @@ def convert_monthly_to_3monthmean(ds):
         else:
             seas_months = ds.sel(time = ds.time.dt.month.isin([m, m+1, m+2]))
             season = seas_months.groupby('time.year').mean()
-            season = season.expand_dims({'season':[helper.month_number_dict[m] + helper.month_number_dict[m+1] + helper.month_number_dict[m+2]]})
+            season = season.expand_dims({'season':[hdict.month_number_dict[m] + hdict.month_number_dict[m+1] + hdict.month_number_dict[m+2]]})
         season = season.sel(year = season.year.isin(years))
         seasons.append(season)
     seasons = xr.concat(seasons, dim = 'season')
@@ -81,7 +95,7 @@ print(regional_chirps)
 file_name_to_save = 'chirps05' + cfg.region_name
 regional_chirps.to_netcdf(os.path.join(cfg.nc_folder, file_name_to_save))
 
-## save files by season
+## save files by season if desired
 # for s in np.unique(regional_chirps.season):
 #     file_name_to_save = 'chirps05' + s
 #     if Path(os.path.join(cfg.nc_folder, file_name_to_save)).is_file():
