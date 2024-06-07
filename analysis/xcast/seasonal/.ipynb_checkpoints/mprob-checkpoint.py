@@ -111,9 +111,9 @@ def mview_probabilistic(X, x_lat_dim=None, x_lon_dim=None, x_sample_dim=None, x_
     flat = flat.where(argmax != 0, other=X.isel(**dct1)) * mask
 
 
-    CS3 = flat.where(argmax == 2, other=np.nan).plot(ax=ax, add_colorbar=False, vmin=0.30, vmax=0.85, cmap=plt.get_cmap('ANCMAP', 11))
-    CS1 = flat.where(argmax == 0, other=np.nan).plot(ax=ax, add_colorbar=False, vmin=0.30, vmax=0.85, cmap=plt.get_cmap('BNCMAP', 11))
-    CS2 = flat.where(argmax == 1, other=np.nan).plot(ax=ax, add_colorbar=False, vmin=0.30, vmax=0.55, cmap=plt.get_cmap('NNCMAP', 5))
+    CS3 = flat.where(argmax == 2, other=np.nan).plot(transform=ccrs.PlateCarree(), ax=ax, add_colorbar=False, vmin=0.30, vmax=0.85, cmap=plt.get_cmap('ANCMAP', 11))
+    CS1 = flat.where(argmax == 0, other=np.nan).plot(transform=ccrs.PlateCarree(), ax=ax, add_colorbar=False, vmin=0.30, vmax=0.85, cmap=plt.get_cmap('BNCMAP', 11))
+    CS2 = flat.where(argmax == 1, other=np.nan).plot(transform=ccrs.PlateCarree(), ax=ax, add_colorbar=False, vmin=0.30, vmax=0.55, cmap=plt.get_cmap('NNCMAP', 5))
 
     if drymask is not None:
         dmcmap = plt.get_cmap('RdBu').copy()
