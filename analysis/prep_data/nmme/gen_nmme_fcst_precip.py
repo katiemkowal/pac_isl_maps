@@ -5,18 +5,17 @@ import numpy as np
 import datetime
 from netCDF4 import date2num,num2date
 from dateutil.relativedelta import relativedelta
-import nmme_config as cfg
 
 f2 = "/cpc/int_desk/pac_isl/data/processed/nmme/dat_files/nmme_fcst_precip_ld_3.dat"
 
 # Predictor spatial dimension (Global tropics)
-#lats = -90; latn = 90; lonw = -180; lone = 180
+lats = -90; latn = 90; lonw = -180; lone = 180
 
-#res1 = 1.0 # Predictor horizontal resolution
+res1 = 1.0 # Predictor horizontal resolution
 
 # Calculate zonal and meridional grid size (for predictor and predictand)
-nlat = np.arange(cfg.lats,cfg.latn+cfg.h_res1,cfg.h_res1); ny = len(nlat);
-nlon = np.arange(cfg.lonw,cfg.lone+cfg.h_res1,cfg.h_res1); nx = 360;
+nlat = np.arange(lats,latn+res1,res1); ny = len(nlat);
+nlon = np.arange(lonw,lone+res1,res1); nx = len(nlon);
 
 nt = 1
 ntime = nt
@@ -58,6 +57,6 @@ precip.units = 'mm' # degrees Kelvin
 precip.standard_name = 'Precip' # this is a CF standard name
 nlats = len(lat_dim); nlons = len(lon_dim); ntimes = nt
 time[:] = netCDF4.date2num(times, units=time.units, calendar=time.calendar)
-lat[:] = cfg.lats + 1.0*np.arange(nlat)
-lon[:] = cfg.lonw + 1.0*np.arange(nlon)
+lat[:] = lats + 1.0*np.arange(nlat)
+lon[:] = lonw + 1.0*np.arange(nlon)
 precip[:,:,:] = precipt # Appends data along unlimited dimension

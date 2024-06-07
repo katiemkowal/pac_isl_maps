@@ -39,12 +39,54 @@ if test -f ${ncdir}/nmme_fcst_precip_ld_${ld}.nc; then
     rm ${ncdir}/nmme_fcst_precip_ld_${ld}.nc
 fi
 
+cat>${mn1}ic_ENSM_MEAN_1991-2022.ctl<<eofCTL
+dset /cpc/int_desk/NMME/hindcast/raw_sst_precip_tmp2m/tmpsfc_monthly/${mn1}ic_ENSM_MEAN_1991-2022.dat
+undef 9.999E+20
+title tmpsfc.bin
+options little_endian
+xdef 360 linear 0 1.0
+ydef 181 linear -90.0 1.0
+tdef 32 linear 15may1991 1yr
+zdef 9 linear 1 1
+vars 1
+fcst 9,1,0   0,1,7,0 ** sst DegC
+ENDVARS
+eofCTL
+
+cat>${mn2}ic_ENSM_MEAN_1991-2022.ctl<<eofCTL
+dset /cpc/int_desk/NMME/hindcast/raw_sst_precip_tmp2m/tmpsfc_monthly/${mn2}ic_ENSM_MEAN_1991-2022.dat
+undef 9.999E+20
+title tmpsfc.bin
+options little_endian
+xdef 360 linear 0 1.0
+ydef 181 linear -90.0 1.0
+tdef 32 linear 15may1991 1yr
+zdef 9 linear 1 1
+vars 1
+fcst 9,1,0   0,1,7,0 ** sst DegC
+ENDVARS
+eofCTL
+
+cat>${mn3}ic_ENSM_MEAN_1991-2022.ctl<<eofCTL
+dset /cpc/int_desk/NMME/hindcast/raw_sst_precip_tmp2m/tmpsfc_monthly/${mn3}ic_ENSM_MEAN_1991-2022.dat
+undef 9.999E+20
+title tmpsfc.bin
+options little_endian
+xdef 360 linear 0 1.0
+ydef 181 linear -90.0 1.0
+tdef 32 linear 15may1991 1yr
+zdef 9 linear 1 1
+vars 1
+fcst 9,1,0   0,1,7,0 ** sst DegC
+ENDVARS
+eofCTL
+
 # Generate NMME hindcast data
 cat>nmme_hind.gs<<eofGS
 'reinit'
-'open /cpc/int_desk/NMME/hindcast/raw_sst_precip_tmp2m/precip_monthly/${mn1}ic_ENSM_MEAN_1991-2022.ctl'
-'open /cpc/int_desk/NMME/hindcast/raw_sst_precip_tmp2m/precip_monthly/${mn2}ic_ENSM_MEAN_1991-2022.ctl'
-'open /cpc/int_desk/NMME/hindcast/raw_sst_precip_tmp2m/precip_monthly/${mn3}ic_ENSM_MEAN_1991-2022.ctl'
+'open ${mn1}ic_ENSM_MEAN_1991-2022.ctl'
+'open ${mn2}ic_ENSM_MEAN_1991-2022.ctl'
+'open ${mn3}ic_ENSM_MEAN_1991-2022.ctl'
 'set lat -90 90'
 'set lon -180 180'
 zz = ${ld} + 1 

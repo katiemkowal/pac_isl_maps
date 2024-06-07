@@ -1,4 +1,4 @@
-dset /cpc/int_desk/NMME/hindcast/raw_sst_precip_tmp2m/tmpsfc_monthly/junic_ENSM_MEAN_1991-2022.dat
+dset /cpc/int_desk/NMME/hindcast/raw_sst_precip_tmp2m/tmpsfc_monthly/julic_ENSM_MEAN_1991-2022.dat
 undef 9.999E+20
 title tmpsfc.bin
 options little_endian
