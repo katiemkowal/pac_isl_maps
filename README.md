@@ -1,1 +1,1 @@
-Repos for the Fiji PREPARE workshop
+Repo for the Fiji PREPARE workshop
