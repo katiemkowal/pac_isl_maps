@@ -13,10 +13,26 @@ if test -f ${datdir}/cmorph*.dat; then
     rm ${datdir}/cmorph*.dat
 fi
 
-mn=`date +"%b"`
-yrmndy=`date +"%Y"-"%m"-"%d"`
-yrmondy=`date +'%Y, %-m, %-d'`
-mon=$(date +%b | tr A-Z a-z)
+# mn=`date +"%b"`
+# yrmndy=`date +"%Y"-"%m"-"%d"`
+# yrmondy=`date +'%Y, %-m, %-d'`
+# mon=$(date +%b | tr A-Z a-z)
+
+mn="Jan"
+yrmndy="2024-01-12"
+yrmondy="2024, 1, 12"
+mon="jan"
+
+mn="Sep"
+yrmndy="2024-09-12"
+yrmondy="2024, 9, 12"
+mon="sep"
+
+
+echo $mn
+echo $yrmndy
+echo $yrmondy
+echo $mon
 
 cat>cmorph.ctl<<eofCTL
 DSET /cpc/fews/production/rshukla/CMORPH1/CMORPH1_ADJ_EOD/CMORPH_V1.0_ADJ_0.25deg-DLY_EOD_%y4%m2%d2
@@ -83,6 +99,7 @@ if [ $mn == "Oct" ]; then prd1='DJF'; prd2='JFM'; prd3='FMA'; mon1i='Dec'; mon1f
 if [ $mn == "Nov" ]; then prd1='JFM'; prd2='FMA'; prd3='MAM'; mon1i='Jan'; mon1f='Mar';ln1=90;emon1=31; mon2i='Feb'; mon2f='Apr';ln2=89;emon2=30; mon3i='Mar'; mon3f='May';ln3=92;emon3=31;fi   
 if [ $mn == "Dec" ]; then prd1='FMA'; prd2='MAM'; prd3='AMJ'; mon1i='Feb'; mon1f='Apr';ln1=89;emon1=30; mon2i='Mar'; mon2f='May';ln2=92;emon2=31; mon3i='Apr'; mon3f='Jun';ln3=91;emon3=30;fi   
 fi
+
 
 # Generate NMME hindcast data
 cat>cmorph.gs<<eofGS
@@ -201,7 +218,7 @@ fid.close();
 
 precipt[precipt <= -999] = np.nan
 
-ncfile = netCDF4.Dataset('cmorph_hind_precip_ld${ld}.nc',mode='w',format='NETCDF4_CLASSIC')
+ncfile = netCDF4.Dataset('cmorph_hind_precip_ld${ld}_${mon}.nc',mode='w',format='NETCDF4_CLASSIC')
 lat_dim = ncfile.createDimension('lat', nlat) # latitude axis
 lon_dim = ncfile.createDimension('lon', nlon) # longitude axis
 time_dim = ncfile.createDimension('time', None) # unlimited axis (can be appended to).

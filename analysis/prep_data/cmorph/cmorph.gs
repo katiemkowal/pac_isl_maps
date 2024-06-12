@@ -1,6 +1,6 @@
 'reinit'
 'set gxout fwrite'
-'set fwrite /cpc/int_desk/pac_isl/data/processed/cmorph/dat_files/cmorph_ld3.dat'
+'set fwrite /cpc/int_desk/pac_isl/data/processed/cmorph/dat_files/cmorph_ld1.dat'
 i=1998
 while(i<=2022)
 'open cmorph.ctl'
@@ -8,34 +8,34 @@ while(i<=2022)
 'set lon -180 180'
 yr = i
 yrr = i
-say Aug ' ' Sep ' ' Oct
-say Oct ' ' Nov ' ' Dec
-say 92 ' ' 91 ' ' 92
-if(Aug=Nov & Oct=Jan);yr=i;yrr=i+1;endif
-if(Aug=Dec & Oct=Feb);yr=i;yrr=i+1;endif
-if(Aug=Jan & Oct=Mar);yr=i+1;yrr=i+1;endif
-if(Aug=Feb & Oct=Apr);yr=i+1;yrr=i+1;endif
-if(Aug=Mar & Oct=May);yr=i+1;yrr=i+1;endif
+say Jan ' ' Feb ' ' Mar
+say Mar ' ' Apr ' ' May
+say 90 ' ' 89 ' ' 92
+if(Jan=Nov & Mar=Jan);yr=i;yrr=i+1;endif
+if(Jan=Dec & Mar=Feb);yr=i;yrr=i+1;endif
+if(Jan=Jan & Mar=Mar);yr=i+1;yrr=i+1;endif
+if(Jan=Feb & Mar=Apr);yr=i+1;yrr=i+1;endif
+if(Jan=Mar & Mar=May);yr=i+1;yrr=i+1;endif
 
-if(Sep=Nov & Nov=Jan);yr=i;yrr=i+1;endif
-if(Sep=Dec & Nov=Feb);yr=i;yrr=i+1;endif
-if(Sep=Jan & Nov=Mar);yr=i+1;yrr=i+1;endif
-if(Sep=Feb & Nov=Apr);yr=i+1;yrr=i+1;endif
-if(Sep=Mar & Nov=May);yr=i+1;yrr=i+1;endif
+if(Feb=Nov & Apr=Jan);yr=i;yrr=i+1;endif
+if(Feb=Dec & Apr=Feb);yr=i;yrr=i+1;endif
+if(Feb=Jan & Apr=Mar);yr=i+1;yrr=i+1;endif
+if(Feb=Feb & Apr=Apr);yr=i+1;yrr=i+1;endif
+if(Feb=Mar & Apr=May);yr=i+1;yrr=i+1;endif
 
-if(Oct=Nov & Dec=Jan);yr=i;yrr=i+1;endif
-if(Oct=Dec & Dec=Feb);yr=i;yrr=i+1;endif
-if(Oct=Jan & Dec=Mar);yr=i+1;yrr=i+1;endif
-if(Oct=Feb & Dec=Apr);yr=i+1;yrr=i+1;endif
-if(Oct=Mar & Dec=May);yr=i+1;yrr=i+1;endif
+if(Mar=Nov & May=Jan);yr=i;yrr=i+1;endif
+if(Mar=Dec & May=Feb);yr=i;yrr=i+1;endif
+if(Mar=Jan & May=Mar);yr=i+1;yrr=i+1;endif
+if(Mar=Feb & May=Apr);yr=i+1;yrr=i+1;endif
+if(Mar=Mar & May=May);yr=i+1;yrr=i+1;endif
 
 say yr ' ' yrr
 
-'define tt = ave(r,time=1Aug'yr',time=31Oct'yrr')'
+'define tt = ave(r,time=1Jan'yr',time=Mar'yrr')'
 'd re(tt,1441,linear, -180,0.25,401,linear,-50,0.25,ba)'
-'define tt = ave(r,time=1Sep'yr',time=30Nov'yrr')'
+'define tt = ave(r,time=1Feb'yr',time=Apr'yrr')'
 'd re(tt,1441,linear, -180,0.25,401,linear,-50,0.25,ba)'
-'define tt = ave(r,time=1Oct'yr',time=31Dec'yrr')'
+'define tt = ave(r,time=1Mar'yr',time=May'yrr')'
 'd re(tt,1441,linear, -180,0.25,401,linear,-50,0.25,ba)'
 i = i + 1
 endwhile
