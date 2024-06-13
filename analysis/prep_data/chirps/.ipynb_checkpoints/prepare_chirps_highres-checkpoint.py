@@ -93,14 +93,14 @@ regional_chirps = chirps_360.sel(longitude = slice(cfg.slice_w, cfg.slice_e),
 print(regional_chirps)
 
 file_name_to_save = 'chirps05' + cfg.region_name
-regional_chirps.to_netcdf(os.path.join(cfg.nc_folder, file_name_to_save))
+#regional_chirps.to_netcdf(os.path.join(cfg.nc_folder, file_name_to_save))
 
 ## save files by season if desired
-# for s in np.unique(regional_chirps.season):
-#     file_name_to_save = 'chirps05' + s
-#     if Path(os.path.join(cfg.nc_folder, file_name_to_save)).is_file():
-#         os.remove(os.path.join(cfg.nc_folder, file_name_to_save))
-#     regional_chirps.sel(season=s).to_netcdf(os.path.join(cfg.nc_folder, file_name_to_save))
+for s in np.unique(regional_chirps.season):
+    file_name_to_save = '_'.join([s, 'chirps05.nc'])
+    if Path(os.path.join(cfg.nc_folder, file_name_to_save)).is_file():
+        os.remove(os.path.join(cfg.nc_folder, file_name_to_save))
+    regional_chirps.sel(season=s).to_netcdf(os.path.join(cfg.nc_folder, file_name_to_save))
 
 
 
