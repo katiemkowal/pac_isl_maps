@@ -2,21 +2,28 @@
 
 wdir=/cpc/int_desk/pac_isl/analysis/prep_data/nmme
 datdir=/cpc/int_desk/pac_isl/data/processed/nmme/dat_files
-ncdir=/cpc/int_desk/pac_isl/data/processed/nmme/nc_files
+#ncdir=/cpc/int_desk/pac_isl/data/processed/nmme/nc_files
+ncdir=/cpc/int_desk/pac_isl/analysis/xcast/seasonal/practical_notebooks/practical_data/nc_files
 cd $wdir
 grads=/cpc/home/ebekele/grads2.1/grads-2.1.0/bin/grads
 py=/cpc/home/ebekele/.conda/envs/xcast_env/bin/python
 
-mn=`date +"%b"`
-yrmndy=`date +"%Y"-"%m"-"%d"`
-yrmondy=`date +'%Y, %-m, %-d'`
-mon=$(date +%b | tr A-Z a-z)
+# mn=`date +"%b"`
+# yrmndy=`date +"%Y"-"%m"-"%d"`
+# yrmondy=`date +'%Y, %-m, %-d'`
+# mon=$(date +%b | tr A-Z a-z)
+
+
+mn="Jan"
+yrmndy="2024-01-01"
+yrmondy="2024,1,1"
+mon="jan"
 
 if [ $mon == "jan" ]; then mn1='dec'; mn2='jan'; mn3='feb'; fi
 if [ $mon == "feb" ]; then mn1='jan'; mn2='feb'; mn3='mar'; fi
 if [ $mon == "mar" ]; then mn1='feb'; mn2='mar'; mn3='apr'; fi
 if [ $mon == "apr" ]; then mn1='mar'; mn2='apr'; mn3='may'; fi
-if [ $mon == "mAy" ]; then mn1='apr'; mn2='may'; mn3='jun'; fi
+if [ $mon == "may" ]; then mn1='apr'; mn2='may'; mn3='jun'; fi
 if [ $mon == "jun" ]; then mn1='may'; mn2='jun'; mn3='jul'; fi
 if [ $mon == "jul" ]; then mn1='jun'; mn2='jul'; mn3='aug'; fi
 if [ $mon == "aug" ]; then mn1='jul'; mn2='aug'; mn3='sep'; fi
@@ -31,12 +38,12 @@ if test -f ${datdir}/nmme_hind_precip_ld_${ld}.dat; then
     rm ${datdir}/nmme_hind_precip_ld_${ld}.dat
 fi
 
-if test -f ${ncdir}/nmme_hind_precip_ld_${ld}.nc; then
-    rm ${ncdir}/nmme_hind_precip_ld_${ld}.nc
+if test -f ${ncdir}/${mn}_ld${ld}_NMME_hind_precip.nc; then
+    rm ${ncdir}/${mn}_ld${ld}_NMME_hind_precip.nc
 fi
 
-if test -f ${ncdir}/nmme_fcst_precip_ld_${ld}.nc; then
-    rm ${ncdir}/nmme_fcst_precip_ld_${ld}.nc
+if test -f ${ncdir}/${mn}_ld${ld}_NMME_fcst_precip.nc; then
+    rm ${ncdir}/${mn}_ld${ld}_NMME_fcst_precip.nc
 fi
 
 cat>${mn1}ic_ENSM_MEAN_1991-2022.ctl<<eofCTL
@@ -91,7 +98,7 @@ cat>nmme_hind.gs<<eofGS
 'set lon -180 180'
 zz = ${ld} + 1 
 'set gxout fwrite'
-'set fwrite ${datdir}/nmmec_hind_precip_ld_${ld}.dat'
+'set fwrite ${datdir}/nmme_hind_precip_ld_${ld}.dat'
 i=8
 while(i<=32)
 'set t 'i
@@ -112,11 +119,25 @@ eofGS
 
 $grads -blc nmme_hind.gs
 
+cat>nmme_prate_ensmean_fcst.ctl<<eofCTL
+DSET /cpc/fews/production/NMME/inputs/filtered/nmme_prate_ensmean_fcst.bin
+UNDEF -999.0
+TITLE binarydata
+XDEF 360 LINEAR 0 1.0
+YDEF 181 LINEAR -90 1.0
+ZDEF 9 LINEAR 1 1
+TDEF 1 LINEAR 01jan1991 1mo
+EDEF 1 NAMES 1 1
+VARS 1
+fcst  9,103,2   0,0,0   generic
+ENDVARS
+eofCTL
+
 
 # Generate NMME current forecast data
 cat>nmme_fcst.gs<<eofGS
 'reinit'
-'open /cpc/fews/production/NMME/inputs/filtered/nmme_prate_ensmean_fcst.ctl'
+'open nmme_prate_ensmean_fcst.ctl'
 'set lat -90 90'
 'set lon -180 180'
 zz = ${ld} + 1
@@ -141,7 +162,7 @@ import datetime
 from netCDF4 import date2num,num2date
 from dateutil.relativedelta import relativedelta
 
-f1 = "${datdir}/nmmec_hind_precip_ld_${ld}.dat"
+f1 = "${datdir}/nmme_hind_precip_ld_${ld}.dat"
 
 # Predictor spatial dimension (Global tropics)
 lats = -90; latn = 90; lonw = -180; lone = 180
@@ -167,7 +188,7 @@ fid.close();
 
 precipt[precipt <= -999] = np.nan
 
-ncfile = netCDF4.Dataset('${ncdir}/nmmec_hind_precip_ld${ld}.nc',mode='w',format='NETCDF4_CLASSIC')
+ncfile = netCDF4.Dataset('${mn}_ld${ld}_NMME_hind_precip.nc',mode='w',format='NETCDF4_CLASSIC')
 lat_dim = ncfile.createDimension('lat', nlat) # latitude axis
 lon_dim = ncfile.createDimension('lon', nlon) # longitude axis
 time_dim = ncfile.createDimension('time', None) # unlimited axis (can be appended to).
@@ -234,7 +255,7 @@ fid.close();
 
 precipt[precipt <= -999] = np.nan
 
-ncfile = netCDF4.Dataset('nmme_fcst_precip_ld${ld}.nc',mode='w',format='NETCDF4_CLASSIC')
+ncfile = netCDF4.Dataset('${mn}_ld${ld}_NMME_fcst_precip.nc',mode='w',format='NETCDF4_CLASSIC')
 lat_dim = ncfile.createDimension('lat', nlat) # latitude axis
 lon_dim = ncfile.createDimension('lon', nlon) # longitude axis
 time_dim = ncfile.createDimension('time', None) # unlimited axis (can be appended to).

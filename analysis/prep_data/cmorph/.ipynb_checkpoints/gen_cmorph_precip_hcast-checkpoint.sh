@@ -2,37 +2,34 @@
 
 wdir=/cpc/int_desk/pac_isl/analysis/prep_data/cmorph
 datdir=/cpc/int_desk/pac_isl/data/processed/cmorph/dat_files
-ncdir=/cpc/int_desk/pac_isl/data/processed/cmorph/nc_files
+#ncdir=/cpc/int_desk/pac_isl/data/processed/cmorph/nc_files
+ncdir=/cpc/int_desk/pac_isl/analysis/xcast/seasonal/practical_notebooks/practical_data/nc_files
 
 cd $wdir
 grads=/cpc/home/ebekele/grads-2.1.0.oga.1//Contents/grads
 py=/cpc/home/ebekele/.conda/envs/xcast_env/bin/python
 pperl=/cpc/africawrf/ebekele/perl/bin/perl
 
-if test -f ${datdir}/cmorph*.dat; then
-    rm ${datdir}/cmorph*.dat
-fi
+for file in ${datdir}/cmorph*.dat; do
+    if [ -f "$file" ]; then
+        rm "$file"
+    fi
+    done
 
-# mn=`date +"%b"`
-# yrmndy=`date +"%Y"-"%m"-"%d"`
-# yrmondy=`date +'%Y, %-m, %-d'`
-# mon=$(date +%b | tr A-Z a-z)
+mn=`date +"%b"`
+yrmndy=`date +"%Y"-"%m"-"%d"`
+yrmondy=`date +'%Y, %-m, %-d'`
+mon=$(date +%b | tr A-Z a-z)
 
-mn="Jan"
-yrmndy="2024-01-12"
-yrmondy="2024, 1, 12"
-mon="jan"
+# mn="Jan"
+# yrmndy="2024-01-12"
+# yrmondy="2024, 1, 12"
+# mon="jan"
 
-mn="Sep"
-yrmndy="2024-09-12"
-yrmondy="2024, 9, 12"
-mon="sep"
-
-
-echo $mn
-echo $yrmndy
-echo $yrmondy
-echo $mon
+# mn="Sep"
+# yrmndy="2024-09-12"
+# yrmondy="2024, 9, 12"
+# mon="sep"
 
 cat>cmorph.ctl<<eofCTL
 DSET /cpc/fews/production/rshukla/CMORPH1/CMORPH1_ADJ_EOD/CMORPH_V1.0_ADJ_0.25deg-DLY_EOD_%y4%m2%d2
@@ -51,6 +48,12 @@ eofCTL
 echo $mon
 
 for ld in {1..3}; do
+
+for file in ${ncdir}/${mn}_ld${ld}_CMORPH*.nc; do
+    if [ -f "$file" ]; then
+        rm "$file"
+    fi
+    done
 
 if [ $ld = 1 ]; then
 
@@ -218,7 +221,7 @@ fid.close();
 
 precipt[precipt <= -999] = np.nan
 
-ncfile = netCDF4.Dataset('cmorph_hind_precip_ld${ld}_${mon}.nc',mode='w',format='NETCDF4_CLASSIC')
+ncfile = netCDF4.Dataset('${mn}_ld${ld}_CMORPH_hind_precip.nc',mode='w',format='NETCDF4_CLASSIC')
 lat_dim = ncfile.createDimension('lat', nlat) # latitude axis
 lon_dim = ncfile.createDimension('lon', nlon) # longitude axis
 time_dim = ncfile.createDimension('time', None) # unlimited axis (can be appended to).
@@ -229,7 +232,7 @@ lon = ncfile.createVariable('lon', np.float32, ('lon',))
 lon.units = 'degrees_east'
 lon.long_name = 'longitude'
 
-units = 'days since $yrmndy'
+units = 'days since ${yrmndy}'
 calendar = 'proleptic_gregorian'
 time = ncfile.createVariable('time', np.float64, ('time',))
 time.long_name = 'time'
@@ -239,8 +242,8 @@ time.axis = 'T'
 times = [datetime.datetime(${yrmondy}) + relativedelta(years=x) for x in range(0,nt)]
 time[:] = netCDF4.date2num(times, units=units, calendar=calendar)
 precip = ncfile.createVariable('precip',np.float64,('time','lat','lon')) # note: unlimited dimension is leftmost
-precip.units = 'K' # degrees Kelvin
-precip.standard_name = 'Sea_surface_temperature' # this is a CF standard name
+precip.units = 'mm' 
+precip.standard_name = 'Precip' # this is a CF standard name
 nlats = len(lat_dim); nlons = len(lon_dim); ntimes = nt
 time[:] = netCDF4.date2num(times, units=time.units, calendar=time.calendar)
 lat[:] = lats + 0.25*np.arange(nlat)
