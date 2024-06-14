@@ -1,7 +1,7 @@
 'reinit'
+'open novic_ENSM_MEAN_1991-2022.ctl'
 'open decic_ENSM_MEAN_1991-2022.ctl'
 'open janic_ENSM_MEAN_1991-2022.ctl'
-'open febic_ENSM_MEAN_1991-2022.ctl'
 'set lat -90 90'
 'set lon -180 180'
 zz = 3 + 1 

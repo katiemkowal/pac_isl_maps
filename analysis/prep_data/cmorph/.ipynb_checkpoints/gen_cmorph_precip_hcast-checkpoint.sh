@@ -16,38 +16,49 @@ for file in ${datdir}/cmorph*.dat; do
     fi
     done
 
-mn=`date +"%b"`
-yrmndy=`date +"%Y"-"%m"-"%d"`
-yrmondy=`date +'%Y, %-m, %-d'`
-mon=$(date +%b | tr A-Z a-z)
+# mn=`date +"%b"`
+# yrmndy=`date +"%Y"-"%m"-"%d"`
+# yrmondy=`date +'%Y, %-m, %-d'`
+# mon=$(date +%b | tr A-Z a-z)
+#"Jan" "Feb" 
+for mn in "May"; do
+#"Feb"; do # "Mar" "Apr" "May" "Jun" "Jul" "Aug" "Sep" "Oct" "Nov" "Dec" "current"; do
 
-# mn="Jan"
-# yrmndy="2024-01-12"
-# yrmondy="2024, 1, 12"
-# mon="jan"
-
-# mn="Sep"
-# yrmndy="2024-09-12"
-# yrmondy="2024, 9, 12"
-# mon="sep"
+if [ $mn == "Jan" ]; then yrmndy="2024-01-01"; yrmondy="2024,1,1"; mon="jan"; fi
+if [ $mn == "Feb" ]; then yrmndy="2024-02-01"; yrmondy="2024,2,1"; mon="feb"; fi
+if [ $mn == "Mar" ]; then yrmndy="2024-03-01"; yrmondy="2024,3,1"; mon="mar"; fi
+if [ $mn == "Apr" ]; then yrmndy="2024-04-01"; yrmondy="2024,4,1"; mon="apr"; fi
+if [ $mn == "May" ]; then yrmndy="2024-05-01"; yrmondy="2024,5,1"; mon="may"; fi
+#     Jun) yrmndy="2024-06-01"; yrmondy="2024,6,1"; mon="jun";;
+#     Jul) yrmndy="2023-07-01"; yrmondy="2023,7,1"; mon="jul";;
+#     Aug) yrmndy="2023-08-01"; yrmondy="2023,8,1"; mon="aug";;
+#     Sep) yrmndy="2023-09-01"; yrmondy="2023,9,1"; mon="sep";;
+#     Oct) yrmndy="2023-10-01"; yrmondy="2023,10,1"; mon="oct";;
+#     Nov) yrmndy="2023-11-01"; yrmondy="2023,11,1"; mon="nov";;
+#     Dec) yrmndy="2023-12-01"; yrmondy="2023,12,1"; mon="dec";;
+#     current) mn=`date +"%b"`; yrmndy=`date +"%Y"-"%m"-"%d"`; yrmondy=`date +'%Y, %-m, %-d'`; mon=$(date +%b | tr A-Z a-z);;
+# esac
 
 cat>cmorph.ctl<<eofCTL
-DSET /cpc/fews/production/rshukla/CMORPH1/CMORPH1_ADJ_EOD/CMORPH_V1.0_ADJ_0.25deg-DLY_EOD_%y4%m2%d2
+DSET /cpc/fews/production/cmorph_cpcwork5/cmorph_RH6_BC_ADJ_EOD/output/bin/CMORPH_V1.0_ADJ_0.25deg-DLY_EOD_%y4%m2%d2
+TITLE  CMORPH1 bias corrected ADJ daily mean ending at EOD of local time  
 OPTIONS template little_endian
-UNDEF -999.0
-TITLE Bias-Corrected CMORPH V1.0 Daily (End-of-Day) Precip Accumulation
-XDEF  1440 LINEAR   0.125 0.25
-YDEF   480 LINEAR -59.875 0.25
-ZDEF     1 LEVELS   1
-TDEF 99999 LINEAR 00z01jan1998 1dy
+UNDEF  -999.0
+XDEF 1440 LINEAR    0.125  0.25
+YDEF  480 LINEAR  -59.875  0.25
+ZDEF   01 LEVELS 1
+TDEF 99999 LINEAR  01jan1998 1dy 
 VARS 1
-r 1 99 Daily (End-of-Day) Precip Accum [mm/day]
+r   1   99 yyyyy CMORPH Version 1.o daily precipitation (mm)  
 ENDVARS
 eofCTL
 
-echo $mon
-
 for ld in {1..3}; do
+
+echo $mn
+echo $yrmndy
+echo $yrmondy
+echo $mon
 
 for file in ${ncdir}/${mn}_ld${ld}_CMORPH*.nc; do
     if [ -f "$file" ]; then
@@ -57,8 +68,8 @@ for file in ${ncdir}/${mn}_ld${ld}_CMORPH*.nc; do
 
 if [ $ld = 1 ]; then
 
-if [ $mn == "Jan" ]; then prd1='JFM'; prd2='FMA'; prd3='MAM'; mon1i='Jan'; mon1f='Mar';ln1=90;emon=31; mon2i='Feb'; mon2f='Apr';ln2=89;emon=30; mon3i='Mar'; mon3f='May';ln3=92;emon=31;fi
-if [ $mn == "Feb" ]; then prd1='FMA'; prd2='MAM'; prd3='AMJ'; mon1i='Feb'; mon1f='Apr';ln1=89;emon=30; mon2i='Mar'; mon2f='May';ln2=92;emon=31; mon3i='Apr'; mon3f='Jun';ln3=91;emon=30;fi
+if [ $mn == "Jan" ]; then prd1='JFM'; prd2='FMA'; prd3='MAM'; mon1i='Jan'; mon1f='Mar';ln1=90;emon=31; mon2i='Feb'; mon2f='Apr';ln2=89;emon=30; mon3i='Mar'; mon3f='May';ln3=92;emon=31; fi
+if [ $mn == "Feb" ]; then prd1='FMA'; prd2='MAM'; prd3='AMJ'; mon1i='Feb'; mon1f='Apr';ln1=89;emon=30; mon2i='Mar'; mon2f='May';ln2=92;emon=31; mon3i='Apr'; mon3f='Jun';ln3=91;emon=30; fi
 if [ $mn == "Mar" ]; then prd1='MAM'; prd2='AMJ'; prd3='MJJ'; mon1i='Mar'; mon1f='May';ln1=92;emon=31; mon2i='Apr'; mon2f='Jun';ln2=91;emon=30; mon3i='May'; mon3f='Jul';ln3=92;emon=31; fi
 if [ $mn == "Apr" ]; then prd1='AMJ'; prd2='MJJ'; prd3='JJA'; mon1i='Apr'; mon1f='Jun';ln1=91;emon=30; mon2i='May'; mon2f='Jul';ln2=92;emon=31; mon3i='Jun'; mon3f='Aug';ln3=92;emon=31; fi
 if [ $mn == "May" ]; then prd1='MJJ'; prd2='JJA'; prd3='JAS'; mon1i='May'; mon1f='Jul';ln1=92;emon=31; mon2i='Jun'; mon2f='Aug';ln2=92;emon=31; mon3i='Jul'; mon3f='Sep';ln3=92;emon=30; fi
@@ -84,7 +95,7 @@ if [ $mn == "Aug" ]; then prd1='SON'; prd2='OND'; prd3='NDJ'; mon1i='Sep'; mon1f
 if [ $mn == "Sep" ]; then prd1='OND'; prd2='NDJ'; prd3='DJF'; mon1i='Oct'; mon1f='Dec';ln1=92;emon=31; mon2i='Nov'; mon2f='Jan';ln2=92;emon=31; mon3i='Dec'; mon3f='Feb';ln3=90;emon=28; fi   
 if [ $mn == "Oct" ]; then prd1='NDJ'; prd2='DJF'; prd3='JFM'; mon1i='Nov'; mon1f='Jan';ln1=92;emon=31; mon2i='Dec'; mon2f='Feb';ln2=90;emon=28; mon3i='Jan'; mon3f='Mar';ln3=90;emon=31; fi   
 if [ $mn == "Nov" ]; then prd1='DJF'; prd2='JFM'; prd3='FMA'; mon1i='Dec'; mon1f='Feb';ln1=90;emon=28; mon2i='Jan'; mon2f='Mar';ln2=90;emon=31; mon3i='Feb'; mon3f='Apr';ln3=89;emon=30; fi   
-if [ $mn == "Dec" ]; then prd1='JFM'; prd2='FMA'; prd3='MAM'; mon1i='Jan'; mon1f='Mar';ln1=90;emon=31; mon2i='Feb'; mon2f='Apr';ln2=89;emon=30; mon3i='Mar'; mon3f='May';ln3=92;emon=31;fi   
+if [ $mn == "Dec" ]; then prd1='JFM'; prd2='FMA'; prd3='MAM'; mon1i='Jan'; mon1f='Mar';ln1=90;emon=31; mon2i='Feb'; mon2f='Apr';ln2=89;emon=30; mon3i='Mar'; mon3f='May';ln3=92;emon=31; fi   
 fi
 
 if [ $ld = 3 ]; then
@@ -100,7 +111,7 @@ if [ $mn == "Aug" ]; then prd1='OND'; prd2='NDJ'; prd3='DJF'; mon1i='Oct'; mon1f
 if [ $mn == "Sep" ]; then prd1='NDJ'; prd2='DJF'; prd3='JFM'; mon1i='Nov'; mon1f='Jan';ln1=92;emon1=31; mon2i='Dec'; mon2f='Feb';ln2=90;emon2=28; mon3i='Jan'; mon3f='Mar';ln3=90;emon3=31; fi   
 if [ $mn == "Oct" ]; then prd1='DJF'; prd2='JFM'; prd3='FMA'; mon1i='Dec'; mon1f='Feb';ln1=90;emon1=28; mon2i='Jan'; mon2f='Mar';ln2=90;emon2=31; mon3i='Feb'; mon3f='Apr';ln3=89;emon3=30; fi   
 if [ $mn == "Nov" ]; then prd1='JFM'; prd2='FMA'; prd3='MAM'; mon1i='Jan'; mon1f='Mar';ln1=90;emon1=31; mon2i='Feb'; mon2f='Apr';ln2=89;emon2=30; mon3i='Mar'; mon3f='May';ln3=92;emon3=31;fi   
-if [ $mn == "Dec" ]; then prd1='FMA'; prd2='MAM'; prd3='AMJ'; mon1i='Feb'; mon1f='Apr';ln1=89;emon1=30; mon2i='Mar'; mon2f='May';ln2=92;emon2=31; mon3i='Apr'; mon3f='Jun';ln3=91;emon3=30;fi   
+if [ $mn == "Dec" ]; then prd1='FMA'; prd2='MAM'; prd3='AMJ'; mon1i='Feb'; mon1f='Apr';ln1=89;emon1=30; mon2i='Mar'; mon2f='May';ln2=92;emon2=31; mon3i='Apr'; mon3f='Jun';ln3=91;emon3=30; fi   
 fi
 
 
@@ -253,6 +264,8 @@ eofPY
 
 $py gen_cmorph_hind_precip.py
 
+done
+    
 done
 
 mv *.nc ${ncdir}

@@ -13,24 +13,38 @@ py=/cpc/home/ebekele/.conda/envs/xcast_env/bin/python
 # yrmondy=`date +'%Y, %-m, %-d'`
 # mon=$(date +%b | tr A-Z a-z)
 
+for mn in "Jan" "Feb" "Mar" "Apr" "May" "Jun" "Jul" "Aug" "Sep" "Oct" "Nov" "Dec"; do
 
-mn="Jan"
-yrmndy="2024-01-01"
-yrmondy="2024,1,1"
-mon="jan"
+case $mn in
+    Jan) yrmndy="2024-01-01"; yrmondy="2024,1,1"; mon="jan";;
+    Feb) yrmndy="2024-02-01"; yrmondy="2024,2,1"; mon="feb";;
+    Mar) yrmndy="2024-03-01"; yrmondy="2024,3,1"; mon="mar";;
+    Apr) yrmndy="2024-04-01"; yrmondy="2024,4,1"; mon="apr";;
+    May) yrmndy="2024-05-01"; yrmondy="2024,5,1"; mon="may";;
+    Jun) yrmndy="2024-06-01"; yrmondy="2024,6,1"; mon="jun";;
+    Jul) yrmndy="2024-07-01"; yrmondy="2024,7,1"; mon="jul";;
+    Aug) yrmndy="2024-08-01"; yrmondy="2024,8,1"; mon="aug";;
+    Sep) yrmndy="2024-09-01"; yrmondy="2024,9,1"; mon="sep";;
+    Oct) yrmndy="2024-10-01"; yrmondy="2024,10,1"; mon="oct";;
+    Nov) yrmndy="2024-11-01"; yrmondy="2024,11,1"; mon="nov";;
+    Dec) yrmndy="2024-12-01"; yrmondy="2024,12,1"; mon="dec";;
+esac
 
-if [ $mon == "jan" ]; then mn1='dec'; mn2='jan'; mn3='feb'; fi
-if [ $mon == "feb" ]; then mn1='jan'; mn2='feb'; mn3='mar'; fi
-if [ $mon == "mar" ]; then mn1='feb'; mn2='mar'; mn3='apr'; fi
-if [ $mon == "apr" ]; then mn1='mar'; mn2='apr'; mn3='may'; fi
-if [ $mon == "may" ]; then mn1='apr'; mn2='may'; mn3='jun'; fi
-if [ $mon == "jun" ]; then mn1='may'; mn2='jun'; mn3='jul'; fi
-if [ $mon == "jul" ]; then mn1='jun'; mn2='jul'; mn3='aug'; fi
-if [ $mon == "aug" ]; then mn1='jul'; mn2='aug'; mn3='sep'; fi
-if [ $mon == "sep" ]; then mn1='aug'; mn2='sep'; mn3='oct'; fi
-if [ $mon == "oct" ]; then mn1='sep'; mn2='oct'; mn3='nov'; fi
-if [ $mon == "nov" ]; then mn1='oct'; mn2='nov'; mn3='dec'; fi
-if [ $mon == "dec" ]; then mn1='nov'; mn2='dec'; mn3='jan'; fi
+case $mon in
+    jan) mn1='dec'; mn2='jan'; mn3='feb';;
+    feb) mn1='jan'; mn2='feb'; mn3='mar';;
+    mar) mn1='feb'; mn2='mar'; mn3='apr';;
+    apr) mn1='mar'; mn2='apr'; mn3='may';;
+    may) mn1='apr'; mn2='may'; mn3='jun';;
+    jun) mn1='may'; mn2='jun'; mn3='jul';;
+    jul) mn1='jun'; mn2='jul'; mn3='aug';;
+    aug) mn1='jul'; mn2='aug'; mn3='sep';;
+    sep) mn1='aug'; mn2='sep'; mn3='oct';;
+    oct) mn1='sep'; mn2='oct'; mn3='nov';;
+    nov) mn1='oct'; mn2='nov'; mn3='dec';;
+    dec) mn1='nov'; mn2='dec'; mn3='jan';;
+esac
+
 
 for ld in {1..3}; do
 
@@ -47,7 +61,7 @@ if test -f ${ncdir}/${mn}_ld${ld}_NMME_fcst_precip.nc; then
 fi
 
 cat>${mn1}ic_ENSM_MEAN_1991-2022.ctl<<eofCTL
-dset /cpc/int_desk/NMME/hindcast/raw_sst_precip_tmp2m/tmpsfc_monthly/${mn1}ic_ENSM_MEAN_1991-2022.dat
+dset /cpc/int_desk/NMME/hindcast/raw_sst_precip_tmp2m/precip_monthly/${mn1}ic_ENSM_MEAN_1991-2022.dat
 undef 9.999E+20
 title tmpsfc.bin
 options little_endian
@@ -61,7 +75,7 @@ ENDVARS
 eofCTL
 
 cat>${mn2}ic_ENSM_MEAN_1991-2022.ctl<<eofCTL
-dset /cpc/int_desk/NMME/hindcast/raw_sst_precip_tmp2m/tmpsfc_monthly/${mn2}ic_ENSM_MEAN_1991-2022.dat
+dset /cpc/int_desk/NMME/hindcast/raw_sst_precip_tmp2m/precip_monthly/${mn2}ic_ENSM_MEAN_1991-2022.dat
 undef 9.999E+20
 title tmpsfc.bin
 options little_endian
@@ -75,7 +89,7 @@ ENDVARS
 eofCTL
 
 cat>${mn3}ic_ENSM_MEAN_1991-2022.ctl<<eofCTL
-dset /cpc/int_desk/NMME/hindcast/raw_sst_precip_tmp2m/tmpsfc_monthly/${mn3}ic_ENSM_MEAN_1991-2022.dat
+dset /cpc/int_desk/NMME/hindcast/raw_sst_precip_tmp2m/precip_monthly/${mn3}ic_ENSM_MEAN_1991-2022.dat
 undef 9.999E+20
 title tmpsfc.bin
 options little_endian
@@ -286,6 +300,8 @@ precip[:,:,:] = precipt # Appends data along unlimited dimension
 eofPY
 
 $py gen_nmme_fcst_precip.py
+    
+     done
 
 done
 

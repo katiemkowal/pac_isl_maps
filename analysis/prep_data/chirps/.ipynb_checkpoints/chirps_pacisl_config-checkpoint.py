@@ -7,7 +7,7 @@ first_year = 1981
 last_year = 2023
 
 #regional zone (how large to save, if crossing -180/180 line, code will update coordiantes from -180/180 to 0-360)
-slice_w=170
-slice_e=250
-slice_s=-25
-slice_n=0
+slice_w=140
+slice_e=188
+slice_s=-30
+slice_n=10
