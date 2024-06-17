@@ -1,7 +1,8 @@
 #!/bin/sh
 wdir=/cpc/int_desk/pac_isl/analysis/prep_data/nmme
 datdir=/cpc/int_desk/pac_isl/data/processed/nmme/dat_files
-ncdir=/cpc/int_desk/pac_isl/data/processed/nmme/nc_files
+ncdir=/cpc/int_desk/pac_isl/analysis/xcast/seasonal/practical_notebooks/practical_data/nc_files
+#ncdir=/cpc/int_desk/pac_isl/data/processed/nmme/nc_files
 
 cd $wdir
 grads=/cpc/home/ebekele/grads-2.1.0.oga.1//Contents/grads
@@ -9,10 +10,25 @@ py=/cpc/home/ebekele/.conda/envs/xcast_env/bin/python
 pperl=/cpc/africawrf/ebekele/perl/bin/perl
 
 
-mn=`date +"%b"`
-yrmndy=`date +"%Y"-"%m"-"%d"`
-yrmondy=`date +'%Y, %-m, %-d'`
-mon=$(date +%b | tr A-Z a-z)
+# mn=`date +"%b"`
+# yrmndy=`date +"%Y"-"%m"-"%d"`
+# yrmondy=`date +'%Y, %-m, %-d'`
+# mon=$(date +%b | tr A-Z a-z)
+
+for mn in "Jan" "Feb" "Mar" "Apr" "May" "Jun" "Jul" "Aug" "Sep" "Oct" "Nov" "Dec" "current"; do
+if [ $mn == "Jan" ]; then yrmndy="2024-01-01"; yrmondy="2024,1,1"; mon="jan"; fi
+if [ $mn == "Feb" ]; then yrmndy="2024-02-01"; yrmondy="2024,2,1"; mon="feb"; fi
+if [ $mn == "Mar" ]; then yrmndy="2024-03-01"; yrmondy="2024,3,1"; mon="mar"; fi
+if [ $mn == "Apr" ]; then yrmndy="2024-04-01"; yrmondy="2024,4,1"; mon="apr"; fi
+if [ $mn == "May" ]; then yrmndy="2024-05-01"; yrmondy="2024,5,1"; mon="may"; fi
+if [ $mn == "Jun" ]; then yrmndy="2024-06-01"; yrmondy="2024,6,1"; mon="jun"; fi
+if [ $mn == "Jul" ]; then yrmndy="2023-07-01"; yrmondy="2023,7,1"; mon="jul"; fi
+if [ $mn == "Aug" ]; then yrmndy="2023-08-01"; yrmondy="2023,8,1"; mon="aug"; fi
+if [ $mn == "Sep" ]; then yrmndy="2023-09-01"; yrmondy="2023,9,1"; mon="sep"; fi
+if [ $mn == "Oct" ]; then yrmndy="2023-10-01"; yrmondy="2023,10,1"; mon="oct"; fi
+if [ $mn == "Nov" ]; then yrmndy="2023-11-01"; yrmondy="2023,11,1"; mon="nov"; fi
+if [ $mn == "Dec" ]; then yrmndy="2023-12-01"; yrmondy="2023,12,1"; mon="dec"; fi
+if [ $mn == "current" ]; then mn=`date +"%b"`; yrmndy=`date +"%Y"-"%m"-"%d"`; yrmondy=`date +'%Y, %-m, %-d'`; mon=$(date +%b | tr A-Z a-z); fi
 
 for ld in {1..3}; do
 
@@ -66,7 +82,7 @@ if [ $mn == "Dec" ]; then prd='MAM'; scl=92; fi
 fi
 
 if test -f ${datdir}/nmme_oneseas_hind_precip_ld_${ld}.dat; then
-    rm ${datdir}/nmme_oneseas_hind_precip_ld_${ld}.dat
+    rm ${datdir}/nmme_hind_precip_ld_${ld}.dat
 fi
 
 if test -f ${ncdir}/nmme_oneseas_hind_precip_ld_${ld}.nc; then
@@ -93,208 +109,245 @@ ENDVARS
 eofCTL
 
 # Generate NMME hindcast data
+
 cat>nmme_hind.gs<<eofGS
 'reinit'
-'open ../globe_mask0p1.ctl'
-'set lat -50 50'
-'set lon -180 180'
-'define mm = mask'
-'close 1'
-'open ../chirps/chirps_ld${ld}.ctl'
-'set lat -50 50'
-'set lon -180 180'
-'define clm = ave(precip,t=1,t=30)'
-'define clmm = lterp(clm,mm)'
-'close 1'
 'open ${mon}ic_ENSM_MEAN_1991-2022.ctl'
 'set lat -90 90'
 'set lon -180 180'
 zz = ${ld} + 1 
 'set gxout fwrite'
-'set fwrite ${datdir}/nmme_oneseas_hind_precip_ld_${ld}.dat'
-i=1
+'set fwrite ${datdir}/nmme_hind_precip_ld_${ld}.dat'
+i=8
 while(i<=32)
 'set t 'i
+#'set dfile 1'
 'define tt = ave(fcst,z='zz+0',z='zz+2')'
-'define ttt = lterp(tt,mm)'
-'define ttm = maskout(maskout(ttt,(clmm-0.5)),mm)'
+'d tt' 
 'd re(tt,360,linear,-180,1.0,181,linear,-90,1.0,ba)'
 i = i + 1
 endwhile
 'disable fwrite'
 'quit'
 eofGS
-
-$pperl $grads -blc nmme_hind.gs
-
-# # Generate NMME current forecast data
-# cat>nmme_fcst.gs<<eofGS
+# cat>nmme_hind.gs<<eofGS
 # 'reinit'
-# 'open ../globe_mask0p1.ctl'
-# 'set lat -50 50'
-# 'set lon -180 180'
-# 'define mm = mask'
-# 'close 1'
-# 'open ../chirps/chirps_ld${ld}.ctl'
-# 'set lat -50 50'
-# 'set lon -180 180'
-# 'define clm = ave(precip,t=1,t=30)'
-# 'define clmm = lterp(clm,mm)'
-# 'close 1'
-# 'open /cpc/fews/production/NMME/inputs/filtered/nmme_prate_ensmean_fcst.ctl'
+# #'open ../globe_mask0p1.ctl'
+# #'set lat -50 50'
+# #'set lon -180 180'
+# #'define mm = mask'
+# #'close 1'
+# #'open ../chirps/chirps_ld${ld}.ctl'
+# #'set lat -50 50'
+# #'set lon -180 180'
+# #'define clm = ave(precip,t=1,t=30)'
+# #'define clmm = lterp(clm,mm)'
+# #'close 1'
+# 'open ${mon}ic_ENSM_MEAN_1991-2022.ctl'
 # 'set lat -90 90'
 # 'set lon -180 180'
-# zz = ${ld} + 1
+# zz = ${ld} + 1 
 # 'set gxout fwrite'
-# 'set fwrite ${datdir}/nmme_oneseas_fcst_precip_ld_${ld}.dat'
-
-# 'define tt = ave(fcst,z='zz+0',z='zz+2')*60*60*24'
-# 'define ttt = lterp(tt,mm)'
-# 'define ttm = maskout(maskout(ttt,(clmm-0.5)),mm)'
+# 'set fwrite ${datdir}/nmme_oneseas_hind_precip_ld_${ld}.dat'
+# i=1
+# while(i<=cfg.years)
+# 'set t 'i
+# 'define tt = ave(fcst,z='zz+0',z='zz+2')'
+# #'define ttt = lterp(tt,mm)'
+# #'define ttm = maskout(maskout(ttt,(clmm-0.5)),mm)'
 # 'd re(tt,360,linear,-180,1.0,181,linear,-90,1.0,ba)'
+# i = i + 1
+# endwhile
 # 'disable fwrite'
 # 'quit'
 # eofGS
 
-# $pperl $grads -blc nmme_fcst.gs
+$pperl $grads -blc nmme_hind.gs
+
+cat>nmme_prate_ensmean_fcst.ctl<<eofCTL
+DSET /cpc/fews/production/NMME/inputs/filtered/nmme_prate_ensmean_fcst.bin
+UNDEF -999.0
+TITLE binarydata
+XDEF 360 LINEAR 0 1.0
+YDEF 181 LINEAR -90 1.0
+ZDEF 9 LINEAR 1 1
+TDEF 1 LINEAR 01jan1991 1mo
+EDEF 1 NAMES 1 1
+VARS 1
+fcst  9,103,2   0,0,0   generic
+ENDVARS
+eofCTL
+
+# Generate NMME current forecast data
+cat>nmme_fcst.gs<<eofGS
+'reinit'
+#'open ../globe_mask0p1.ctl'
+#'set lat -50 50'
+#'set lon -180 180'
+#'define mm = mask'
+#'close 1'
+#'open ../chirps/chirps_ld${ld}.ctl'
+#'set lat -50 50'
+#'set lon -180 180'
+#'define clm = ave(precip,t=1,t=30)'
+#'define clmm = lterp(clm,mm)'
+#'close 1'
+'open nmme_prate_ensmean_fcst.ctl'
+'set lat -90 90'
+'set lon -180 180'
+zz = ${ld} + 1
+'set gxout fwrite'
+'set fwrite ${datdir}/nmme_fcst_precip_ld_${ld}.dat'
+
+'define tt = ave(fcst,z='zz+0',z='zz+2')*60*60*24'
+#'define ttt = lterp(tt,mm)'
+#'define ttm = maskout(maskout(ttt,(clmm-0.5)),mm)'
+'d re(tt,360,linear,-180,1.0,181,linear,-90,1.0,ba)'
+'disable fwrite'
+'quit'
+eofGS
+
+$pperl $grads -blc nmme_fcst.gs
 
 
-# cat>gen_nmme_hind_precip.py<<eofPY
-# import netCDF4
-# from netCDF4 import Dataset
-# from numpy import dtype
-# import numpy as np
-# import datetime
-# from netCDF4 import date2num,num2date
-# from dateutil.relativedelta import relativedelta
-# import nmme_config as cfg
+cat>gen_nmme_hind_precip.py<<eofPY
+import netCDF4
+from netCDF4 import Dataset
+from numpy import dtype
+import numpy as np
+import datetime
+from netCDF4 import date2num,num2date
+from dateutil.relativedelta import relativedelta
+import nmme_config as cfg
 
-# f1 = "${datdir}/nmme_oneseas_hind_precip_ld_${ld}.dat"
+f1 = "${datdir}/nmme_hind_precip_ld_${ld}.dat"
 
-# # Predictor spatial dimension (Global tropics)
-# #lats = -90; latn = 90; lonw = -180; lone = 180
+# Predictor spatial dimension (Global tropics)
+#lats = -90; latn = 90; lonw = -180; lone = 180
 
-# #res1 = 1.0 # Predictor horizontal resolution
+#res1 = 1.0 # Predictor horizontal resolution
 
-# # Calculate zonal and meridional grid size (for predictor and predictand)
-# nlat = np.arange(cfg.lats,cfg.latn+cfg.h_res1,cfg.h_res1); ny = len(nlat);
-# nlon = np.arange(cfg.lonw,cfg.lone+cfg.h_res1,cfg.h_res1); nx = 360;
+# Calculate zonal and meridional grid size (for predictor and predictand)
+nlat = np.arange(cfg.lats,cfg.latn+cfg.h_res1,cfg.h_res1); ny = len(nlat);
+nlon = np.arange(cfg.lonw,cfg.lone+cfg.h_res1,cfg.h_res1); nx = 360;
 
-# nt = cfg.years
-# ntime = nt
-# nlat = ny
-# nlon = nx
+nt = cfg.years
+ntime = nt
+nlat = ny
+nlon = nx
 
-# fid = open(f1, 'rb');
-# precipt = np.zeros( (nt, ny, nx) );
-# t = 0
-# for ts in range(nt):
-#     precipt[t,:,:] = np.reshape(np.fromfile(fid,dtype='<f',count=ny*nx),(ny,nx));
-#     t += 1;
-# fid.close();
+fid = open(f1, 'rb');
+precipt = np.zeros( (nt, ny, nx) );
+t = 0
+for ts in range(nt):
+    precipt[t,:,:] = np.reshape(np.fromfile(fid,dtype='<f',count=ny*nx),(ny,nx));
+    t += 1;
+fid.close();
 
-# precipt[precipt <= -999] = np.nan
+precipt[precipt <= -999] = np.nan
 
-# ncfile = netCDF4.Dataset('nmme_oneseas_hind_precip_ld${ld}.nc',mode='w',format='NETCDF4_CLASSIC')
-# lat_dim = ncfile.createDimension('lat', nlat) # latitude axis
-# lon_dim = ncfile.createDimension('lon', nlon) # longitude axis
-# time_dim = ncfile.createDimension('time', None) # unlimited axis (can be appended to).
-# lat = ncfile.createVariable('lat', np.float32, ('lat',))
-# lat.units = 'degrees_north'
-# lat.long_name = 'latitude'
-# lon = ncfile.createVariable('lon', np.float32, ('lon',))
-# lon.units = 'degrees_east'
-# lon.long_name = 'longitude'
+ncfile = netCDF4.Dataset('${mn}_ld${ld}_one_seas_NMME_hind_precip.nc',mode='w',format='NETCDF4_CLASSIC')
+lat_dim = ncfile.createDimension('lat', nlat) # latitude axis
+lon_dim = ncfile.createDimension('lon', nlon) # longitude axis
+time_dim = ncfile.createDimension('time', None) # unlimited axis (can be appended to).
+lat = ncfile.createVariable('lat', np.float32, ('lat',))
+lat.units = 'degrees_north'
+lat.long_name = 'latitude'
+lon = ncfile.createVariable('lon', np.float32, ('lon',))
+lon.units = 'degrees_east'
+lon.long_name = 'longitude'
 
-# units = 'days since $yrmndy'
-# calendar = 'proleptic_gregorian'
-# time = ncfile.createVariable('time', np.float64, ('time',))
-# time.long_name = 'time'
-# time.units = 'days since ${yrmndy} 00:00:00'
-# time.calendar = 'proleptic_gregorian'
-# time.axis = 'T'
-# times = [datetime.datetime(${yrmondy}) + relativedelta(years=x) for x in range(0,nt)]
-# time[:] = netCDF4.date2num(times, units=units, calendar=calendar)
-# precip = ncfile.createVariable('precip',np.float64,('time','lat','lon')) # note: unlimited dimension is leftmost
-# precip.units = 'mm' # 
-# precip.standard_name = 'Sea_surface_temperature' # this is a CF standard name
-# nlats = len(lat_dim); nlons = len(lon_dim); ntimes = nt
-# time[:] = netCDF4.date2num(times, units=time.units, calendar=time.calendar)
-# lat[:] = cfg.lats + 1.0*np.arange(nlat)
-# lon[:] = cfg.lonw + 1.0*np.arange(nlon)
-# precip[:,:,:] = precipt # Appends data along unlimited dimension
-# eofPY
+units = 'days since $yrmndy'
+calendar = 'proleptic_gregorian'
+time = ncfile.createVariable('time', np.float64, ('time',))
+time.long_name = 'time'
+time.units = 'days since ${yrmndy} 00:00:00'
+time.calendar = 'proleptic_gregorian'
+time.axis = 'T'
+times = [datetime.datetime(${yrmondy}) + relativedelta(years=x) for x in range(0,nt)]
+time[:] = netCDF4.date2num(times, units=units, calendar=calendar)
+precip = ncfile.createVariable('precip',np.float64,('time','lat','lon')) # note: unlimited dimension is leftmost
+precip.units = 'mm' # 
+precip.standard_name = 'Sea_surface_temperature' # this is a CF standard name
+nlats = len(lat_dim); nlons = len(lon_dim); ntimes = nt
+time[:] = netCDF4.date2num(times, units=time.units, calendar=time.calendar)
+lat[:] = cfg.lats + 1.0*np.arange(nlat)
+lon[:] = cfg.lonw + 1.0*np.arange(nlon)
+precip[:,:,:] = precipt # Appends data along unlimited dimension
+eofPY
 
-# $py gen_nmme_hind_precip.py
+$py gen_nmme_hind_precip.py
 
-# cat>gen_nmme_fcst_precip.py<<eofPY
-# import netCDF4
-# from netCDF4 import Dataset
-# from numpy import dtype
-# import numpy as np
-# import datetime
-# from netCDF4 import date2num,num2date
-# from dateutil.relativedelta import relativedelta
-# import nmme_config as cfg
+cat>gen_nmme_fcst_precip.py<<eofPY
+import netCDF4
+from netCDF4 import Dataset
+from numpy import dtype
+import numpy as np
+import datetime
+from netCDF4 import date2num,num2date
+from dateutil.relativedelta import relativedelta
+import nmme_config as cfg
 
-# f2 = "${datdir}/nmme_oneseas_fcst_precip_ld_${ld}.dat"
+f2 = "${datdir}/nmme_oneseas_fcst_precip_ld_${ld}.dat"
 
-# # Predictor spatial dimension (Global tropics)
-# #lats = -90; latn = 90; lonw = -180; lone = 180
+# Predictor spatial dimension (Global tropics)
+#lats = -90; latn = 90; lonw = -180; lone = 180
 
-# #res1 = 1.0 # Predictor horizontal resolution
+#res1 = 1.0 # Predictor horizontal resolution
 
-# # Calculate zonal and meridional grid size (for predictor and predictand)
-# nlat = np.arange(cfg.lats,cfg.latn+cfg.h_res1,cfg.h_res1); ny = len(nlat);
-# nlon = np.arange(cfg.lonw,cfg.lone+cfg.h_res1,cfg.h_res1); nx = 360;
+# Calculate zonal and meridional grid size (for predictor and predictand)
+nlat = np.arange(cfg.lats,cfg.latn+cfg.h_res1,cfg.h_res1); ny = len(nlat);
+nlon = np.arange(cfg.lonw,cfg.lone+cfg.h_res1,cfg.h_res1); nx = 360;
 
-# nt = 1
-# ntime = nt
-# nlat = ny
-# nlon = nx
+nt = 1
+ntime = nt
+nlat = ny
+nlon = nx
 
-# fid = open(f2, 'rb');
-# precipt = np.zeros( (nt, ny, nx) );
-# t = 0
-# for ts in range(nt):
-#     precipt[t,:,:] = np.reshape(np.fromfile(fid,dtype='<f',count=ny*nx),(ny,nx));
-#     t += 1;
-# fid.close();
+fid = open(f2, 'rb');
+precipt = np.zeros( (nt, ny, nx) );
+t = 0
+for ts in range(nt):
+    precipt[t,:,:] = np.reshape(np.fromfile(fid,dtype='<f',count=ny*nx),(ny,nx));
+    t += 1;
+fid.close();
 
-# precipt[precipt <= -999] = np.nan
+precipt[precipt <= -999] = np.nan
 
-# ncfile = netCDF4.Dataset('nmme_oneseas_fcst_precip_ld${ld}.nc',mode='w',format='NETCDF4_CLASSIC')
-# lat_dim = ncfile.createDimension('lat', nlat) # latitude axis
-# lon_dim = ncfile.createDimension('lon', nlon) # longitude axis
-# time_dim = ncfile.createDimension('time', None) # unlimited axis (can be appended to).
-# lat = ncfile.createVariable('lat', np.float32, ('lat',))
-# lat.units = 'degrees_north'
-# lat.long_name = 'latitude'
-# lon = ncfile.createVariable('lon', np.float32, ('lon',))
-# lon.units = 'degrees_east'
-# lon.long_name = 'longitude'
+ncfile = netCDF4.Dataset('${mn}_ld${ld}_one_seas_NMME_fcst_precip.nc',mode='w',format='NETCDF4_CLASSIC')
+lat_dim = ncfile.createDimension('lat', nlat) # latitude axis
+lon_dim = ncfile.createDimension('lon', nlon) # longitude axis
+time_dim = ncfile.createDimension('time', None) # unlimited axis (can be appended to).
+lat = ncfile.createVariable('lat', np.float32, ('lat',))
+lat.units = 'degrees_north'
+lat.long_name = 'latitude'
+lon = ncfile.createVariable('lon', np.float32, ('lon',))
+lon.units = 'degrees_east'
+lon.long_name = 'longitude'
 
-# units = 'days since $yrmndy'
-# calendar = 'proleptic_gregorian'
-# time = ncfile.createVariable('time', np.float64, ('time',))
-# time.long_name = 'time'
-# time.units = 'days since ${yrmndy} 00:00:00'
-# time.calendar = 'proleptic_gregorian'
-# time.axis = 'T'
-# times = [datetime.datetime(${yrmondy}) + relativedelta(years=x) for x in range(0,nt)]
-# time[:] = netCDF4.date2num(times, units=units, calendar=calendar)
-# precip = ncfile.createVariable('precip',np.float64,('time','lat','lon')) # note: unlimited dimension is leftmost
-# precip.units = 'mm' # degrees Kelvin
-# precip.standard_name = 'Precip' # this is a CF standard name
-# nlats = len(lat_dim); nlons = len(lon_dim); ntimes = nt
-# time[:] = netCDF4.date2num(times, units=time.units, calendar=time.calendar)
-# lat[:] = cfg.lats + 1.0*np.arange(nlat)
-# lon[:] = cfg.lonw + 1.0*np.arange(nlon)
-# precip[:,:,:] = precipt # Appends data along unlimited dimension
-# eofPY
+units = 'days since $yrmndy'
+calendar = 'proleptic_gregorian'
+time = ncfile.createVariable('time', np.float64, ('time',))
+time.long_name = 'time'
+time.units = 'days since ${yrmndy} 00:00:00'
+time.calendar = 'proleptic_gregorian'
+time.axis = 'T'
+times = [datetime.datetime(${yrmondy}) + relativedelta(years=x) for x in range(0,nt)]
+time[:] = netCDF4.date2num(times, units=units, calendar=calendar)
+precip = ncfile.createVariable('precip',np.float64,('time','lat','lon')) # note: unlimited dimension is leftmost
+precip.units = 'mm' # degrees Kelvin
+precip.standard_name = 'Precip' # this is a CF standard name
+nlats = len(lat_dim); nlons = len(lon_dim); ntimes = nt
+time[:] = netCDF4.date2num(times, units=time.units, calendar=time.calendar)
+lat[:] = cfg.lats + 1.0*np.arange(nlat)
+lon[:] = cfg.lonw + 1.0*np.arange(nlon)
+precip[:,:,:] = precipt # Appends data along unlimited dimension
+eofPY
 
-# $py gen_nmme_fcst_precip.py
+$py gen_nmme_fcst_precip.py
+
+    done
 
 done
 
-# mv *.nc $ncdir
+mv *.nc $ncdir

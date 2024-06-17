@@ -32,7 +32,7 @@ fid.close();
 
 precipt[precipt <= -999] = np.nan
 
-ncfile = netCDF4.Dataset('May_ld3_CMORPH_hind_precip.nc',mode='w',format='NETCDF4_CLASSIC')
+ncfile = netCDF4.Dataset('Jun_ld3_CMORPH_hind_precip.nc',mode='w',format='NETCDF4_CLASSIC')
 lat_dim = ncfile.createDimension('lat', nlat) # latitude axis
 lon_dim = ncfile.createDimension('lon', nlon) # longitude axis
 time_dim = ncfile.createDimension('time', None) # unlimited axis (can be appended to).
@@ -43,14 +43,14 @@ lon = ncfile.createVariable('lon', np.float32, ('lon',))
 lon.units = 'degrees_east'
 lon.long_name = 'longitude'
 
-units = 'days since 2024-05-01'
+units = 'days since 2024-06-17'
 calendar = 'proleptic_gregorian'
 time = ncfile.createVariable('time', np.float64, ('time',))
 time.long_name = 'time'
-time.units = 'days since 2024-05-01 00:00:00'
+time.units = 'days since 2024-06-17 00:00:00'
 time.calendar = 'proleptic_gregorian'
 time.axis = 'T'
-times = [datetime.datetime(2024,5,1) + relativedelta(years=x) for x in range(0,nt)]
+times = [datetime.datetime(2024, 6, 17) + relativedelta(years=x) for x in range(0,nt)]
 time[:] = netCDF4.date2num(times, units=units, calendar=calendar)
 precip = ncfile.createVariable('precip',np.float64,('time','lat','lon')) # note: unlimited dimension is leftmost
 precip.units = 'mm' 

@@ -1,7 +1,5 @@
 'reinit'
-'open novic_ENSM_MEAN_1991-2022.ctl'
-'open decic_ENSM_MEAN_1991-2022.ctl'
-'open janic_ENSM_MEAN_1991-2022.ctl'
+'open junic_ENSM_MEAN_1991-2022.ctl'
 'set lat -90 90'
 'set lon -180 180'
 zz = 3 + 1 
@@ -10,15 +8,10 @@ zz = 3 + 1
 i=8
 while(i<=32)
 'set t 'i
-'set dfile 1'
-'define tt = ave(fcst.1,z='zz+0',z='zz+2')'
+#'set dfile 1'
+'define tt = ave(fcst,z='zz+0',z='zz+2')'
 'd tt' 
-'set dfile 2'
-'define tt = ave(fcst.2,z='zz+0',z='zz+2')'
-'d tt'
-'set dfile 3'
-'define tt = ave(fcst.3,z='zz+0',z='zz+2')'
-'d tt'
+'d re(tt,360,linear,-180,1.0,181,linear,-90,1.0,ba)'
 i = i + 1
 endwhile
 'disable fwrite'

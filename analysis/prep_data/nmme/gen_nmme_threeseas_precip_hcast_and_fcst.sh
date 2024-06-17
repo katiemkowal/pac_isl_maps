@@ -13,38 +13,21 @@ py=/cpc/home/ebekele/.conda/envs/xcast_env/bin/python
 # yrmondy=`date +'%Y, %-m, %-d'`
 # mon=$(date +%b | tr A-Z a-z)
 
-for mn in "Jan" "Feb" "Mar" "Apr" "May" "Jun" "Jul" "Aug" "Sep" "Oct" "Nov" "Dec"; do
+for mn in "Jan" "Feb" "Mar" "Apr" "May" "Jun" "Jul" "Aug" "Sep" "Oct" "Nov" "Dec" "current"; do
 
-case $mn in
-    Jan) yrmndy="2024-01-01"; yrmondy="2024,1,1"; mon="jan";;
-    Feb) yrmndy="2024-02-01"; yrmondy="2024,2,1"; mon="feb";;
-    Mar) yrmndy="2024-03-01"; yrmondy="2024,3,1"; mon="mar";;
-    Apr) yrmndy="2024-04-01"; yrmondy="2024,4,1"; mon="apr";;
-    May) yrmndy="2024-05-01"; yrmondy="2024,5,1"; mon="may";;
-    Jun) yrmndy="2024-06-01"; yrmondy="2024,6,1"; mon="jun";;
-    Jul) yrmndy="2024-07-01"; yrmondy="2024,7,1"; mon="jul";;
-    Aug) yrmndy="2024-08-01"; yrmondy="2024,8,1"; mon="aug";;
-    Sep) yrmndy="2024-09-01"; yrmondy="2024,9,1"; mon="sep";;
-    Oct) yrmndy="2024-10-01"; yrmondy="2024,10,1"; mon="oct";;
-    Nov) yrmndy="2024-11-01"; yrmondy="2024,11,1"; mon="nov";;
-    Dec) yrmndy="2024-12-01"; yrmondy="2024,12,1"; mon="dec";;
-esac
-
-case $mon in
-    jan) mn1='dec'; mn2='jan'; mn3='feb';;
-    feb) mn1='jan'; mn2='feb'; mn3='mar';;
-    mar) mn1='feb'; mn2='mar'; mn3='apr';;
-    apr) mn1='mar'; mn2='apr'; mn3='may';;
-    may) mn1='apr'; mn2='may'; mn3='jun';;
-    jun) mn1='may'; mn2='jun'; mn3='jul';;
-    jul) mn1='jun'; mn2='jul'; mn3='aug';;
-    aug) mn1='jul'; mn2='aug'; mn3='sep';;
-    sep) mn1='aug'; mn2='sep'; mn3='oct';;
-    oct) mn1='sep'; mn2='oct'; mn3='nov';;
-    nov) mn1='oct'; mn2='nov'; mn3='dec';;
-    dec) mn1='nov'; mn2='dec'; mn3='jan';;
-esac
-
+if [ $mn == "Jan" ]; then yrmndy="2024-01-01"; yrmondy="2024,1,1"; mon="jan"; mn1='dec'; mn2='jan'; mn3='feb'; fi
+if [ $mn == "Feb" ]; then yrmndy="2024-02-01"; yrmondy="2024,2,1"; mon="feb"; mn1='jan'; mn2='feb'; mn3='mar'; fi
+if [ $mn == "Mar" ]; then yrmndy="2024-03-01"; yrmondy="2024,3,1"; mon="mar"; mn1='feb'; mn2='mar'; mn3='apr'; fi
+if [ $mn == "Apr" ]; then yrmndy="2024-04-01"; yrmondy="2024,4,1"; mon="apr"; mn1='mar'; mn2='apr'; mn3='may'; fi
+if [ $mn == "May" ]; then yrmndy="2024-05-01"; yrmondy="2024,5,1"; mon="may"; mn1='apr'; mn2='may'; mn3='jun'; fi
+if [ $mn == "Jun" ]; then yrmndy="2024-06-01"; yrmondy="2024,6,1"; mon="jun"; mn1='may'; mn2='jun'; mn3='jul'; fi
+if [ $mn == "Jul" ]; then yrmndy="2023-07-01"; yrmondy="2023,7,1"; mon="jul"; mn1='jun'; mn2='jul'; mn3='aug'; fi
+if [ $mn == "Aug" ]; then yrmndy="2023-08-01"; yrmondy="2023,8,1"; mon="aug"; mn1='jul'; mn2='aug'; mn3='sep'; fi
+if [ $mn == "Sep" ]; then yrmndy="2023-09-01"; yrmondy="2023,9,1"; mon="sep"; mn1='aug'; mn2='sep'; mn3='oct'; fi
+if [ $mn == "Oct" ]; then yrmndy="2023-10-01"; yrmondy="2023,10,1"; mon="oct"; mn1='sep'; mn2='oct'; mn3='nov'; fi
+if [ $mn == "Nov" ]; then yrmndy="2023-11-01"; yrmondy="2023,11,1"; mon="nov"; mn1='oct'; mn2='nov'; mn3='dec'; fi
+if [ $mn == "Dec" ]; then yrmndy="2023-12-01"; yrmondy="2023,12,1"; mon="dec"; mn1='nov'; mn2='dec'; mn3='jan'; fi
+if [ $mn == "current" ]; then mn=`date +"%b"`; yrmndy=`date +"%Y"-"%m"-"%d"`; yrmondy=`date +'%Y, %-m, %-d'`; mon=$(date +%b | tr A-Z a-z); fi
 
 for ld in {1..3}; do
 
@@ -52,12 +35,12 @@ if test -f ${datdir}/nmme_hind_precip_ld_${ld}.dat; then
     rm ${datdir}/nmme_hind_precip_ld_${ld}.dat
 fi
 
-if test -f ${ncdir}/${mn}_ld${ld}_NMME_hind_precip.nc; then
-    rm ${ncdir}/${mn}_ld${ld}_NMME_hind_precip.nc
+if test -f ${ncdir}/${mn}_ld${ld}_three_seas_NMME_hind_precip.nc; then
+    rm ${ncdir}/${mn}_ld${ld}_three_seas_NMME_hind_precip.nc
 fi
 
-if test -f ${ncdir}/${mn}_ld${ld}_NMME_fcst_precip.nc; then
-    rm ${ncdir}/${mn}_ld${ld}_NMME_fcst_precip.nc
+if test -f ${ncdir}/${mn}_ld${ld}_three_seas_NMME_fcst_precip.nc; then
+    rm ${ncdir}/${mn}_ld${ld}_three_seas_NMME_fcst_precip.nc
 fi
 
 cat>${mn1}ic_ENSM_MEAN_1991-2022.ctl<<eofCTL
@@ -156,7 +139,7 @@ cat>nmme_fcst.gs<<eofGS
 'set lon -180 180'
 zz = ${ld} + 1
 'set gxout fwrite'
-'set fwrite ${datdir}/nmme_fcst_precip_ld_${ld}.dat'
+'set fwrite ${datdir}/nmme_oneseas_fcst_precip_ld_${ld}.dat'
 
 'define tt = ave(fcst,z='zz+0',z='zz+2')*60*60*24'
 'd tt'
@@ -202,7 +185,7 @@ fid.close();
 
 precipt[precipt <= -999] = np.nan
 
-ncfile = netCDF4.Dataset('${mn}_ld${ld}_NMME_hind_precip.nc',mode='w',format='NETCDF4_CLASSIC')
+ncfile = netCDF4.Dataset('${mn}_ld${ld}_three_seas_NMME_hind_precip.nc',mode='w',format='NETCDF4_CLASSIC')
 lat_dim = ncfile.createDimension('lat', nlat) # latitude axis
 lon_dim = ncfile.createDimension('lon', nlon) # longitude axis
 time_dim = ncfile.createDimension('time', None) # unlimited axis (can be appended to).
@@ -269,7 +252,7 @@ fid.close();
 
 precipt[precipt <= -999] = np.nan
 
-ncfile = netCDF4.Dataset('${mn}_ld${ld}_NMME_fcst_precip.nc',mode='w',format='NETCDF4_CLASSIC')
+ncfile = netCDF4.Dataset('${mn}_ld${ld}_three_seas_NMME_fcst_precip.nc',mode='w',format='NETCDF4_CLASSIC')
 lat_dim = ncfile.createDimension('lat', nlat) # latitude axis
 lon_dim = ncfile.createDimension('lon', nlon) # longitude axis
 time_dim = ncfile.createDimension('time', None) # unlimited axis (can be appended to).

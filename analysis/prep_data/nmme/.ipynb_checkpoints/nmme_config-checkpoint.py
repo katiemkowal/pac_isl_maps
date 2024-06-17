@@ -6,4 +6,5 @@ lone = 180
 
 h_res1 = 1.0 # Predictor horizontal resolution
 
+#number of years in hindcast period
 years=32
