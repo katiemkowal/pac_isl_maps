@@ -3,7 +3,6 @@
 wdir=/cpc/int_desk/pac_isl/analysis/prep_data/nmme
 datdir=/cpc/int_desk/pac_isl/data/processed/nmme/dat_files
 ncdir=/cpc/int_desk/pac_isl/data/processed/nmme/nc_files
-
 cd $wdir
 grads=/cpc/home/ebekele/grads2.1/grads-2.1.0/bin/grads
 py=/cpc/home/ebekele/.conda/envs/xcast_env/bin/python
@@ -88,26 +87,26 @@ eofCTL
 # Generate NMME hindcast data
 cat>nmme_hind.gs<<eofGS
 'reinit'
-'open ${mn1}ic_ENSM_MEAN_1991-2022.ctl'
+*'open ${mn1}ic_ENSM_MEAN_1991-2022.ctl'
 'open ${mn2}ic_ENSM_MEAN_1991-2022.ctl'
-'open ${mn3}ic_ENSM_MEAN_1991-2022.ctl'
+*'open ${mn3}ic_ENSM_MEAN_1991-2022.ctl'
 'set lat -90 90'
 'set lon -180 180'
 zz = ${ld} + 1 
 'set gxout fwrite'
 'set fwrite ${datdir}/nmme_hind_precip_ld_${ld}.dat'
-i=8
+i=1
 while(i<=32)
 'set t 'i
-'set dfile 1'
-'define tt = ave(fcst.1,z='zz+0',z='zz+2')'
-'d tt' 
-'set dfile 2'
-'define tt = ave(fcst.2,z='zz+0',z='zz+2')'
+*'set dfile 1'
+*'define tt = ave(fcst.1,z='zz+0',z='zz+2')'
+*'d tt' 
+*'set dfile 2'
+'define tt = ave(fcst,z='zz+0',z='zz+2')'
 'd tt'
-'set dfile 3'
-'define tt = ave(fcst.3,z='zz+0',z='zz+2')'
-'d tt'
+*'set dfile 3'
+*'define tt = ave(fcst.3,z='zz+0',z='zz+2')'
+*'d tt'
 i = i + 1
 endwhile
 'disable fwrite'
@@ -141,7 +140,7 @@ zz = ${ld} + 1
 'set gxout fwrite'
 'set fwrite ${datdir}/nmme_oneseas_fcst_precip_ld_${ld}.dat'
 
-'define tt = ave(fcst,z='zz+0',z='zz+2')*60*60*24'
+'define tt = ave(fcst,z='zz+0',z='zz+2')*60*60*32'
 'd tt'
 'disable fwrite'
 'quit'
@@ -170,11 +169,12 @@ res1 = 1.0 # Predictor horizontal resolution
 nlat = np.arange(lats,latn+res1,res1); ny = len(nlat);
 nlon = np.arange(lonw,lone,res1); nx = len(nlon);
 
-nt = 75 
+nt = 32
+#nt = 75 
 ntime = nt
 nlat = ny
 nlon = nx
-
+print(ny*nx)
 fid = open(f1, 'rb');
 precipt = np.zeros( (nt, ny, nx) );
 t = 0
@@ -185,7 +185,8 @@ fid.close();
 
 precipt[precipt <= -999] = np.nan
 
-ncfile = netCDF4.Dataset('${mn}_ld${ld}_three_seas_NMME_hind_precip.nc',mode='w',format='NETCDF4_CLASSIC')
+ncfile = netCDF4.Dataset('${mn}_ld${ld}_one_seas_NMME_hind_precip.nc',mode='w',format='NETCDF4_CLASSIC')
+#ncfile = netCDF4.Dataset('${mn}_ld${ld}_three_seas_NMME_hind_precip.nc',mode='w',format='NETCDF4_CLASSIC')
 lat_dim = ncfile.createDimension('lat', nlat) # latitude axis
 lon_dim = ncfile.createDimension('lon', nlon) # longitude axis
 time_dim = ncfile.createDimension('time', None) # unlimited axis (can be appended to).
@@ -252,7 +253,7 @@ fid.close();
 
 precipt[precipt <= -999] = np.nan
 
-ncfile = netCDF4.Dataset('${mn}_ld${ld}_three_seas_NMME_fcst_precip.nc',mode='w',format='NETCDF4_CLASSIC')
+ncfile = netCDF4.Dataset('${mn}_ld${ld}_one_seas_NMME_fcst_precip.nc',mode='w',format='NETCDF4_CLASSIC')
 lat_dim = ncfile.createDimension('lat', nlat) # latitude axis
 lon_dim = ncfile.createDimension('lon', nlon) # longitude axis
 time_dim = ncfile.createDimension('time', None) # unlimited axis (can be appended to).

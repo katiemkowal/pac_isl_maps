@@ -43,7 +43,7 @@ def prep_names(ds, coordinate_conversion):
 def check_leads_years(ds_list):
     nyears = []
     for ds in ds_list:
-        nyears.append(len(np.unique(ds.S.values)))
+        nyears.append(len(np.unique(ds.T.values)))
     return  all(i==nyears[0] for i in nyears)
 
 #check all years are available for all lead times in hindcast period, only keep intersecting years
@@ -53,14 +53,14 @@ def keep_intersecting_years(ds_list):
     else:
         unique_years = []
         for ds in ds_list:
-            base = ds.swap_dims({'S':'T'}).to_dataset(name = 'prec')
+            base = ds.to_dataset(name = 'prec')
             unique_years.append(np.unique(base.T.dt.year.values))
         intersecting_years = [x for x in unique_years[0] if x in unique_years[1] and x in unique_years[2]]
 
         ds_update = []
         for ds in ds_list:
-            ds_check = ds.swap_dims({'S':'T'}).to_dataset(name = 'prec')
-            ds_update.append(ds_check.sel(T=ds_check.T.dt.year.isin(intersecting_years)).swap_dims({'T':'S'}).prec)
+            ds_check = ds.to_dataset(name = 'prec')
+            ds_update.append(ds_check.sel(T=ds_check.T.dt.year.isin(intersecting_years)).prec)
         ds_update = xr.concat(ds_update, dim = 'L')
     return ds_update
 

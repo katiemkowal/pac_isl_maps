@@ -2,8 +2,8 @@
 
 wdir=/cpc/int_desk/pac_isl/analysis/prep_data/nmme
 datdir=/cpc/int_desk/pac_isl/data/processed/nmme/dat_files
-#ncdir=/cpc/int_desk/pac_isl/data/processed/nmme/nc_files
-ncdir=/cpc/int_desk/pac_isl/analysis/xcast/seasonal/practical_notebooks/practical_data/nc_files
+ncdir=/cpc/int_desk/pac_isl/data/processed/nmme/nc_files
+
 cd $wdir
 grads=/cpc/home/ebekele/grads2.1/grads-2.1.0/bin/grads
 py=/cpc/home/ebekele/.conda/envs/xcast_env/bin/python
@@ -168,7 +168,7 @@ res1 = 1.0 # Predictor horizontal resolution
 
 # Calculate zonal and meridional grid size (for predictor and predictand)
 nlat = np.arange(lats,latn+res1,res1); ny = len(nlat);
-nlon = np.arange(lonw,lone+res1,res1); nx = len(nlon);
+nlon = np.arange(lonw,lone,res1); nx = len(nlon);
 
 nt = 75 
 ntime = nt
@@ -207,7 +207,7 @@ times = [datetime.datetime(${yrmondy}) + relativedelta(years=x) for x in range(0
 time[:] = netCDF4.date2num(times, units=units, calendar=calendar)
 precip = ncfile.createVariable('precip',np.float64,('time','lat','lon')) # note: unlimited dimension is leftmost
 precip.units = 'mm' # 
-precip.standard_name = 'Sea_surface_temperature' # this is a CF standard name
+precip.standard_name = 'precip' # this is a CF standard name
 nlats = len(lat_dim); nlons = len(lon_dim); ntimes = nt
 time[:] = netCDF4.date2num(times, units=time.units, calendar=time.calendar)
 lat[:] = lats + 1.0*np.arange(nlat)
@@ -235,7 +235,7 @@ res1 = 1.0 # Predictor horizontal resolution
 
 # Calculate zonal and meridional grid size (for predictor and predictand)
 nlat = np.arange(lats,latn+res1,res1); ny = len(nlat);
-nlon = np.arange(lonw,lone+res1,res1); nx = len(nlon);
+nlon = np.arange(lonw,lone,res1); nx = len(nlon);
 
 nt = 1
 ntime = nt
