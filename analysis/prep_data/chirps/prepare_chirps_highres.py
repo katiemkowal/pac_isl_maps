@@ -92,16 +92,16 @@ regional_chirps = chirps_360.sel(longitude = slice(cfg.slice_w, cfg.slice_e),
                               latitude = slice(cfg.slice_n, cfg.slice_s))
 print(regional_chirps)
 
-file_name_to_save = 'UCSB0p05' + cfg.region_name
+file_name_to_save = '_'.join(['CHIRPS',cfg.region_name + '.nc'])
 #to save all seasons as one netcdf file, uncomment the line below
-#regional_chirps.to_netcdf(os.path.join(cfg.nc_folder, file_name_to_save))
+regional_chirps.to_netcdf(os.path.join(cfg.nc_folder, file_name_to_save))
 
 ## save files by season if desired
-for s in np.unique(regional_chirps.season):
-    file_name_to_save = '_'.join([s, 'UCSB0p05', cfg.region_name + '.nc'])
-    if Path(os.path.join(cfg.nc_folder, file_name_to_save)).is_file():
-        os.remove(os.path.join(cfg.nc_folder, file_name_to_save))
-    regional_chirps.sel(season=s).to_netcdf(os.path.join(cfg.nc_folder, file_name_to_save))
+# for s in np.unique(regional_chirps.season):
+#     file_name_to_save = '_'.join([s, 'UCSB0p05', cfg.region_name + '.nc'])
+#     if Path(os.path.join(cfg.nc_folder, file_name_to_save)).is_file():
+#         os.remove(os.path.join(cfg.nc_folder, file_name_to_save))
+#     regional_chirps.sel(season=s).to_netcdf(os.path.join(cfg.nc_folder, file_name_to_save))
 
 
 

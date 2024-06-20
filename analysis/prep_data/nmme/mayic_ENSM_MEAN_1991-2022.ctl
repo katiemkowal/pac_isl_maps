@@ -1,6 +1,6 @@
 dset /cpc/int_desk/NMME/hindcast/raw_sst_precip_tmp2m/precip_monthly/mayic_ENSM_MEAN_1991-2022.dat
 undef 9.999E+20
-title tmpsfc.bin
+title prate.bin
 options little_endian
 xdef 360 linear 0 1.0
 ydef 181 linear -90.0 1.0

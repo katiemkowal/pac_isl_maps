@@ -5,13 +5,9 @@ datdir=/cpc/int_desk/pac_isl/data/processed/nmme/dat_files
 ncdir=/cpc/int_desk/pac_isl/data/processed/nmme/nc_files
 
 cd $wdir
-grads=/cpc/home/ebekele/grads2.1/grads-2.1.0/bin/grads
+grads=/cpc/home/ebekele/grads-2.1.0.oga.1//Contents/grads
 py=/cpc/home/ebekele/.conda/envs/xcast_env/bin/python
-
-# mn=`date +"%b"`
-# yrmndy=`date +"%Y"-"%m"-"%d"`
-# yrmondy=`date +'%Y, %-m, %-d'`
-# mon=$(date +%b | tr A-Z a-z)
+pperl=/cpc/africawrf/ebekele/perl/bin/perl
 
 for mn in "Jan" "Feb" "Mar" "Apr" "May" "Jun" "Jul" "Aug" "Sep" "Oct" "Nov" "Dec" "current"; do
 
@@ -46,11 +42,11 @@ fi
 cat>${mn1}ic_ENSM_MEAN_1991-2022.ctl<<eofCTL
 dset /cpc/int_desk/NMME/hindcast/raw_sst_precip_tmp2m/precip_monthly/${mn1}ic_ENSM_MEAN_1991-2022.dat
 undef 9.999E+20
-title tmpsfc.bin
+title prate.bin
 options little_endian
 xdef 360 linear 0 1.0
 ydef 181 linear -90.0 1.0
-tdef 32 linear 15may1991 1yr
+tdef 32 linear 15${mn1}1991 1yr
 zdef 9 linear 1 1
 vars 1
 fcst 9,1,0   0,1,7,0 ** sst DegC
@@ -60,11 +56,11 @@ eofCTL
 cat>${mn2}ic_ENSM_MEAN_1991-2022.ctl<<eofCTL
 dset /cpc/int_desk/NMME/hindcast/raw_sst_precip_tmp2m/precip_monthly/${mn2}ic_ENSM_MEAN_1991-2022.dat
 undef 9.999E+20
-title tmpsfc.bin
+title prate.bin
 options little_endian
 xdef 360 linear 0 1.0
 ydef 181 linear -90.0 1.0
-tdef 32 linear 15may1991 1yr
+tdef 32 linear 15${mn2}1991 1yr
 zdef 9 linear 1 1
 vars 1
 fcst 9,1,0   0,1,7,0 ** sst DegC
@@ -74,11 +70,11 @@ eofCTL
 cat>${mn3}ic_ENSM_MEAN_1991-2022.ctl<<eofCTL
 dset /cpc/int_desk/NMME/hindcast/raw_sst_precip_tmp2m/precip_monthly/${mn3}ic_ENSM_MEAN_1991-2022.dat
 undef 9.999E+20
-title tmpsfc.bin
+title prate.bin
 options little_endian
 xdef 360 linear 0 1.0
 ydef 181 linear -90.0 1.0
-tdef 32 linear 15may1991 1yr
+tdef 32 linear 15${mn3}1991 1yr
 zdef 9 linear 1 1
 vars 1
 fcst 9,1,0   0,1,7,0 ** sst DegC
@@ -86,6 +82,8 @@ ENDVARS
 eofCTL
 
 # Generate NMME hindcast data
+######### NOTE KATIE SHIFTED REGRID FUNCTION TO FIX GRID IN PRINTED PLOTS
+######### PLOT THIS DATA BEFORE USING TO MAKE SURE THIS IS RIGHT
 cat>nmme_hind.gs<<eofGS
 'reinit'
 'open ${mn1}ic_ENSM_MEAN_1991-2022.ctl'
@@ -101,20 +99,26 @@ while(i<=32)
 'set t 'i
 'set dfile 1'
 'define tt = ave(fcst.1,z='zz+0',z='zz+2')'
-'d tt' 
+#THIS COMMAND BELOW WAS ADDED TO REGRID FUNCTION#
+'d re(tt,360,linear,-180,1.0,181,linear,-90,1.0,ba)'
+*'d tt' 
 'set dfile 2'
 'define tt = ave(fcst.2,z='zz+0',z='zz+2')'
+#THIS COMMAND BELOW WAS ADDED TO REGRID FUNCTION#
+*'d re(tt,360,linear,-180,1.0,181,linear,-90,1.0,ba)'
 'd tt'
 'set dfile 3'
 'define tt = ave(fcst.3,z='zz+0',z='zz+2')'
-'d tt'
+#THIS COMMAND BELOW WAS ADDED TO REGRID FUNCTION#
+'d re(tt,360,linear,-180,1.0,181,linear,-90,1.0,ba)'
+*'d tt'
 i = i + 1
 endwhile
 'disable fwrite'
 'quit'
 eofGS
 
-$grads -blc nmme_hind.gs
+$pperl $grads -blc nmme_hind.gs
 
 cat>nmme_prate_ensmean_fcst.ctl<<eofCTL
 DSET /cpc/fews/production/NMME/inputs/filtered/nmme_prate_ensmean_fcst.bin
@@ -142,12 +146,13 @@ zz = ${ld} + 1
 'set fwrite ${datdir}/nmme_oneseas_fcst_precip_ld_${ld}.dat'
 
 'define tt = ave(fcst,z='zz+0',z='zz+2')*60*60*24'
-'d tt'
+'d re(tt,360,linear,-180,1.0,181,linear,-90,1.0,ba)'
+*'d tt'
 'disable fwrite'
 'quit'
 eofGS
 
-$grads -blc nmme_fcst.gs
+$pperl $grads -blc nmme_fcst.gs
 
 
 cat>gen_nmme_hind_precip.py<<eofPY
@@ -226,7 +231,7 @@ import datetime
 from netCDF4 import date2num,num2date
 from dateutil.relativedelta import relativedelta
 
-f2 = "${datdir}/nmme_fcst_precip_ld_${ld}.dat"
+f2 = "${datdir}/nmme_oneseas_fcst_precip_ld_${ld}.dat"
 
 # Predictor spatial dimension (Global tropics)
 lats = -90; latn = 90; lonw = -180; lone = 180

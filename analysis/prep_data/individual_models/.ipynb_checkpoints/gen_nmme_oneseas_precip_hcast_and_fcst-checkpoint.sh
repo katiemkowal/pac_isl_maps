@@ -9,6 +9,13 @@ grads=/cpc/home/ebekele/grads-2.1.0.oga.1//Contents/grads
 py=/cpc/home/ebekele/.conda/envs/xcast_env/bin/python
 pperl=/cpc/africawrf/ebekele/perl/bin/perl
 
+#grads=/cpc/home/ebekele/grads2.1/grads-2.1.0/bin/grads
+
+# mn=`date +"%b"`
+# yrmndy=`date +"%Y"-"%m"-"%d"`
+# yrmondy=`date +'%Y, %-m, %-d'`
+# mon=$(date +%b | tr A-Z a-z)
+
 for mn in "Jan" "Feb" "Mar" "Apr" "May" "Jun" "Jul" "Aug" "Sep" "Oct" "Nov" "Dec" "current"; do
 
 if [ $mn == "Jan" ]; then yrmndy="2024-01-01"; yrmondy="2024,1,1"; mon="jan"; mn1='dec'; mn2='jan'; mn3='feb'; fi
@@ -39,20 +46,6 @@ if test -f ${ncdir}/${mn}_ld${ld}_three_seas_NMME_fcst_precip.nc; then
     rm ${ncdir}/${mn}_ld${ld}_three_seas_NMME_fcst_precip.nc
 fi
 
-cat>${mn1}ic_ENSM_MEAN_1991-2022.ctl<<eofCTL
-dset /cpc/int_desk/NMME/hindcast/raw_sst_precip_tmp2m/precip_monthly/${mn1}ic_ENSM_MEAN_1991-2022.dat
-undef 9.999E+20
-title prate.bin
-options little_endian
-xdef 360 linear 0 1.0
-ydef 181 linear -90.0 1.0
-tdef 32 linear 15${mn1}1991 1yr
-zdef 9 linear 1 1
-vars 1
-fcst 9,1,0   0,1,7,0 ** sst DegC
-ENDVARS
-eofCTL
-
 cat>${mn2}ic_ENSM_MEAN_1991-2022.ctl<<eofCTL
 dset /cpc/int_desk/NMME/hindcast/raw_sst_precip_tmp2m/precip_monthly/${mn2}ic_ENSM_MEAN_1991-2022.dat
 undef 9.999E+20
@@ -67,50 +60,20 @@ fcst 9,1,0   0,1,7,0 ** sst DegC
 ENDVARS
 eofCTL
 
-cat>${mn3}ic_ENSM_MEAN_1991-2022.ctl<<eofCTL
-dset /cpc/int_desk/NMME/hindcast/raw_sst_precip_tmp2m/precip_monthly/${mn3}ic_ENSM_MEAN_1991-2022.dat
-undef 9.999E+20
-title prate.bin
-options little_endian
-xdef 360 linear 0 1.0
-ydef 181 linear -90.0 1.0
-tdef 32 linear 15${mn3}1991 1yr
-zdef 9 linear 1 1
-vars 1
-fcst 9,1,0   0,1,7,0 ** sst DegC
-ENDVARS
-eofCTL
-
 # Generate NMME hindcast data
-######### NOTE KATIE SHIFTED REGRID FUNCTION TO FIX GRID IN PRINTED PLOTS
-######### PLOT THIS DATA BEFORE USING TO MAKE SURE THIS IS RIGHT
 cat>nmme_hind.gs<<eofGS
 'reinit'
-'open ${mn1}ic_ENSM_MEAN_1991-2022.ctl'
 'open ${mn2}ic_ENSM_MEAN_1991-2022.ctl'
-'open ${mn3}ic_ENSM_MEAN_1991-2022.ctl'
 'set lat -90 90'
 'set lon -180 180'
 zz = ${ld} + 1 
 'set gxout fwrite'
 'set fwrite ${datdir}/nmme_hind_precip_ld_${ld}.dat'
-i=8
+i=1
 while(i<=32)
 'set t 'i
-'set dfile 1'
-'define tt = ave(fcst.1,z='zz+0',z='zz+2')'
-#THIS COMMAND BELOW WAS ADDED TO REGRID FUNCTION#
-'d re(tt,360,linear,-180,1.0,181,linear,-90,1.0,ba)'
-*'d tt' 
-'set dfile 2'
-'define tt = ave(fcst.2,z='zz+0',z='zz+2')'
-#THIS COMMAND BELOW WAS ADDED TO REGRID FUNCTION#
-*'d re(tt,360,linear,-180,1.0,181,linear,-90,1.0,ba)'
-'d tt'
-'set dfile 3'
-'define tt = ave(fcst.3,z='zz+0',z='zz+2')'
-#THIS COMMAND BELOW WAS ADDED TO REGRID FUNCTION#
-'d re(tt,360,linear,-180,1.0,181,linear,-90,1.0,ba)'
+'define tt = ave(fcst,z='zz+0',z='zz+2')'
+'d re(tt,360,linear,180,1.0,181,linear,-90,1.0,ba)'
 *'d tt'
 i = i + 1
 endwhile
@@ -146,7 +109,7 @@ zz = ${ld} + 1
 'set fwrite ${datdir}/nmme_oneseas_fcst_precip_ld_${ld}.dat'
 
 'define tt = ave(fcst,z='zz+0',z='zz+2')*60*60*24'
-'d re(tt,360,linear,-180,1.0,181,linear,-90,1.0,ba)'
+'d re(tt,360,linear,180,1.0,181,linear,-90,1.0,ba)'
 *'d tt'
 'disable fwrite'
 'quit'
@@ -175,12 +138,14 @@ res1 = 1.0 # Predictor horizontal resolution
 nlat = np.arange(lats,latn+res1,res1); ny = len(nlat);
 nlon = np.arange(lonw,lone,res1); nx = len(nlon);
 
-nt = 75 
+nt = 32
+#nt = 75 
 ntime = nt
 nlat = ny
 nlon = nx
 
 fid = open(f1, 'rb');
+print(fid)
 precipt = np.zeros( (nt, ny, nx) );
 t = 0
 for ts in range(nt):
@@ -190,7 +155,9 @@ fid.close();
 
 precipt[precipt <= -999] = np.nan
 
-ncfile = netCDF4.Dataset('${mn}_ld${ld}_three_seas_NMME_hind_precip.nc',mode='w',format='NETCDF4_CLASSIC')
+print(precipt)
+
+ncfile = netCDF4.Dataset('${mn}_ld${ld}_one_seas_NMME_hind_precip.nc',mode='w',format='NETCDF4_CLASSIC')
 lat_dim = ncfile.createDimension('lat', nlat) # latitude axis
 lon_dim = ncfile.createDimension('lon', nlon) # longitude axis
 time_dim = ncfile.createDimension('time', None) # unlimited axis (can be appended to).
@@ -231,7 +198,7 @@ import datetime
 from netCDF4 import date2num,num2date
 from dateutil.relativedelta import relativedelta
 
-f2 = "${datdir}/nmme_oneseas_fcst_precip_ld_${ld}.dat"
+f2 = "${datdir}/nmme_fcst_precip_ld_${ld}.dat"
 
 # Predictor spatial dimension (Global tropics)
 lats = -90; latn = 90; lonw = -180; lone = 180
@@ -257,7 +224,7 @@ fid.close();
 
 precipt[precipt <= -999] = np.nan
 
-ncfile = netCDF4.Dataset('${mn}_ld${ld}_three_seas_NMME_fcst_precip.nc',mode='w',format='NETCDF4_CLASSIC')
+ncfile = netCDF4.Dataset('${mn}_ld${ld}_one_seas_NMME_fcst_precip.nc',mode='w',format='NETCDF4_CLASSIC')
 lat_dim = ncfile.createDimension('lat', nlat) # latitude axis
 lon_dim = ncfile.createDimension('lon', nlon) # longitude axis
 time_dim = ncfile.createDimension('time', None) # unlimited axis (can be appended to).
@@ -290,7 +257,7 @@ eofPY
 $py gen_nmme_fcst_precip.py
     
      done
-
+mv *.nc ${ncdir}
 done
 
-mv *.nc ${ncdir}
+

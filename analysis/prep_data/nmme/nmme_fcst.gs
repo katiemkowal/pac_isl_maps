@@ -7,6 +7,7 @@ zz = 3 + 1
 'set fwrite /cpc/int_desk/pac_isl/data/processed/nmme/dat_files/nmme_oneseas_fcst_precip_ld_3.dat'
 
 'define tt = ave(fcst,z='zz+0',z='zz+2')*60*60*24'
-'d tt'
+'d re(tt,360,linear,-180,1.0,181,linear,-90,1.0,ba)'
+*'d tt'
 'disable fwrite'
 'quit'

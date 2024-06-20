@@ -12,13 +12,19 @@ while(i<=32)
 'set t 'i
 'set dfile 1'
 'define tt = ave(fcst.1,z='zz+0',z='zz+2')'
-'d tt' 
+#THIS COMMAND BELOW WAS ADDED TO REGRID FUNCTION#
+'d re(tt,360,linear,-180,1.0,181,linear,-90,1.0,ba)'
+*'d tt' 
 'set dfile 2'
 'define tt = ave(fcst.2,z='zz+0',z='zz+2')'
+#THIS COMMAND BELOW WAS ADDED TO REGRID FUNCTION#
+*'d re(tt,360,linear,-180,1.0,181,linear,-90,1.0,ba)'
 'd tt'
 'set dfile 3'
 'define tt = ave(fcst.3,z='zz+0',z='zz+2')'
-'d tt'
+#THIS COMMAND BELOW WAS ADDED TO REGRID FUNCTION#
+'d re(tt,360,linear,-180,1.0,181,linear,-90,1.0,ba)'
+*'d tt'
 i = i + 1
 endwhile
 'disable fwrite'

@@ -9,6 +9,11 @@ grads=/cpc/home/ebekele/grads-2.1.0.oga.1//Contents/grads
 py=/cpc/home/ebekele/.conda/envs/xcast_env/bin/python
 pperl=/cpc/africawrf/ebekele/perl/bin/perl
 
+# mn=`date +"%b"`
+# yrmndy=`date +"%Y"-"%m"-"%d"`
+# yrmondy=`date +'%Y, %-m, %-d'`
+# mon=$(date +%b | tr A-Z a-z)
+
 for mn in "Jan" "Feb" "Mar" "Apr" "May" "Jun" "Jul" "Aug" "Sep" "Oct" "Nov" "Dec" "current"; do
 
 if [ $mn == "Jan" ]; then yrmndy="2024-01-01"; yrmondy="2024,1,1"; mon="jan"; mn1='dec'; mn2='jan'; mn3='feb'; fi
@@ -82,8 +87,6 @@ ENDVARS
 eofCTL
 
 # Generate NMME hindcast data
-######### NOTE KATIE SHIFTED REGRID FUNCTION TO FIX GRID IN PRINTED PLOTS
-######### PLOT THIS DATA BEFORE USING TO MAKE SURE THIS IS RIGHT
 cat>nmme_hind.gs<<eofGS
 'reinit'
 'open ${mn1}ic_ENSM_MEAN_1991-2022.ctl'
@@ -99,18 +102,15 @@ while(i<=32)
 'set t 'i
 'set dfile 1'
 'define tt = ave(fcst.1,z='zz+0',z='zz+2')'
-#THIS COMMAND BELOW WAS ADDED TO REGRID FUNCTION#
-'d re(tt,360,linear,-180,1.0,181,linear,-90,1.0,ba)'
+'d re(tt,360,linear,180,1.0,181,linear,-90,1.0,ba)'
 *'d tt' 
 'set dfile 2'
 'define tt = ave(fcst.2,z='zz+0',z='zz+2')'
-#THIS COMMAND BELOW WAS ADDED TO REGRID FUNCTION#
-*'d re(tt,360,linear,-180,1.0,181,linear,-90,1.0,ba)'
+*'d re(tt,360,linear,180,1.0,181,linear,-90,1.0,ba)'
 'd tt'
 'set dfile 3'
 'define tt = ave(fcst.3,z='zz+0',z='zz+2')'
-#THIS COMMAND BELOW WAS ADDED TO REGRID FUNCTION#
-'d re(tt,360,linear,-180,1.0,181,linear,-90,1.0,ba)'
+'d re(tt,360,linear,180,1.0,181,linear,-90,1.0,ba)'
 *'d tt'
 i = i + 1
 endwhile
@@ -146,7 +146,7 @@ zz = ${ld} + 1
 'set fwrite ${datdir}/nmme_oneseas_fcst_precip_ld_${ld}.dat'
 
 'define tt = ave(fcst,z='zz+0',z='zz+2')*60*60*24'
-'d re(tt,360,linear,-180,1.0,181,linear,-90,1.0,ba)'
+'d re(tt,360,linear,180,1.0,181,linear,-90,1.0,ba)'
 *'d tt'
 'disable fwrite'
 'quit'
@@ -231,7 +231,7 @@ import datetime
 from netCDF4 import date2num,num2date
 from dateutil.relativedelta import relativedelta
 
-f2 = "${datdir}/nmme_oneseas_fcst_precip_ld_${ld}.dat"
+f2 = "${datdir}/nmme_fcst_precip_ld_${ld}.dat"
 
 # Predictor spatial dimension (Global tropics)
 lats = -90; latn = 90; lonw = -180; lone = 180
