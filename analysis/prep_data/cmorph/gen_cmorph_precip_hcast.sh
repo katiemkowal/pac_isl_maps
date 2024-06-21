@@ -2,20 +2,15 @@
 
 wdir=/cpc/int_desk/pac_isl/analysis/prep_data/cmorph
 datdir=/cpc/int_desk/pac_isl/data/processed/cmorph/dat_files
-#ncdir=/cpc/int_desk/pac_isl/data/processed/cmorph/nc_files
-ncdir=/cpc/int_desk/pac_isl/analysis/xcast/seasonal/practical_notebooks/practical_data/nc_files
+ncdir=/cpc/int_desk/pac_isl/data/processed/cmorph/nc_files
 
 cd $wdir
 grads=/cpc/home/ebekele/grads-2.1.0.oga.1//Contents/grads
 py=/cpc/home/ebekele/.conda/envs/xcast_env/bin/python
 pperl=/cpc/africawrf/ebekele/perl/bin/perl
 
-# mn=`date +"%b"`
-# yrmndy=`date +"%Y"-"%m"-"%d"`
-# yrmondy=`date +'%Y, %-m, %-d'`
-# mon=$(date +%b | tr A-Z a-z)
-#"Jan" "Feb" "Mar"
-for mn in "Mar" "Apr" "May" "Jun" "Jul" "Aug" "Sep" "Oct" "Nov" "Dec" "current"; do
+
+for mn in "Jan" "Feb" "Mar" "Apr" "May" "Jun" "Jul" "Aug" "Sep" "Oct" "Nov" "Dec" "current"; do
 
 if [ $mn == "Jan" ]; then yrmndy="2024-01-01"; yrmondy="2024,1,1"; mon="jan"; fi
 if [ $mn == "Feb" ]; then yrmndy="2024-02-01"; yrmondy="2024,2,1"; mon="feb"; fi

@@ -29,7 +29,8 @@ coordinate_conversion = {
     'time': 'T',
     'year': 'T',
     'season': 'season',
-    'T': 'T'
+    'T': 'T',
+    'L': 'L'
 }
 
 #make sure all coordinate names follow the naming conventions set up in coordinate dictionary
