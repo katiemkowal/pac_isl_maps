@@ -31,8 +31,8 @@ fdir='/cpc/int_desk/pac_isl/analysis/xcast/seasonal/presentation_figures'
 obs_name='CMORPH'
 
 #initialized dates
-initial_dates = [(2023, 7,1), (2024, 1, 1), (2024, 2, 1), (2024, 3, 1), (2024, 4, 1), (2024, 5, 1), (2024, 6, 1)]
-#(2023, 8, 1), (2023, 9, 1), (2023, 10, 1), (2023, 11,1), (2023, 12,1),
+initial_dates = [(2024, 1, 1), (2024, 2, 1), (2024, 3, 1), (2024, 4, 1), (2024, 5, 1), (2024, 6, 1)]
+#(2023, 7,1), (2023, 8, 1), (2023, 9, 1), (2023, 10, 1), (2023, 11,1), (2023, 12,1),
 
 #SET UP SOME REGIONS TO PLOT
 
@@ -383,6 +383,7 @@ for t, initial_month_name in enumerate(initial_month_names):
 
         # Show plot
         plt.savefig(os.path.join(fdir, '_'.join([initial_month_name, region_of_interest, 'pearson_CCA', obs_name.split('.')[0]])), bbox_inches='tight', dpi=100)
+        plt.close()
         
     ###### RMSE-SS PLOTS
 
@@ -421,6 +422,7 @@ for t, initial_month_name in enumerate(initial_month_names):
 
         # Show plot
         plt.savefig(os.path.join(fdir, '_'.join([initial_month_name, region_of_interest, 'RMSE-SS_CCA', obs_name.split('.')[0]])), bbox_inches='tight', dpi=100)
+        plt.close()
         
         
     ### GROCS PLOTS
@@ -458,6 +460,7 @@ for t, initial_month_name in enumerate(initial_month_names):
 
         # Show plot
         plt.savefig(os.path.join(fdir, '_'.join([initial_month_name, region_of_interest, 'GROCS_CCA', obs_name.split('.')[0]])), bbox_inches='tight', dpi=100)
+        plt.close()
         
 #only works in new XCast environment
         ##### FORECAST PLOTS, plot the probabalistic forecasts
