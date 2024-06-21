@@ -144,6 +144,7 @@ for i in initial_dates:
 
 ### for every initialized month, do the following
 for t, initial_month_name in enumerate(initial_month_names):
+    target_seas = target_seasons[t]
     ###### read in observations
     if obs_name == 'CMORPH':
         training_length = 'threeseas'
