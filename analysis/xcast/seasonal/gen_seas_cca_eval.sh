@@ -1,6 +1,8 @@
 #!/bin/sh
 # CHOOSE YOUR CONDA ENVIRONMENT
-py=/cpc/home/ebekele/.conda/envs/xcast_env/bin/python
+py=/cpc/home/kkowal/.conda/envs/xcast_new/bin/python
+#py=/cpc/home/kkowal/.conda/envs/intdesk_train/bin/python
+#py=/cpc/home/ebekele/.conda/envs/xcast_env/bin/python
 
 cat>gen_cca_and_eval.py<<eofPY
 ################## LIBRARIES
@@ -20,6 +22,28 @@ from cartopy.feature import NaturalEarthFeature
 import matplotlib.pyplot as plt
 import glob
 
+## add the workaround onehot-update and drymask-update script as workaround for new xcast envioront
+#grab the necessary functions
+import importlib.util
+
+#onehot-update.py file and where it is located
+function_folder1 = "/cpc/int_desk/pac_isl/analysis/xcast/seasonal/onehotupdate.py"
+
+spec1 = importlib.util.spec_from_file_location(
+"onehotupdate", function_folder1)    
+
+onehot = importlib.util.module_from_spec(spec1) 
+spec1.loader.exec_module(onehot)
+
+#drymask-update.py file and where it is located
+function_folder2 = "/cpc/int_desk/pac_isl/analysis/xcast/seasonal/drymaskupdate.py"
+
+spec2 = importlib.util.spec_from_file_location(
+"drymaskupdate", function_folder2)    
+
+dry = importlib.util.module_from_spec(spec2) 
+spec2.loader.exec_module(dry)
+
 ##################### CONSTANTS
 #data directory
 ddir='/cpc/int_desk/pac_isl/analysis/xcast/seasonal/practical_notebooks/practical_data'
@@ -31,9 +55,7 @@ fdir='/cpc/int_desk/pac_isl/analysis/xcast/seasonal/presentation_figures'
 obs_name='CMORPH'
 
 #initialized dates
-initial_dates = [(2024, 1, 1), (2024, 2, 1), (2024, 3, 1), (2024, 4, 1), (2024, 5, 1), (2024, 6, 1)]
-#(2023, 7,1), (2023, 8, 1), (2023, 9, 1), (2023, 10, 1), (2023, 11,1), (2023, 12,1),
-
+initial_dates = [(2024, 6, 1),(2023, 8, 1), (2023, 9, 1), (2023, 10, 1), (2023, 11,1), (2023, 12,1),(2024, 1, 1), (2024, 2, 1), (2024, 3, 1), (2023, 7,1),(2024, 4, 1), (2024, 5, 1)] 
 #SET UP SOME REGIONS TO PLOT
 
 pacislands_coordinates = {
@@ -59,7 +81,7 @@ fiji_coordinates = {
 kiribati_coordinates = {
         'west':  202,
         'east': 203,  
-        'north': 3,  
+        'north': 2.5,  
         'south': 1}
 
 solomon_coordinates = {
@@ -84,7 +106,7 @@ palau_coordinates = {
 vanuatu_coordinates = {
         'west':  165,
         'east': 170,  
-        'north': -12,  
+        'north': -12.5,  
         'south': -20
 }
 
@@ -96,7 +118,7 @@ samoa_coordinates = {
 }
 
 tuvalu_coordinates = {
-        'west':  178,
+        'west':  179,
         'east': 180,  
         'north': -8,  
         'south': -9
@@ -157,24 +179,6 @@ for t, initial_month_name in enumerate(initial_month_names):
         training_length = 'oneseas'
     obs_leads = xr.open_dataset(os.path.join(ddir, '_'.join([initial_month_name, training_length, obs_name, 'precip.nc'])))
 
-    #if obs_name == 'CHIRPS':
-        #r1_coordinates = {
-        #'west':  130,
-        #'east': 170,  
-        #'north': 1,  
-        #'south': -12}
-        
-        #r2_coordinates = {
-        #'west':  170,
-        #'east': 203,  
-        #'north': 3,  
-        #'south': -20}
-        
-    #masked_obs1 = obs_leads.sel(X=slice(r1_coords['west'], r1_coords['east']),
-    #                  Y=slice(r1_coords['south'], r1_coords['north']))
-    #masked_obs2 = obs_leads.sel(X=slice(r2_coords['west'], r2_coords['east']),
-    #                  Y=slice(r2_coords['south'], r2_coords['north']))
-    
     ###### read in hindcast and forecast data
     hindcast_data = xr.open_dataset(os.path.join(ddir,
     '_'.join([initial_month_name, training_length, 'NMME_hcst_precip.nc'])))
@@ -199,7 +203,7 @@ for t, initial_month_name in enumerate(initial_month_names):
         fmodel = forecast_data.sel(L=l).precip
         
         #create a dry mask to avoid training over zero values
-        drymask = xc.drymask(obs, dry_threshold=0.5, quantile_threshold=0.3)
+        drymask = dry.drymask(obs, dry_threshold=0.1, quantile_threshold=0.3)
         obs = obs * mask_missing
         obs = obs * drymask
         #run CCA
@@ -247,14 +251,14 @@ for t, initial_month_name in enumerate(initial_month_names):
         obs_raw = obs_leads.isel(L=l).precip* mask_missing
 
         cca_pearson_calc = xc.Pearson(cca_hcasts_det.isel(L=l),obs_to_test.isel(L=l))
-        cca_pearson_calc = cca_pearson_calc.expand_dims({'M':['CCA on NMME']})
+        cca_pearson_calc = cca_pearson_calc.expand_dims({'M':['NMME CCA']})
 
         #calc pearson correlation
         pearson_raw_calc = []
         for m, model in enumerate(np.unique(raw_regrid.M.values)):
-            pearson_raw_c = xc.Pearson(raw_regrid.sel(M=model).expand_dims({'M':[model]}), 
+            pearson_raw_c = xc.Pearson(raw_regrid.sel(M=model).expand_dims({'M':[model + ' Raw']}), 
                                                obs_raw)
-            pearson_raw_c = pearson_raw_c.expand_dims({'M':[model]})
+            pearson_raw_c = pearson_raw_c.expand_dims({'M':[model + ' Raw']})
             pearson_raw_calc.append(pearson_raw_c)
         pearson_raw_calc = xr.concat(pearson_raw_calc, dim = 'M')
         pearson_cca.append(cca_pearson_calc)
@@ -262,66 +266,8 @@ for t, initial_month_name in enumerate(initial_month_names):
     pearson_cca = xr.concat(pearson_cca, dim = 'L')
     pearson_raw = xr.concat(pearson_raw, dim = 'L')
     pearsons = xr.concat([pearson_cca, pearson_raw], dim = 'M')
-    print('pearson processing time is ' + str(time.time() - start_time))
-    
-    #RMSE-SS CALCULATION
-    #anomalize your data
-    def std_anomalize(x):
-        clim = x.mean(dim='T')
-        standard_dev = x.std(dim='T')
-        anom = x - clim
-        std_anom = anom/standard_dev
-        return std_anom
-
-    #calculate the root mean squared error for each point across time
-    def RMSE(x, y): 
-      # x is Nx1, y is Nx1
-      squared_error = (x - y)**2 
-      mean_squared_error = squared_error.mean(dim = 'T') 
-      return np.sqrt(mean_squared_error) 
-
-    #calculate the skill score using RMSE by comparing performance of the climatology against your data
-    def RMSESS(x,y):
-        clim = y.mean(dim='T')
-        rmse_model = RMSE(x,y)
-        rmse_clim = RMSE(clim,y)
-        rmsess = 1 - rmse_model/rmse_clim
-        return rmsess
-        
-    start_time = time.time()
-    #anomalize the cca and obs_test data
-    obs_test_anom = std_anomalize(obs_to_test)
-    cca_hcasts_anom = std_anomalize(cca_hcasts_det)
-
-    #calculate RMSESS score for hindcasts
-    rmse_cca, rmse_raw = [], []
-    for l, lead in enumerate(np.unique(hindcast_data.L.values)):
-        cca_rmse_calc = RMSESS(cca_hcasts_anom.isel(L=l),obs_test_anom.isel(L=l))
-        cca_rmse_calc = cca_rmse_calc.isel(M=0).expand_dims({'M':['CCA on NMME']})
-
-        raw_regrid = xc.regrid(hindcast_data.isel(L=l).precip, obs_leads.X, obs_leads.Y)
-        raw_regrid = raw_regrid * mask_missing
-        
-        obs_raw = obs_leads.isel(L=l).precip * mask_missing
-
-        #anomalize the raw model data and obs data over the original time frame
-        raw_anom = std_anomalize(raw_regrid)
-        obs_anom = std_anomalize(obs_raw)
-
-        #calc rmse for raw values
-        rmse_raw_calc = []
-        for m, model in enumerate(np.unique(raw_regrid.M.values)):
-            rmse_raw_c = RMSESS(raw_anom.sel(M=model), 
-                                               obs_anom)
-            rmse_raw_c = rmse_raw_c.isel(M=m).expand_dims({'M':[model]})
-            rmse_raw_calc.append(rmse_raw_c)
-        rmse_raw_calc = xr.concat(rmse_raw_calc, dim = 'M')
-        rmse_cca.append(cca_rmse_calc)
-        rmse_raw.append(rmse_raw_calc)
-    rmse_cca = xr.concat(rmse_cca, dim = 'L')
-    rmse_raw = xr.concat(rmse_raw, dim = 'L')
-    rmsess = xr.concat([rmse_cca, rmse_raw], dim = 'M')
-    print('RMSE-SS processing time is ' + str(time.time() - start_time))
+    print('Pearson processing time is ' + str(time.time() - start_time))
+    print(pearsons)
     
     #GROCS CALCULATION
     start_time = time.time()
@@ -332,22 +278,25 @@ for t, initial_month_name in enumerate(initial_month_names):
         obs = xc.gaussian_smooth(obs_to_test.isel(L=l), kernel=3)
         
         #transform obs into tercile based categories
-        ohc = xc.OneHotEncoder() 
+        #ohc = xc.OneHotEncoder() 
+        ohc = onehot.OneHotEncoder()
         ohc.fit(obs)
         T = ohc.transform(obs)
         clim = xr.ones_like(T) * 0.333
         
         grocs_cca_l = xc.GROCS(hind_prob, T)
-        grocs_cca_l = grocs_cca_l.expand_dims({'M':['CCA on NMME']})
+        grocs_cca_l = grocs_cca_l.expand_dims({'M':['NMME CCA']})
         grocs_cca.append(grocs_cca_l)
         ## CALCULATE THE RAW GROCS SCORE HERE AFTER PREPARING INDIVIDUAL MODELS
     grocs_cca = xr.concat(grocs_cca, dim = 'L')
     print('GROCS processing time is ' + str(time.time() - start_time))
+    print(grocs_cca)
     
 ################ PLOT THE RESULTS
     ###### PEARSONS PLOTS
 
     models = np.unique(pearsons.M.values)
+    models = np.flip(models, axis = 0)
     for r, region_of_interest in enumerate(region_names):
 
         fig, axes = plt.subplots(nrows=len(models), ncols=len(target_seas), figsize=(10, (2)*2 + 2), 
@@ -386,46 +335,6 @@ for t, initial_month_name in enumerate(initial_month_names):
         plt.savefig(os.path.join(fdir, '_'.join([initial_month_name, region_of_interest, 'pearson_CCA', obs_name.split('.')[0]])), bbox_inches='tight', dpi=100)
         plt.close()
         
-    ###### RMSE-SS PLOTS
-
-    for r, region_of_interest in enumerate(region_names):
-        fig, axes = plt.subplots(nrows=len(models), ncols=len(target_seas), figsize=(10, (2)*2 + 2), 
-                                 subplot_kw={'projection': ccrs.PlateCarree(central_longitude=180)})
-
-        # Set the extent to cover the entire world
-        for ax in axes.flat:
-            ax.set_global()
-
-        for j, model in enumerate(models):
-            for i, season in enumerate(target_seas):
-                ax = axes[j, i]
-                # Your plotting code here using the specific model and season
-                xplot = rmsess.isel(L=i, M=j).plot(ax=ax, transform=ccrs.PlateCarree(), cmap='coolwarm', levels=21, vmin=-1, vmax=1, add_colorbar=False)
-                ax.coastlines()
-                c = ax.coastlines()
-                c = ax.gridlines(draw_labels=True, linewidth=0.3)
-                c.right_labels = False
-                c.top_labels = False 
-                # Add country borders
-                ax.add_feature(NaturalEarthFeature(category='cultural', name='admin_0_countries', 
-                                                    scale='50m', edgecolor='black', facecolor='none'))
-                # Set the extent to cover the specific area
-                ax.set_extent([regions[r]['west'], regions[r]['east'], regions[r]['south'], regions[r]['north']], crs=ccrs.PlateCarree())
-                ax.set_title(f'{model} - {season}')
-
-        # Add a single horizontal colorbar below the panel plot
-        cbar_ax = fig.add_axes([0.15, 0.002, 0.6, 0.02])  # [left, bottom, width, height]
-        cbar = fig.colorbar(xplot, cax=cbar_ax, orientation='horizontal', shrink =1, pad = 0.3)
-        cbar.set_label(region_of_interest + ' RMSE-SS', fontsize=13)
-        cbar.ax.tick_params(labelsize=14)
-        # Adjust layout
-        plt.subplots_adjust(left=0.05, right=0.9, top=0.95, bottom=0.05, wspace=0.01, hspace=0.2)
-
-        # Show plot
-        plt.savefig(os.path.join(fdir, '_'.join([initial_month_name, region_of_interest, 'RMSE-SS_CCA', obs_name.split('.')[0]])), bbox_inches='tight', dpi=100)
-        plt.close()
-        
-        
     ### GROCS PLOTS
     for r, region_of_interest in enumerate(region_names):
         fig, axes = plt.subplots(nrows=1, ncols=len(target_seas), figsize=(10, (2)*2 + 2), 
@@ -439,7 +348,7 @@ for t, initial_month_name in enumerate(initial_month_names):
             for i, season in enumerate(target_seas):
                 ax = axes[i]##, i]
                 # Your plotting code here using the specific model and season
-                xplot = grocs_cca.isel(L=i, M=j).plot(ax=ax,transform=ccrs.PlateCarree(), cmap='coolwarm', levels=21, vmin=-1, vmax=1, add_colorbar=False)
+                xplot = grocs_cca.isel(L=i, M=j).plot(ax=ax,transform=ccrs.PlateCarree(), cmap='coolwarm', levels=21, vmin=0, vmax=1, add_colorbar=False)
                 ax.coastlines()
                 c = ax.coastlines()
                 c = ax.gridlines(draw_labels=True, linewidth=0.3)
@@ -464,10 +373,11 @@ for t, initial_month_name in enumerate(initial_month_names):
         plt.close()
         
 #only works in new XCast environment
-        ##### FORECAST PLOTS, plot the probabalistic forecasts
+#        ##### FORECAST PLOTS, plot the probabalistic forecasts
 #        for r, region_of_interest in enumerate(region_names):
 #            for l, lead in enumerate(np.unique(cca_fcsts_prob.L)):
 #                im = xc.view_probabilistic(cca_fcsts_prob.isel(T=0, L=l).sel(X=slice(regions[r]['west'], regions[r]['east']),Y=slice(regions[r]['south'], regions[r]['north'])), cross_dateline=True, title= region_of_interest + ' CCA MME Probabalistic Forecast for ' + target_seas[l], savefig=os.path.join(fdir, '_'.join(['im' + initial_month_name, target_seas[l],region_of_interest,'CCA_forecast',obs_name + '.png'])))
+#                plt.close()
 eofPY
 
 $py gen_cca_and_eval.py
