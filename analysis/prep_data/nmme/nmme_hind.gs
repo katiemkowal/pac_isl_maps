@@ -6,7 +6,7 @@
 'set lon -180 180'
 zz = 3 + 1 
 'set gxout fwrite'
-'set fwrite /cpc/int_desk/pac_isl/data/processed/nmme/dat_files/nmme_hind_precip_ld_3.dat'
+'set fwrite /cpc/int_desk/pac_isl/data/processed/nmme/dat_files/nmme_hind_sst_ld_3.dat'
 i=8
 while(i<=32)
 'set t 'i
