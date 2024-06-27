@@ -43,14 +43,14 @@ lon = ncfile.createVariable('lon', np.float32, ('lon',))
 lon.units = 'degrees_east'
 lon.long_name = 'longitude'
 
-units = 'days since 2024-06-26'
+units = 'days since 2024-06-27'
 calendar = 'proleptic_gregorian'
 time = ncfile.createVariable('time', np.float64, ('time',))
 time.long_name = 'time'
-time.units = 'days since 2024-06-26 00:00:00'
+time.units = 'days since 2024-06-27 00:00:00'
 time.calendar = 'proleptic_gregorian'
 time.axis = 'T'
-times = [datetime.datetime(2024, 6, 26) + relativedelta(years=x) for x in range(0,nt)]
+times = [datetime.datetime(2024, 6, 27) + relativedelta(years=x) for x in range(0,nt)]
 time[:] = netCDF4.date2num(times, units=units, calendar=calendar)
 sst = ncfile.createVariable('sst',np.float64,('time','lat','lon')) # note: unlimited dimension is leftmost
 sst.units = 'kelvin' # degrees Kelvin
