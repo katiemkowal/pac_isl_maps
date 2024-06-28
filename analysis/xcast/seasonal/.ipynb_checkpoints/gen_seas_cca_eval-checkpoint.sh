@@ -50,10 +50,12 @@ spec2.loader.exec_module(dry)
 
 ##################### CONSTANTS
 #data directory
-ddir='/cpc/int_desk/pac_isl/analysis/xcast/seasonal/practical_notebooks/practical_data'
+ddir='/Users/katie/Documents/GitHub/pac_islands/pac_islands/analysis/xcast/seasonal/practical_notebooks/for_github'
+#'/cpc/int_desk/pac_isl/analysis/xcast/seasonal/practical_notebooks/practical_data'
 
 # figure directory
-fdir='/cpc/int_desk/pac_isl/analysis/xcast/seasonal/presentation_figures'
+fdir='/Users/katie/Desktop/practical_data'
+#'/cpc/int_desk/pac_isl/analysis/xcast/seasonal/presentation_figures'
 
 #obs_name CMORPH or CHIRPS
 obs_name='CMORPH'

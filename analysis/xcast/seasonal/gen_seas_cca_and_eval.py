@@ -24,7 +24,7 @@ use_one_hot_update = 'no'
 import importlib.util
 
 #onehot-update.py file and where it is located
-function_folder1 = "/cpc/int_desk/pac_isl/analysis/xcast/seasonal/onehotupdate.py"
+function_folder1 = '/Users/katie/Documents/GitHub/pac_islands/pac_islands/analysis/xcast/seasonal/onehotupdate.py'#"/cpc/int_desk/pac_isl/analysis/xcast/seasonal/onehotupdate.py"
 
 spec1 = importlib.util.spec_from_file_location(
 "onehotupdate", function_folder1)    
@@ -33,7 +33,7 @@ onehot = importlib.util.module_from_spec(spec1)
 spec1.loader.exec_module(onehot)
 
 #drymask-update.py file and where it is located
-function_folder2 = "/cpc/int_desk/pac_isl/analysis/xcast/seasonal/drymaskupdate.py"
+function_folder2 = '/Users/katie/Documents/GitHub/pac_islands/pac_islands/analysis/xcast/seasonal/drymaskupdate.py'#"/cpc/int_desk/pac_isl/analysis/xcast/seasonal/drymaskupdate.py"
 
 spec2 = importlib.util.spec_from_file_location(
 "drymaskupdate", function_folder2)    
@@ -43,10 +43,12 @@ spec2.loader.exec_module(dry)
 
 ##################### CONSTANTS
 #data directory
-ddir='/cpc/int_desk/pac_isl/analysis/xcast/seasonal/practical_notebooks/practical_data'
+ddir='/Users/katie/Documents/GitHub/pac_islands/pac_islands/analysis/xcast/seasonal/practical_notebooks/for_github'
+#'/cpc/int_desk/pac_isl/analysis/xcast/seasonal/practical_notebooks/practical_data'
 
 # figure directory
-fdir='/cpc/int_desk/pac_isl/analysis/xcast/seasonal/presentation_figures'
+fdir='/Users/katie/Desktop/practical_data'
+#'/cpc/int_desk/pac_isl/analysis/xcast/seasonal/presentation_figures'
 
 #obs_name CMORPH or CHIRPS
 obs_name='CMORPH'
@@ -192,8 +194,8 @@ for t, initial_month_name in enumerate(initial_month_names):
     
     hindcast_data_sst = xr.open_dataset(os.path.join(ddir, '_'.join([initial_month_name, training_length, 'NMME_hcst_sst.nc'])))
     forecast_data_sst = xr.open_dataset(os.path.join(ddir, '_'.join([initial_month_name, training_length, 'NMME_fcst_sst.nc'])))  
-
-    msk = xr.open_dataset('/cpc/africawrf/ebekele/projects/PREPARE_pacific/notebooks/masked/libs/pacific_mask.nc')
+    msk = xr.open_dataset('/Users/katie/Documents/GitHub/pac_islands/pac_islands/analysis/xcast/seasonal/practical_notebooks/for_github/pacific_mask.nc')
+    #msk = xr.open_dataset('/cpc/africawrf/ebekele/projects/PREPARE_pacific/notebooks/masked/libs/pacific_mask.nc')
     mskk = msk.amask.expand_dims({'M':[0]})
     mskk = mskk.assign_coords({'lon': [i + 360 if i <= 0 else i for i in mskk.coords['lon'].values]}).sortby('lon').drop_duplicates('lon')
     mskk = mskk.rename({'lon':'X', 'lat':'Y', 'time':'T'})
@@ -227,76 +229,6 @@ for t, initial_month_name in enumerate(initial_month_names):
         #crop the observations to your training region of choice
         obs_leads = obs_leads.sel(X=slice(predictand_train_extent['west'], predictand_train_extent['east']), Y=slice(predictand_train_extent['south'], predictand_train_extent['north']))
         
-        
-         ##create ELR and EPOELM forecasts
-        start_time = time.time()
-        elr_fcsts_prob, elr_fcsts_det, elr_hcasts_det, elr_hcasts_prob = [], [], [], []
-        epoelm_fcsts_prob, epoelm_fcsts_det, epoelm_hcasts_det, epoelm_hcasts_prob = [], [], [], []
-        obs_to_test_grid, raw_to_test_grid = [],[]
-
-        for l in np.unique(hindcast_data_precip.L):
-            obs = obs_leads.sel(L=l).precip
-            model = hindcast_data_precip.sel(L=l).precip
-            fmodel = forecast_data_precip.sel(L=l).precip
-
-            model_regrid = xc.regrid(model, obs.X, obs.Y)
-            fmodel_regrid = xc.regrid(fmodel, obs.X, obs.Y)
-
-            obs, model_regrid = xc.match(obs, model_regrid)
-
-            #run ELR, EPOELM
-            hindcasts_det_ELR, hindcasts_prob_ELR, hindcasts_det_EPOELM, hindcasts_prob_EPOELM, obs_test_grid, raw_test_grid = [], [], [], [], [], []
-            i=1
-            for xtrain, ytrain, xtest, ytest in xc.CrossValidator(model_regrid, obs, window=5):
-                print("window {}".format(i))
-                i += 1
-                reg_ELR = xc.ELR()
-                reg_ELR.fit(xtrain, ytrain)
-
-                reg_EPOELM = xc.EPOELM()
-                reg_EPOELM.fit(xtrain, ytrain)
-
-                #preds_ELR = reg_ELR.predict(xtest)
-                probs_ELR =  reg_ELR.predict_proba(xtest)
-                #preds_EPOELM = reg_EPOELM.predict(xtest)
-                probs_EPOELM =  reg_EPOELM.predict_proba(xtest)
-
-                obs_test_grid.append(ytest)
-                raw_test_grid.append(xtest)
-                #hindcasts_det_ELR.append(preds_ELR)
-                hindcasts_prob_ELR.append(probs_ELR)
-                #hindcasts_det_EPOELM.append(preds_EPOELM)
-                hindcasts_prob_EPOELM.append(probs_EPOELM)
-            #hindcasts_det_ELR = xr.concat(hindcasts_det_ELR, 'T')
-            hindcasts_prob_ELR = xr.concat(hindcasts_prob_ELR, 'T')
-            #hindcasts_det_EPOELM = xr.concat(hindcasts_det_EPOELM, 'T')
-            hindcasts_prob_EPOELM = xr.concat(hindcasts_prob_EPOELM, 'T')
-            obs_test_grid = xr.concat(obs_test_grid, 'T')
-            raw_test_grid = xr.concat(raw_test_grid, 'T')
-
-            fprobs_ELR =  reg_ELR.predict_proba(fmodel_regrid)
-            fprobs_EPOELM =  reg_EPOELM.predict_proba(fmodel_regrid)
-
-            elr_fcsts_prob.append(fprobs_ELR)
-            #elr_hcasts_det.append(hindcasts_det_ELR)
-            elr_hcasts_prob.append(hindcasts_prob_ELR)
-            epoelm_fcsts_prob.append(fprobs_EPOELM)
-            #epoelm_hcasts_det.append(hindcasts_det_EPOELM)
-            epoelm_hcasts_prob.append(hindcasts_prob_EPOELM)
-            obs_to_test_grid.append(obs_test_grid)
-            raw_to_test_grid.append(raw_test_grid)
-
-        elr_fcsts_prob = xr.concat(elr_fcsts_prob, dim = 'L')
-        #elr_hcasts_det = xr.concat(elr_hcasts_det, dim = 'L')
-        elr_hcasts_prob = xr.concat(elr_hcasts_prob, dim = 'L')
-        epoelm_fcsts_prob = xr.concat(epoelm_fcsts_prob, dim = 'L')
-        #epoelm_hcasts_det = xr.concat(epoelm_hcasts_det, dim = 'L')
-        epoelm_hcasts_prob = xr.concat(epoelm_hcasts_prob, dim = 'L')
-        obs_to_test_grid = xr.concat(obs_to_test_grid, dim = 'L')
-        raw_to_test_grid = xr.concat(raw_to_test_grid, dim = 'L')
-        print('elr/epoelm processing time is ' + str(time.time() - start_time))
-        
-
         ##### run cca on NMME precip forecasts
         start_time = time.time()
         cca_fcsts_prob_precip, cca_fcsts_det_precip, cca_hcasts_det_precip, cca_hcasts_prob_precip, obs_to_test_precip = [],[],[],[],[]
@@ -496,7 +428,7 @@ for t, initial_month_name in enumerate(initial_month_names):
             sr_grocs_test.expand_dims({'M':model})
             sr_grocs.append(sr_grocs_test)
         sr_grocs = xr.concat(sr_grocs, dim = 'M')
-        
+        print(sr_grocs)
         utt = cca_fcsts_prob_precip * sr_grocs.sel(M = sr_grocs.M.isin('NMME CCA (Precip)'))  + cca_fcsts_prob_sst * sr_grocs.sel(M = sr_grocs.M.isin('NMME CCA (SST)')) + elr_fcsts_prob * sr_grocs.sel(M = sr_grocs.M.isin('NMME ELR')) + epoelm_fcsts_prob * sr_grocs.sel(M = sr_grocs.M.isin('NMME EPOELM'))
         btt = sr_grocs.sel(M = sr_grocs.M.isin('NMME CCA (Precip)')) + sr_grocs.sel(M = sr_grocs.M.isin('NMME CCA (SST)')) + sr_grocs.sel(M = sr_grocs.M.isin('NMME ELR')) + sr_grocs.sel(M = sr_grocs.M.isin('NMME EPOELM'))
         pcons = (utt)/btt
