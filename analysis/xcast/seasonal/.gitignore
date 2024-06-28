@@ -1,5 +1,5 @@
 practical_notebooks/practical_data/
 practical_notebooks/practical_figures/
 presentation_figures
-*.nc
+#*.nc
 *.tsv
