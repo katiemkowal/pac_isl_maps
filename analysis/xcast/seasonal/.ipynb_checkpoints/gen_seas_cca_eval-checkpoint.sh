@@ -4,7 +4,7 @@
 #py=/cpc/home/kkowal/.conda/envs/intdesk_train/bin/python
 py=/cpc/home/ebekele/.conda/envs/xcast_env/bin/python
 
-cat>gen_cca_and_eval.py<<eofPY
+cat>gen_seas_cca_and_eval.py<<eofPY
 ################## LIBRARIES
 import xcast as xc 
 import xarray as xr 
@@ -194,16 +194,12 @@ for t, initial_month_name in enumerate(initial_month_names):
         training_length = 'oneseas'
     obs_leads = xr.open_dataset(os.path.join(ddir, '_'.join([initial_month_name, training_length, obs_name, 'precip.nc'])))
 
-    ###### read in hindcast and forecast data
-    hindcast_data_precip = xr.open_dataset(os.path.join(ddir,
-    '_'.join([initial_month_name, training_length, 'NMME_hcst_precip.nc'])))
+    hindcast_data_precip = xr.open_dataset(os.path.join(ddir, '_'.join([initial_month_name, training_length, 'NMME_hcst_precip.nc'])))
     forecast_data_precip = xr.open_dataset(os.path.join(ddir, '_'.join([initial_month_name, training_length, 'NMME_fcst_precip.nc'])))  
     
-    hindcast_data_sst = xr.open_dataset(os.path.join(ddir,
-    '_'.join([initial_month_name, training_length, 'NMME_hcst_sst.nc'])))
+    hindcast_data_sst = xr.open_dataset(os.path.join(ddir, '_'.join([initial_month_name, training_length, 'NMME_hcst_sst.nc'])))
     forecast_data_sst = xr.open_dataset(os.path.join(ddir, '_'.join([initial_month_name, training_length, 'NMME_fcst_sst.nc'])))  
-    
-    ###### read in the ocean mask for the data
+
     msk = xr.open_dataset('/cpc/africawrf/ebekele/projects/PREPARE_pacific/notebooks/masked/libs/pacific_mask.nc')
     mskk = msk.amask.expand_dims({'M':[0]})
     mskk = mskk.assign_coords({'lon': [i + 360 if i <= 0 else i for i in mskk.coords['lon'].values]}).sortby('lon').drop_duplicates('lon')
@@ -212,17 +208,14 @@ for t, initial_month_name in enumerate(initial_month_names):
     mask_missing = mskk.mean('T', skipna=False).mean('M', skipna=False)
     mask_missing = xr.ones_like(mask_missing).where(~np.isnan(mask_missing), other=np.nan )
     
-    
-    ###### for every predictand region you want to train on
-    
-    #NMME precip data
     hindcast_data_precip = hindcast_data_precip.sel(X=slice(predictor_train_extent['west'], predictor_train_extent['east']), Y=slice(predictor_train_extent['south'], predictor_train_extent['north']))
     forecast_data_precip = forecast_data_precip.sel(X=slice(predictor_train_extent['west'], predictor_train_extent['east']), Y=slice(predictor_train_extent['south'], predictor_train_extent['north']))
     
     #NMME sst data
-     hindcast_data_sst = hindcast_data_sst.sel(X=slice(predictor_train_extent['west'], predictor_train_extent['east']), Y=slice(predictor_train_extent['south'], predictor_train_extent['north']))
+    hindcast_data_sst = hindcast_data_sst.sel(X=slice(predictor_train_extent['west'], predictor_train_extent['east']), Y=slice(predictor_train_extent['south'], predictor_train_extent['north']))
     forecast_data_sst = forecast_data_sst.sel(X=slice(predictor_train_extent['west'], predictor_train_extent['east']), Y=slice(predictor_train_extent['south'], predictor_train_extent['north']))
     
+    ########### for every predictand region you want to train on
     for r, region in enumerate(regions):
         #expand the training area to help create more to train for smaller islands
         predictand_train_extent = {
@@ -510,9 +503,9 @@ for t, initial_month_name in enumerate(initial_month_names):
             sr_grocs_test.expand_dims({'M':model})
             sr_grocs.append(sr_grocs_test)
         sr_grocs = xr.concat(sr_grocs, dim = 'M')
-        
-        utt = cca_fcsts_prob_precip * sr_grocs.sel('M' = 'NMME CCA (Precip)')  + cca_fcsts_prob_sst * sr_grocs.sel('M' = 'NMME CCA (SST)') + elr_fcsts_prob * sr_grocs.sel('M' = 'NMME ELR') + epoelm_fcsts_prob * sr_grocs.sel('M' = 'NMME EPOELM')
-        btt = sr_grocs.sel('M' = 'NMME CCA (Precip)') + sr_grocs.sel('M' = 'NMME CCA (SST)') + sr_grocs.sel('M' = 'NMME ELR') + sr_grocs.sel('M' = 'NMME EPOELM')
+        print(sr_grocs)
+        utt = cca_fcsts_prob_precip * sr_grocs.sel(M = sr_grocs.M.isin('NMME CCA (Precip)'))  + cca_fcsts_prob_sst * sr_grocs.sel(M = sr_grocs.M.isin('NMME CCA (SST)')) + elr_fcsts_prob * sr_grocs.sel(M = sr_grocs.M.isin('NMME ELR')) + epoelm_fcsts_prob * sr_grocs.sel(M = sr_grocs.M.isin('NMME EPOELM'))
+        btt = sr_grocs.sel(M = sr_grocs.M.isin('NMME CCA (Precip)')) + sr_grocs.sel(M = sr_grocs.M.isin('NMME CCA (SST)')) + sr_grocs.sel(M = sr_grocs.M.isin('NMME ELR')) + sr_grocs.sel(M = sr_grocs.M.isin('NMME EPOELM'))
         pcons = (utt)/btt
         pcons.to_netcdf(os.path.join(ddir, 'consolidated_forecast' + region_names[r] + initial_month_name))
         
@@ -681,5 +674,5 @@ for t, initial_month_name in enumerate(initial_month_names):
     #                plt.close()
 eofPY
 
-$py gen_cca_and_eval.py
+$py gen_seas_cca_and_eval.py
 

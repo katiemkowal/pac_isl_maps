@@ -187,16 +187,14 @@ for t, initial_month_name in enumerate(initial_month_names):
         training_length = 'oneseas'
     obs_leads = xr.open_dataset(os.path.join(ddir, '_'.join([initial_month_name, training_length, obs_name, 'precip.nc'])))
 
-    ###### read in hindcast and forecast data
-    hindcast_data_precip = xr.open_dataset(os.path.join(ddir,
-    '_'.join([initial_month_name, training_length, 'NMME_hcst_precip.nc'])))
+########## read in hindcast and forecast data
+    hindcast_data_precip = xr.open_dataset(os.path.join(ddir, '_'.join([initial_month_name, training_length, 'NMME_hcst_precip.nc'])))
     forecast_data_precip = xr.open_dataset(os.path.join(ddir, '_'.join([initial_month_name, training_length, 'NMME_fcst_precip.nc'])))  
     
-    hindcast_data_sst = xr.open_dataset(os.path.join(ddir,
-    '_'.join([initial_month_name, training_length, 'NMME_hcst_sst.nc'])))
+    hindcast_data_sst = xr.open_dataset(os.path.join(ddir, '_'.join([initial_month_name, training_length, 'NMME_hcst_sst.nc'])))
     forecast_data_sst = xr.open_dataset(os.path.join(ddir, '_'.join([initial_month_name, training_length, 'NMME_fcst_sst.nc'])))  
     
-    ###### read in the ocean mask for the data
+########### read in the ocean mask for the data
     msk = xr.open_dataset('/cpc/africawrf/ebekele/projects/PREPARE_pacific/notebooks/masked/libs/pacific_mask.nc')
     mskk = msk.amask.expand_dims({'M':[0]})
     mskk = mskk.assign_coords({'lon': [i + 360 if i <= 0 else i for i in mskk.coords['lon'].values]}).sortby('lon').drop_duplicates('lon')
@@ -205,8 +203,7 @@ for t, initial_month_name in enumerate(initial_month_names):
     mask_missing = mskk.mean('T', skipna=False).mean('M', skipna=False)
     mask_missing = xr.ones_like(mask_missing).where(~np.isnan(mask_missing), other=np.nan )
     
-    
-    ###### for every predictand region you want to train on
+
     
     #NMME precip data
     hindcast_data_precip = hindcast_data_precip.sel(X=slice(predictor_train_extent['west'], predictor_train_extent['east']), Y=slice(predictor_train_extent['south'], predictor_train_extent['north']))
@@ -216,6 +213,7 @@ for t, initial_month_name in enumerate(initial_month_names):
      hindcast_data_sst = hindcast_data_sst.sel(X=slice(predictor_train_extent['west'], predictor_train_extent['east']), Y=slice(predictor_train_extent['south'], predictor_train_extent['north']))
     forecast_data_sst = forecast_data_sst.sel(X=slice(predictor_train_extent['west'], predictor_train_extent['east']), Y=slice(predictor_train_extent['south'], predictor_train_extent['north']))
     
+    ########### for every predictand region you want to train on
     for r, region in enumerate(regions):
         #expand the training area to help create more to train for smaller islands
         predictand_train_extent = {
