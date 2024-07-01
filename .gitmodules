@@ -1,3 +1,6 @@
 [submodule "drought_indices"]
 	path = drought_indices
 	url = git@github.com:luckylixu/drought_indices.git
+[submodule "example_data"]
+	path = example_data
+	url = git@github.com:luckylixu/example_data.git
