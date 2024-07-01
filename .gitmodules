@@ -1,0 +1,3 @@
+[submodule "drought_indices"]
+	path = drought_indices
+	url = git@github.com:luckylixu/drought_indices.git
