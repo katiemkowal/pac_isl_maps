@@ -1,3 +1,10 @@
+#!/bin/sh
+# CHOOSE YOUR CONDA ENVIRONMENT
+#py=/cpc/home/kkowal/.conda/envs/xcast_new/bin/python
+#py=/cpc/home/kkowal/.conda/envs/intdesk_train/bin/python
+py=/cpc/home/ebekele/.conda/envs/xcast_env/bin/python
+
+cat>gen_seas_cca_and_eval.py<<eofPY
 ################## LIBRARIES
 import xcast as xc 
 import xarray as xr 
@@ -717,3 +724,7 @@ for t, initial_month_name in enumerate(initial_month_names):
     #            for l, lead in enumerate(np.unique(cca_fcsts_prob.L)):
     #                im = xc.view_probabilistic(cca_fcsts_prob.isel(T=0, L=l).sel(X=slice(regions[r]['west'], regions[r]['east']),Y=slice(regions[r]['south'], regions[r]['north'])), cross_dateline=True, title= region_of_interest + ' CCA MME Probabalistic Forecast for ' + target_seas[l], savefig=os.path.join(fdir, '_'.join(['im' + initial_month_name, target_seas[l],region_of_interest,'CCA_forecast',obs_name + '.png'])))
     #                plt.close()
+eofPY
+
+$py gen_seas_cca_and_eval.py
+
