@@ -3,3 +3,4 @@ practical_notebooks/practical_figures/
 presentation_figures
 #*.nc
 *.tsv
+*.ipynb_checkpoints
