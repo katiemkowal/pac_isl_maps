@@ -1,4 +1,4 @@
-# import os
+import os
 # from io import BytesIO
 # import warnings
 # import io
@@ -31,6 +31,18 @@ def plot_original_image(image):
     fig, ax = plt.subplots()
     ax.imshow(image)
     ax.axis('off')  # Hide axis labels
+    plt.show()
+
+def save_image(image, name, folder):
+    if image.mode == 'P':
+        # Convert indexed image to RGB
+        image = image.convert('RGB')
+    
+    # Plot the image using Matplotlib
+    fig, ax = plt.subplots()
+    ax.imshow(image)
+    ax.axis('off')  # Hide axis labels
+    plt.savefig(os.path.join(folder, name + '.png'), bbox_inches = 'tight', pad_inches = 0)
     plt.show()
 
 # Define jitter function

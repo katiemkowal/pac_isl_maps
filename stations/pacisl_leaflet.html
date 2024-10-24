@@ -50,10 +50,12 @@
 </head>
 <body>
 
-    <h1 class = 'w3-center'>Pacific Islands Hazard Outlook Input Data</h1>
+    <h1 class = 'w3-center'>Pacific Islands Hazard Generation Tools </h1>
     <h2 class = 'w3-center'> CPC International Desk</h2>
     <div id="map" style="width: 95%; margin: auto; position: relative; outline: none;" class="leaflet-container leaflet-touch leaflet-fade-anom leaflet-grab leaflet-touch-drag leaflet-touch-zoom" tabindex="0"></div>
     <div class="leaflet-pane leaflet-map-pane" style='transform: translate3d(-262px, 546px, 0px);'></div>
+    <!-- Add a div below the map for the legend -->
+    <div id="legend-container" style="text-align: center; padding: 20px;"></div>
     <div 
     <div id="side-bar" class="col-nd-3">
 <!--         <button id='btnLocate' class='btn btn-primary btn-block'>Locate</button> -->
@@ -99,9 +101,11 @@
         var panAmount;
         var stationsLayerGroup;
         var layerlinks;
+        var legend;
+        var layerToLegend;
         
         $(document).ready(function(){
-        map = L.map('map').setView([-3, 170], 3); // Coordinates for Pacific Islands
+        map = L.map('map').setView([-3, 170], 4); // Coordinates for Pacific Islands
 
         // Add a tile layer to the map
         lyrOSM = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -121,54 +125,102 @@
         };
 
         // Define the bounds to limit the map's view
-        southWest = L.latLng(-28.31, 128.69887210140638); // Bottom-left corner
-        northEast = L.latLng(14.25, 207.3);   // Top-right corner
+        southWest = L.latLng(-21.9,132);//L.latLng(-28.31, 128.69887210140638); // Bottom-left corner
+        northEast = L.latLng(9,205)//L.latLng(14.25, 207.3);   // Top-right corner
         bounds = L.latLngBounds(southWest, northEast);
             
-        cdas_southWest = L.latLng(-25.95, 129.4); // Bottom-left corner
-        cdas_northEast = L.latLng(12.4, 206.4);   // Top-right corner
+        cdas_southWest = L.latLng(-21.8, 132);// L.latLng(-25.95, 129.4); // Bottom-left corner
+        cdas_northEast = L.latLng(9,205);//L.latLng(12.4, 206.4);   // Top-right corner
         cdas_bounds = L.latLngBounds(cdas_southWest, cdas_northEast);
             
-        gefs_southWest = L.latLng(-28.1, 126); // Bottom-left corner
-        gefs_northEast = L.latLng(15.9, 206.5);   // Top-right corner
+        gefs_southWest = L.latLng(-21.8,132.2);//L.latLng(-28.1, 126); // Bottom-left corner
+        gefs_northEast = L.latLng(9,205);//L.latLng(15.9, 206.5);   // Top-right corner
         gefs_bounds = L.latLngBounds(gefs_southWest, gefs_northEast); 
             
-        gefst_southWest = L.latLng(-31.3, 126.1); // Bottom-left corner
-        gefst_northEast = L.latLng(12.5, 208);   // Top-right corner
+        gefst_southWest = L.latLng(-21.8,132.2);//L.latLng(-31.3, 126.1); // Bottom-left corner
+        gefst_northEast = L.latLng(9,205);//L.latLng(12.5, 208);   // Top-right corner
         gefst_bounds = L.latLngBounds(gefst_southWest, gefst_northEast); 
             
-        nmme_southWest = L.latLng(-28, 128.4); 
-        nmme_northEast = L.latLng(14.5, 205.8);  
+        nmme_southWest = L.latLng(-21.8, 132.2); 
+        nmme_northEast = L.latLng(9, 205);  
         nmme_bounds = L.latLngBounds(nmme_southWest, nmme_northEast);
             
-        sri_southWest = L.latLng(-29.55, 128.25); 
-        sri_northEast = L.latLng(15.8, 207.4);  
+        sri_southWest = L.latLng(-21.9, 132);//L.latLng(-29.55, 128.25); 
+        sri_northEast = L.latLng(9,205);//L.latLng(15.8, 207.4);  
         sri_bounds = L.latLngBounds(sri_southWest, sri_northEast);
             
-        spi_southWest = L.latLng(-30, 127.5); 
-        spi_northEast = L.latLng(14.3, 206);   
+        spi_southWest = L.latLng(-22,132);//L.latLng(-30, 127.5); 
+        spi_northEast = L.latLng(9.8,205);//L.latLng(14.3, 206);   
         spi_bounds = L.latLngBounds(spi_southWest, spi_northEast);
             
-        spei_southWest = L.latLng(-29.3, 128.6);
-        spei_northEast = L.latLng(13.5, 205);   
+        spei_southWest = L.latLng(-22, 132);// L.latLng(-29.3, 128.6);
+        spei_northEast = L.latLng(9.8, 205);//L.latLng(13.5, 205);   
         spei_bounds = L.latLngBounds(spei_southWest, spei_northEast);
+
+        spei1mo_southWest = L.latLng(-22, 133);// L.latLng(-29.3, 128.6);
+        spei1mo_northEast = L.latLng(8.9, 205);//L.latLng(13.5, 205);   
+        spei1mo_bounds = L.latLngBounds(spei1mo_southWest, spei1mo_northEast);
             
-        spifcst_southWest = L.latLng(-29.6, 128.3); 
-        spifcst_northEast = L.latLng(15.6, 207.5);   
+        spifcst_southWest = L.latLng(-21.8, 132.2);//L.latLng(-29.6, 128.3); 
+        spifcst_northEast = L.latLng(9,205);//L.latLng(15.6, 207.5);   
         spifcst_bounds = L.latLngBounds(spifcst_southWest, spifcst_northEast);
             
-        sst_southWest = L.latLng(-54.5, 87); 
-        sst_northEast = L.latLng(56.4, 303);   
+        sst_southWest = L.latLng(-42, 100);//L.latLng(-46,100);//L.latLng(-54.5, 87); 
+        sst_northEast = L.latLng(41, 281);//L.latLng(46,281);//L.latLng(56.4, 303);   
         sst_bounds = L.latLngBounds(sst_southWest, sst_northEast);
-            
-        // mjo_southWest = L.latLng(-75, -10); 
-        // mjo_northEast = L.latLng(65, 360);   
-        // mjo_bounds = L.latLngBounds(mjo_southWest, mjo_northEast);
 
         // Set max bounds
         // map.setMaxBounds(mjo_bounds);
 
         layerlinks = {
+            'Monitor Tools': {
+                'OISST SST 7-Day Anomaly': 'https://github.ncep.noaa.gov/katie-kowal/pac_islands/blob/main/stations/images/oisst_data.png?raw=true',
+                'OISST SST 7-Day Anomaly Difference': 'https://github.ncep.noaa.gov/katie-kowal/pac_islands/blob/main/stations/images/oisst_diff_data.png?raw=true',
+                'CMORPH Time Series Points': 'https://www.cpc.ncep.noaa.gov/products/international/zz_CP_Islands/zz_CMORPH_BLD_2nd/CMORPH_BLD_Islands_180day.shtml',
+                'CMORPH 90 Day Precip Anomaly': 'https://github.ncep.noaa.gov/katie-kowal/pac_islands/blob/main/stations/images/cmorph90anom_data.png?raw=true',
+                'CMORPH 90 Day Precip Percent': 'https://github.ncep.noaa.gov/katie-kowal/pac_islands/blob/main/stations/images/cmorph90percent_data.png?raw=true',
+                'CMORPH 3-month SPI': 'https://github.ncep.noaa.gov/katie-kowal/pac_islands/blob/main/stations/images/cmorph3mospi_data.png?raw=true',
+                'CMORPH 3-month SPEI': 'https://github.ncep.noaa.gov/katie-kowal/pac_islands/blob/main/stations/images/cmorph3mospi_data.png?raw=true',
+                'CMORPH 30 Day Precip Anomaly': 'https://github.ncep.noaa.gov/katie-kowal/pac_islands/blob/main/stations/images/cmorph30panom_data.png?raw=true',
+                'CMORPH 30 Day Precip Percent': 'https://github.ncep.noaa.gov/katie-kowal/pac_islands/blob/main/stations/images/cmorph30ppercent_data.png?raw=true',
+                'CMORPH 1-month SPI': 'https://github.ncep.noaa.gov/katie-kowal/pac_islands/blob/main/stations/images/cmorph1mospi_data.png?raw=true',
+                'CMORPH 1-month SPEI': 'https://github.ncep.noaa.gov/katie-kowal/pac_islands/blob/main/stations/images/cmorph1mospei_data.png?raw=true',
+                'Leaky Bucket Model 1-month Surface Runoff Index': 'https://github.ncep.noaa.gov/katie-kowal/pac_islands/blob/main/stations/images/lbm1mosri_data.png?raw=true',
+                'CMORPH 7 Day Precip Total': 'https://github.ncep.noaa.gov/katie-kowal/pac_islands/blob/main/stations/images/cmorph7ptotal_data.png?raw=true',
+                'CMORPH 7 Day Precip Anomaly': 'https://github.ncep.noaa.gov/katie-kowal/pac_islands/blob/main/stations/images/cmorph7panom_data.png?raw=true',
+                'CMORPH 7 Day SPI': 'https://github.ncep.noaa.gov/katie-kowal/pac_islands/blob/main/stations/images/cmorph7spi_data.png?raw=true',
+                'CDAS 7 Day Tmax':  'https://github.ncep.noaa.gov/katie-kowal/pac_islands/blob/main/stations/images/cdas7tmax_data.png?raw=true',
+                'CDAS 7 Day Tmax Anomaly': 'https://github.ncep.noaa.gov/katie-kowal/pac_islands/blob/main/stations/images/cdas7tanom_data.png?raw=true',
+                'VHI 1km': 'https://www.ncei.noaa.gov/pub/data/nidis/tile/noaa-vhi-1km/{z}/{x}/{y}.png',
+                'NASA ESI': 'https://www.ncei.noaa.gov/pub/data/nidis/tile/nasa-esi-5km-4wk/{z}/{x}/{y}.png'
+            },
+            'Forecast Tools': {
+                'GEFS Week 1 Precip Total Forecast':  'https://github.ncep.noaa.gov/katie-kowal/pac_islands/blob/main/stations/images/gefswk1ptotal_data.png?raw=true',
+                'GEFS Week 1 Precip Anomaly Forecast': 'https://github.ncep.noaa.gov/katie-kowal/pac_islands/blob/main/stations/images/gefswk1panom_data.png?raw=true',
+                'GEFS Week 1 Precip Exceedance Prob (50 mm)': 'https://github.ncep.noaa.gov/katie-kowal/pac_islands/blob/main/stations/images/gefswk1poe50_data.png?raw=true',
+                'GEFS Week 1 Precip Exceedance Prob (100 mm)': 'https://github.ncep.noaa.gov/katie-kowal/pac_islands/blob/main/stations/images/gefswk1poe100_data.png?raw=true',
+                'GEFS Week 1 Raw Precip Tercile Prob': 'https://github.ncep.noaa.gov/katie-kowal/pac_islands/blob/main/stations/images/gefswk1rawter_data.png?raw=true',
+                'GEFS Week 1 Consolidated Precip Tercile Prob': 'https://github.ncep.noaa.gov/katie-kowal/pac_islands/blob/main/stations/images/gefswk1conster_data.png?raw=true',
+                'GEFS Week 1 Temp Total Forecast': 'https://github.ncep.noaa.gov/katie-kowal/pac_islands/blob/main/stations/images/gefswk1ttotal_data.png?raw=true',
+                'GEFS Week 1 Temp Anomaly Forecast': 'https://github.ncep.noaa.gov/katie-kowal/pac_islands/blob/main/stations/images/gefswk1tanom_data.png?raw=true',
+                'Leaky Bucket Model Evaporative Stress Index Week 1 Forecast': 'https://github.ncep.noaa.gov/katie-kowal/pac_islands/blob/main/stations/images/lbmwk1esi_data.png?raw=true',
+                'Leaky Bucket Model Soil Moisture Percentile Week 1 Forecast':'https://github.ncep.noaa.gov/katie-kowal/pac_islands/blob/main/stations/images/lbmwk1smp_data.png?raw=true',
+                'Leaky Bucket Model SPI Week 1 Forecast': 'https://github.ncep.noaa.gov/katie-kowal/pac_islands/blob/main/stations/images/lbmwk1spi_data.png?raw=true',
+                'GEFS Week 2 Precip Total':'https://github.ncep.noaa.gov/katie-kowal/pac_islands/blob/main/stations/images/gefswk2ptotal_data.png?raw=true',
+                'GEFS Week 2 Precip Anomaly': 'https://github.ncep.noaa.gov/katie-kowal/pac_islands/blob/main/stations/images/gefswk2panom_data.png?raw=true',
+                'GEFS Week 2 Temp Total Forecast': 'https://github.ncep.noaa.gov/katie-kowal/pac_islands/blob/main/stations/images/gefswk2ttotal_data.png?raw=true',
+                'GEFS Week 2 Temp Anomaly Forecast': 'https://github.ncep.noaa.gov/katie-kowal/pac_islands/blob/main/stations/images/gefswk2tanom_data.png?raw=true',
+                'GEFS Week 2 Precip Exceedance Prob (50 mm)': 'https://github.ncep.noaa.gov/katie-kowal/pac_islands/blob/main/stations/images/gefswk2poe50_data.png?raw=true',
+                'GEFS Week 2 Precip Exceedance Prob (100 mm)': 'https://github.ncep.noaa.gov/katie-kowal/pac_islands/blob/main/stations/images/gefswk2poe100_data.png?raw=true',
+                'GEFS Week 2 Raw Precip Tercile Prob': 'https://github.ncep.noaa.gov/katie-kowal/pac_islands/blob/main/stations/images/gefswk2rawter_data.png?raw=true',
+                'GEFS Week 2 Consolidated Precip Tercile Prob': 'https://github.ncep.noaa.gov/katie-kowal/pac_islands/blob/main/stations/images/gefswk2conster_data.png?raw=true',
+                'NMME 1 Month Precip Anomaly Forecast': 'https://github.ncep.noaa.gov/katie-kowal/pac_islands/blob/main/stations/images/nmme1mopanom_data.png?raw=true',
+                'NMME 1 Month SPI Forecast': 'https://github.ncep.noaa.gov/katie-kowal/pac_islands/blob/main/stations/images/nmme1mospi_data.png?raw=true'
+            }
+        };
+
+
+        htmllinks = {
             'Monitor Tools': {
                 'OISST SST 7-Day Anomaly': 'https://www.cpc.ncep.noaa.gov/products/international/oisst/oisst_7day_pac_anom.gif',
                 'OISST SST 7-Day Anomaly Difference': 'https://www.cpc.ncep.noaa.gov/products/international/oisst/oisst_7day_pac_diff.gif',
@@ -183,8 +235,6 @@
                 'CMORPH 1-month SPEI': 'https://www.cpc.ncep.noaa.gov/products/international/dm/daily/Pacific_CMORPH_SPEI_1mo.png',
                 'Leaky Bucket Model 1-month Surface Runoff Index': 'https://www.cpc.ncep.noaa.gov/products/people/lxu/leaky/smp/SRI1_PacificIslands.png',
                 'CMORPH 7 Day Precip Total': 'https://www.cpc.ncep.noaa.gov/products/international/drought/precip/img/Total_7day_PacificIslands.png',
-// 'https://github.ncep.noaa.gov/katie-kowal/pac_isl_maps/blob/main/weeklycmorph.png?raw=true',   
-               // https://github.com/katiemkowal/pac_isl_maps/blob/main/weeklycmorph.png?raw=true
                 'CMORPH 7 Day Precip Anomaly': 'https://www.cpc.ncep.noaa.gov/products/international/drought/precip/img/Anom_7day_PacificIslands.png',
                 'CMORPH 7 Day SPI': 'https://www.cpc.ncep.noaa.gov/products/international/dm/daily/Pacific_CMORPH_SPI_1wk.png',
                 'CDAS 7 Day Tmax':  'https://ftp.cpc.ncep.noaa.gov/rshukla/CDAS/CDAS_7dy_Tmax_Ave_CPI.png',
@@ -220,12 +270,6 @@
         str180day = 'https://www.cpc.ncep.noaa.gov/products/international/zz_CP_Islands/zz_CMORPH_ADJ_EOD/cmorph_180day_ptts_';
         str90day = 'https://www.cpc.ncep.noaa.gov/products/international/zz_CP_Islands/zz_CMORPH_ADJ_EOD/cmorph_90day_ptts_';
         str30day = 'https://www.cpc.ncep.noaa.gov/products/international/zz_CP_Islands/zz_CMORPH_ADJ_EOD/cmorph_30day_ptts_';
-
-        // mjo_8day = 'https://www.cpc.ncep.noaa.gov/products/precip/CWlink/vpotgifs/am_ir_monthly_8.gif';
-        // mjo_3day = 'https://www.cpc.ncep.noaa.gov/products/precip/CWlink/vpotgifs/am_ir_monthly_1.gif'
-        // prcpanom90 = "http://vm-cprk-cpcwork4.ncep.noaa.gov:8888/files/stations/images/weeklycmorph.png"
-        // lyrmjo8 = L.imageOverlay(mjo_8day, mjo_bounds, {opacity:0.5}).addTo(map);
-        // lyrmjo3 = L.imageOverlay(mjo_3day, mjo_bounds, {opacity:0.5}).addTo(map);
             
         lyrsst7dayanom = L.imageOverlay(layerlinks['Monitor Tools']['OISST SST 7-Day Anomaly'], sst_bounds, {opacity:0.5});
         lyrsst7dayanomdiff = L.imageOverlay(layerlinks['Monitor Tools']['OISST SST 7-Day Anomaly Difference'], sst_bounds, {opacity:0.5});
@@ -236,12 +280,12 @@
         lyrprcpanom30 = L.imageOverlay(layerlinks['Monitor Tools']['CMORPH 30 Day Precip Anomaly'], bounds, {opacity:0.5});
         lyrprcpper30 = L.imageOverlay(layerlinks['Monitor Tools']['CMORPH 30 Day Precip Percent'], bounds, {opacity:0.5});
         lyrspi1mo = L.imageOverlay(layerlinks['Monitor Tools']['CMORPH 1-month SPI'], spi_bounds, {opacity:0.5});
-        lyrspei1mo = L.imageOverlay(layerlinks['Monitor Tools']['CMORPH 1-month SPEI'], spei_bounds, {opacity:0.5});
+        lyrspei1mo = L.imageOverlay(layerlinks['Monitor Tools']['CMORPH 1-month SPEI'], spei1mo_bounds, {opacity:0.5});
         lyrprcptotal7 = L.imageOverlay(layerlinks['Monitor Tools']['CMORPH 7 Day Precip Total'], bounds, {opacity:0.5});
         lyrprcpanom7 = L.imageOverlay(layerlinks['Monitor Tools']['CMORPH 7 Day Precip Anomaly'], bounds, {opacity:0.5});
         lyrsri1mo = L.imageOverlay(layerlinks['Monitor Tools']['Leaky Bucket Model 1-month Surface Runoff Index'], sri_bounds, {opacity:0.5});
         lyrspi1wk = L.imageOverlay(layerlinks['Monitor Tools']['CMORPH 7 Day SPI'], spi_bounds, {opacity:0.5});
-        lyrfcst_smpwk1 = L.imageOverlay(layerlinks['Forecast Tools']['Leaky Bucket Model Soil Moisture Percentile Week 1 Forecast'], spifcst_bounds, {opacity:0.5}).addTo(map);
+        lyrfcst_smpwk1 = L.imageOverlay(layerlinks['Forecast Tools']['Leaky Bucket Model Soil Moisture Percentile Week 1 Forecast'], spifcst_bounds, {opacity:0.5});
         lyrfcst_spiwk1 = L.imageOverlay(layerlinks['Forecast Tools']['Leaky Bucket Model SPI Week 1 Forecast'], spifcst_bounds, {opacity:0.5});
         lyrfcst_esiwk1 = L.imageOverlay(layerlinks['Forecast Tools']['Leaky Bucket Model Evaporative Stress Index Week 1 Forecast'], spifcst_bounds, {opacity:0.5});  
         lyrtmax7 = L.imageOverlay(layerlinks['Monitor Tools']['CDAS 7 Day Tmax'], cdas_bounds, {opacity:0.5});
@@ -395,30 +439,6 @@
             });
             
             stationsLayerGroup.addLayer(marker);
-
-//              // Open the popup when the marker is clicked, checking if pan is needed
-//             marker.on('click', function(e) {
-//                 this.openPopup();
-
-//                 // Delay the check to allow the popup to be rendered
-//                 setTimeout(() => {
-//                     popup = this.getPopup();
-//                     popupLatLng = this.getLatLng();
-//                     popupHeight = popup._container.offsetHeight; // Get the popup height
-
-//                     // Calculate the top position of the popup
-//                     topPosition = map.latLngToLayerPoint(popupLatLng).y - popupHeight;
-
-//                     // If the top position is less than the top of the map, pan down
-//                     if (topPosition < 0) {
-//                         // First pan to the marker's coordinates
-//                         map.setView(marker.getLatLng(), map.getZoom(), { animate: true });
-//                         // Calculate how much to pan
-//                         panAmount = Math.abs(popupHeight)/10; // Amount to pan down
-//                         map.panBy([0, -panAmount], { animate: true }); // Pan down
-//                     }
-//                 }, 50); // Delay slightly to ensure the popup is rendered
-//             });
         });
         // Adjust popup size dynamically when zoom changes
         map.on('zoomend', function() {
@@ -450,56 +470,184 @@
         });
             
         objOverlays_monitor = {
-            [`<a href="${layerlinks['Monitor Tools']['OISST SST 7-Day Anomaly']}" target="_blank">OISST SST 7-Day Anomaly</a>`] : lyrsst7dayanom,
-            [`<a href="${layerlinks['Monitor Tools']['OISST SST 7-Day Anomaly Difference']}" target="_blank">OISST SST 7-Day Anomaly Difference</a>`] : lyrsst7dayanomdiff,
-            [`<a href="${layerlinks['Monitor Tools']['CMORPH Time Series Points']}" target="_blank">CMORPH Time Series Points</a>`] : stationsLayerGroup,
-            [`<a href="${layerlinks['Monitor Tools']['CMORPH 90 Day Precip Anomaly']}" target="_blank">CMORPH 90 Day Precip Anomaly</a>`] : lyrprcpanom90,
-            [`<a href="${layerlinks['Monitor Tools']['CMORPH 90 Day Precip Percent']}" target="_blank">CMORPH 90 Day Precip Percent</a>`] : lyrprcpper90,
-            [`<a href="${layerlinks['Monitor Tools']['CMORPH 3-month SPI']}" target="_blank">CMORPH 3-month SPI</a>`] : lyrspi3mo,
-            [`<a href="${layerlinks['Monitor Tools']['CMORPH 3-month SPEI']}" target="_blank">CMORPH 3-month SPEI</a>`] : lyrspei3mo,
-            [`<a href="${layerlinks['Monitor Tools']['CMORPH 30 Day Precip Anomaly']}" target="_blank">CMORPH 30 Day Precip Anomaly</a>`] : lyrprcpanom30,
-            [`<a href="${layerlinks['Monitor Tools']['CMORPH 30 Day Precip Percent']}" target="_blank">CMORPH 30 Day Precip Percent</a>`] : lyrprcpper30,
-            [`<a href="${layerlinks['Monitor Tools']['CMORPH 1-month SPI']}" target="_blank">CMORPH 1-month SPI</a>`] : lyrspi1mo,
-            [`<a href="${layerlinks['Monitor Tools']['CMORPH 1-month SPEI']}" target="_blank">CMORPH 1-month SPEI</a>`] : lyrspei1mo,
-            [`<a href="${layerlinks['Monitor Tools']['Leaky Bucket Model 1-month Surface Runoff Index']}" target="_blank">Leaky Bucket Model 1-month Surface Runoff Index</a>`] : lyrsri1mo,
-            [`<a href="${layerlinks['Monitor Tools']['CMORPH 7 Day Precip Total']}" target="_blank">CMORPH 7 Day Precip Total</a>`] : lyrprcptotal7,
-            [`<a href="${layerlinks['Monitor Tools']['CMORPH 7 Day Precip Anomaly']}" target="_blank">CMORPH 7 Day Precip Anomaly</a>`] : lyrprcpanom7,
-            [`<a href="${layerlinks['Monitor Tools']['CMORPH 7 Day SPI']}" target="_blank">CMORPH 7 Day SPI</a>`] : lyrspi1wk,
-            [`<a href="${layerlinks['Monitor Tools']['CDAS 7 Day Tmax']}" target="_blank">CDAS 7 Day Tmax</a>`] : lyrtmax7,
-            [`<a href="${layerlinks['Monitor Tools']['CDAS 7 Day Tmax Anomaly']}" target="_blank">CDAS 7 Day Tmax Anomaly</a>`] : lyrtanom7,
-            [`<a href="${layerlinks['Monitor Tools']['VHI 1km']}" target="_blank">NCEI VHI 1km</a>`] : lyrvhi,
-            [`<a href="${layerlinks['Monitor Tools']['NASA ESI']}" target="_blank">NASA 1-month Evaporative Stress Index 5km</a>`] : lyresi
+            [`<a href="${htmllinks['Monitor Tools']['OISST SST 7-Day Anomaly']}" target="_blank">OISST SST 7-Day Anomaly</a>`] : lyrsst7dayanom,
+            [`<a href="${htmllinks['Monitor Tools']['OISST SST 7-Day Anomaly Difference']}" target="_blank">OISST SST 7-Day Anomaly Difference</a>`] : lyrsst7dayanomdiff,
+            [`<a href="${htmllinks['Monitor Tools']['CMORPH Time Series Points']}" target="_blank">CMORPH Time Series Points</a>`] : stationsLayerGroup,
+            [`<a href="${htmllinks['Monitor Tools']['CMORPH 90 Day Precip Anomaly']}" target="_blank">CMORPH 90 Day Precip Anomaly</a>`] : lyrprcpanom90,
+            [`<a href="${htmllinks['Monitor Tools']['CMORPH 90 Day Precip Percent']}" target="_blank">CMORPH 90 Day Precip Percent</a>`] : lyrprcpper90,
+            [`<a href="${htmllinks['Monitor Tools']['CMORPH 3-month SPI']}" target="_blank">CMORPH 3-month SPI</a>`] : lyrspi3mo,
+            [`<a href="${htmllinks['Monitor Tools']['CMORPH 3-month SPEI']}" target="_blank">CMORPH 3-month SPEI</a>`] : lyrspei3mo,
+            [`<a href="${htmllinks['Monitor Tools']['CMORPH 30 Day Precip Anomaly']}" target="_blank">CMORPH 30 Day Precip Anomaly</a>`] : lyrprcpanom30,
+            [`<a href="${htmllinks['Monitor Tools']['CMORPH 30 Day Precip Percent']}" target="_blank">CMORPH 30 Day Precip Percent</a>`] : lyrprcpper30,
+            [`<a href="${htmllinks['Monitor Tools']['CMORPH 1-month SPI']}" target="_blank">CMORPH 1-month SPI</a>`] : lyrspi1mo,
+            [`<a href="${htmllinks['Monitor Tools']['CMORPH 1-month SPEI']}" target="_blank">CMORPH 1-month SPEI</a>`] : lyrspei1mo,
+            [`<a href="${htmllinks['Monitor Tools']['Leaky Bucket Model 1-month Surface Runoff Index']}" target="_blank">Leaky Bucket Model 1-month Surface Runoff Index</a>`] : lyrsri1mo,
+            [`<a href="${htmllinks['Monitor Tools']['CMORPH 7 Day Precip Total']}" target="_blank">CMORPH 7 Day Precip Total</a>`] : lyrprcptotal7,
+            [`<a href="${htmllinks['Monitor Tools']['CMORPH 7 Day Precip Anomaly']}" target="_blank">CMORPH 7 Day Precip Anomaly</a>`] : lyrprcpanom7,
+            [`<a href="${htmllinks['Monitor Tools']['CMORPH 7 Day SPI']}" target="_blank">CMORPH 7 Day SPI</a>`] : lyrspi1wk,
+            [`<a href="${htmllinks['Monitor Tools']['CDAS 7 Day Tmax']}" target="_blank">CDAS 7 Day Tmax</a>`] : lyrtmax7,
+            [`<a href="${htmllinks['Monitor Tools']['CDAS 7 Day Tmax Anomaly']}" target="_blank">CDAS 7 Day Tmax Anomaly</a>`] : lyrtanom7,
+            [`<a href="${htmllinks['Monitor Tools']['VHI 1km']}" target="_blank">NCEI VHI 1km</a>`] : lyrvhi,
+            [`<a href="${htmllinks['Monitor Tools']['NASA ESI']}" target="_blank">NASA 1-month Evaporative Stress Index 5km</a>`] : lyresi
         };
             
         objOverlays_fcst = {
-            [`<a href="${layerlinks['Forecast Tools']['GEFS Week 1 Precip Total Forecast']}" target="_blank">GEFS Week 1 Precip Total Forecast</a>`]: lyrfcst_gefswk1ptotal,
-            [`<a href="${layerlinks['Forecast Tools']['GEFS Week 1 Precip Anomaly Forecast']}" target="_blank">GEFS Week 1 Precip Anomaly Forecast</a>`]: lyrfcst_gefswk1panom,
-            [`<a href="${layerlinks['Forecast Tools']['GEFS Week 1 Precip Exceedance Prob (50 mm)']}" target="_blank">GEFS Week 1 Precip Exceedance Prob (50 mm)</a>`]: lyrfcst_gefswk1poe50,
-            [`<a href="${layerlinks['Forecast Tools']['GEFS Week 1 Precip Exceedance Prob (100 mm)']}" target="_blank">GEFS Week 1 Precip Exceedance Prob (100 mm)</a>`]: lyrfcst_gefswk1poe100,
-            [`<a href="${layerlinks['Forecast Tools']['GEFS Week 1 Raw Precip Tercile Prob']}" target="_blank">GEFS Week 1 Raw Precip Tercile Pro</a>`]: lyrfcst_gefswk1traw,
-            [`<a href="${layerlinks['Forecast Tools']['GEFS Week 1 Consolidated Precip Tercile Prob']}" target="_blank">GEFS Week 1 Consolidated Precip Tercile Prob</a>`]: lyrfcst_gefswk1tcons,
-            [`<a href="${layerlinks['Forecast Tools']['GEFS Week 1 Temp Total Forecast']}" target="_blank">GEFS Week 1 Temp Total Forecast</a>`]: lyrfcst_gefswk1ttotal,
-            [`<a href="${layerlinks['Forecast Tools']['GEFS Week 1 Temp Anomaly Forecast']}" target="_blank">GEFS Week 1 Temp Anomaly Forecast</a>`]: lyrfcst_gefswk1tanom,
-            [`<a href="${layerlinks['Forecast Tools']['Leaky Bucket Model Evaporative Stress Index Week 1 Forecast']}" target="_blank">Leaky Bucket Model Evaporative Stress Index Week 1 Forecast</a>`]: lyrfcst_esiwk1,
-            [`<a href="${layerlinks['Forecast Tools']['Leaky Bucket Model Soil Moisture Percentile Week 1 Forecast']}" target="_blank">Leaky Bucket Model Soil Moisture Percentile Week 1 Forecast</a>`]: lyrfcst_smpwk1,
-            [`<a href="${layerlinks['Forecast Tools']['Leaky Bucket Model SPI Week 1 Forecast']}" target="_blank">Leaky Bucket Model SPI Week 1 Forecast</a>`]: lyrfcst_spiwk1,
-            [`<a href="${layerlinks['Forecast Tools']['GEFS Week 2 Precip Total']}" target="_blank">GEFS Week 2 Precip Total</a>`]: lyrfcst_gefswk2ptotal,
-            [`<a href="${layerlinks['Forecast Tools']['GEFS Week 2 Precip Anomaly']}" target="_blank">GEFS Week 2 Precip Anomaly</a>`]: lyrfcst_gefswk2panom,
-            [`<a href="${layerlinks['Forecast Tools']['GEFS Week 2 Temp Total Forecast']}" target="_blank">GEFS Week 2 Temp Total Forecast</a>`]: lyrfcst_gefswk2ttotal,
-            [`<a href="${layerlinks['Forecast Tools']['GEFS Week 2 Temp Anomaly Forecast']}" target="_blank">GEFS Week 2 Temp Anomaly Forecast</a>`]: lyrfcst_gefswk2tanom,
-            [`<a href="${layerlinks['Forecast Tools']['GEFS Week 2 Precip Exceedance Prob (50 mm)']}" target="_blank">GEFS Week 2 Precip Exceedance Prob (50 mm)</a>`]: lyrfcst_gefswk2poe50,
-            [`<a href="${layerlinks['Forecast Tools']['GEFS Week 2 Precip Exceedance Prob (100 mm)']}" target="_blank">GEFS Week 2 Precip Exceedance Prob (100 mm)</a>`]: lyrfcst_gefswk2poe100,
-            [`<a href="${layerlinks['Forecast Tools']['GEFS Week 2 Raw Precip Tercile Prob']}" target="_blank">GEFS Week 2 Raw Precip Tercile Prob</a>`]: lyrfcst_gefswk2traw,
-            [`<a href="${layerlinks['Forecast Tools']['GEFS Week 2 Consolidated Precip Tercile Prob']}" target="_blank">GEFS Week 2 Consolidated Precip Tercile Prob</a>`]: lyrfcst_gefswk2tcons,
-            [`<a href="${layerlinks['Forecast Tools']['NMME 1 Month Precip Anomaly Forecast']}" target="_blank">NMME 1 Month Precip Anomaly Forecast</a>`]: lyrfcst_NMME1mopanom,
-            [`<a href="${layerlinks['Forecast Tools']['NMME 1 Month SPI Forecast']}" target="_blank">NMME 1 Month SPI Forecast</a>`]: lyrfcst_NMME1mospi
+            [`<a href="${htmllinks['Forecast Tools']['GEFS Week 1 Precip Total Forecast']}" target="_blank">GEFS Week 1 Precip Total Forecast</a>`]: lyrfcst_gefswk1ptotal,
+            [`<a href="${htmllinks['Forecast Tools']['GEFS Week 1 Precip Anomaly Forecast']}" target="_blank">GEFS Week 1 Precip Anomaly Forecast</a>`]: lyrfcst_gefswk1panom,
+            [`<a href="${htmllinks['Forecast Tools']['GEFS Week 1 Precip Exceedance Prob (50 mm)']}" target="_blank">GEFS Week 1 Precip Exceedance Prob (50 mm)</a>`]: lyrfcst_gefswk1poe50,
+            [`<a href="${htmllinks['Forecast Tools']['GEFS Week 1 Precip Exceedance Prob (100 mm)']}" target="_blank">GEFS Week 1 Precip Exceedance Prob (100 mm)</a>`]: lyrfcst_gefswk1poe100,
+            [`<a href="${htmllinks['Forecast Tools']['GEFS Week 1 Raw Precip Tercile Prob']}" target="_blank">GEFS Week 1 Raw Precip Tercile Pro</a>`]: lyrfcst_gefswk1traw,
+            [`<a href="${htmllinks['Forecast Tools']['GEFS Week 1 Consolidated Precip Tercile Prob']}" target="_blank">GEFS Week 1 Consolidated Precip Tercile Prob</a>`]: lyrfcst_gefswk1tcons,
+            [`<a href="${htmllinks['Forecast Tools']['GEFS Week 1 Temp Total Forecast']}" target="_blank">GEFS Week 1 Temp Total Forecast</a>`]: lyrfcst_gefswk1ttotal,
+            [`<a href="${htmllinks['Forecast Tools']['GEFS Week 1 Temp Anomaly Forecast']}" target="_blank">GEFS Week 1 Temp Anomaly Forecast</a>`]: lyrfcst_gefswk1tanom,
+            [`<a href="${htmllinks['Forecast Tools']['Leaky Bucket Model Evaporative Stress Index Week 1 Forecast']}" target="_blank">Leaky Bucket Model Evaporative Stress Index Week 1 Forecast</a>`]: lyrfcst_esiwk1,
+            [`<a href="${htmllinks['Forecast Tools']['Leaky Bucket Model Soil Moisture Percentile Week 1 Forecast']}" target="_blank">Leaky Bucket Model Soil Moisture Percentile Week 1 Forecast</a>`]: lyrfcst_smpwk1,
+            [`<a href="${htmllinks['Forecast Tools']['Leaky Bucket Model SPI Week 1 Forecast']}" target="_blank">Leaky Bucket Model SPI Week 1 Forecast</a>`]: lyrfcst_spiwk1,
+            [`<a href="${htmllinks['Forecast Tools']['GEFS Week 2 Precip Total']}" target="_blank">GEFS Week 2 Precip Total</a>`]: lyrfcst_gefswk2ptotal,
+            [`<a href="${htmllinks['Forecast Tools']['GEFS Week 2 Precip Anomaly']}" target="_blank">GEFS Week 2 Precip Anomaly</a>`]: lyrfcst_gefswk2panom,
+            [`<a href="${htmllinks['Forecast Tools']['GEFS Week 2 Temp Total Forecast']}" target="_blank">GEFS Week 2 Temp Total Forecast</a>`]: lyrfcst_gefswk2ttotal,
+            [`<a href="${htmllinks['Forecast Tools']['GEFS Week 2 Temp Anomaly Forecast']}" target="_blank">GEFS Week 2 Temp Anomaly Forecast</a>`]: lyrfcst_gefswk2tanom,
+            [`<a href="${htmllinks['Forecast Tools']['GEFS Week 2 Precip Exceedance Prob (50 mm)']}" target="_blank">GEFS Week 2 Precip Exceedance Prob (50 mm)</a>`]: lyrfcst_gefswk2poe50,
+            [`<a href="${htmllinks['Forecast Tools']['GEFS Week 2 Precip Exceedance Prob (100 mm)']}" target="_blank">GEFS Week 2 Precip Exceedance Prob (100 mm)</a>`]: lyrfcst_gefswk2poe100,
+            [`<a href="${htmllinks['Forecast Tools']['GEFS Week 2 Raw Precip Tercile Prob']}" target="_blank">GEFS Week 2 Raw Precip Tercile Prob</a>`]: lyrfcst_gefswk2traw,
+            [`<a href="${htmllinks['Forecast Tools']['GEFS Week 2 Consolidated Precip Tercile Prob']}" target="_blank">GEFS Week 2 Consolidated Precip Tercile Prob</a>`]: lyrfcst_gefswk2tcons,
+            [`<a href="${htmllinks['Forecast Tools']['NMME 1 Month Precip Anomaly Forecast']}" target="_blank">NMME 1 Month Precip Anomaly Forecast</a>`]: lyrfcst_NMME1mopanom,
+            [`<a href="${htmllinks['Forecast Tools']['NMME 1 Month SPI Forecast']}" target="_blank">NMME 1 Month SPI Forecast</a>`]: lyrfcst_NMME1mospi
         };
             
-       ctlbase = L.control.layers(objBasemaps, null, {position: 'topright'}).addTo(map);
-       ctlmonitors = L.control.layers(null, objOverlays_monitor, {position: 'topright'}).addTo(map);
-       ctlfcsts = L.control.layers(null, objOverlays_fcst, {position: 'topright'}).addTo(map);
+        ctlbase = L.control.layers(objBasemaps, null, {position: 'topright'}).addTo(map);
+        ctlmonitors = L.control.layers(null, objOverlays_monitor, {position: 'topright'}).addTo(map);
+        ctlfcsts = L.control.layers(null, objOverlays_fcst, {position: 'topright'}).addTo(map);
+         
+        layerToLegend = {
+            'OISST SST 7-Day Anomaly': 'https://github.ncep.noaa.gov/katie-kowal/pac_islands/blob/main/stations/images/oisst_legend.png?raw=true',
+            'OISST SST 7-Day Anomaly Difference': 'https://github.ncep.noaa.gov/katie-kowal/pac_islands/blob/main/stations/images/oisst_diff_legend.png?raw=true',
+            'CMORPH Time Series Points': '',
+            'CMORPH 90 Day Precip Anomaly':  'https://github.ncep.noaa.gov/katie-kowal/pac_islands/blob/main/stations/images/cmorph90anom_legend.png?raw=true',
+            'CMORPH 90 Day Precip Percent':  'https://github.ncep.noaa.gov/katie-kowal/pac_islands/blob/main/stations/images/cmorph90percent_legend.png?raw=true',
+            'CMORPH 3-month SPI':  'https://github.ncep.noaa.gov/katie-kowal/pac_islands/blob/main/stations/images/cmorph3mospi_legend.png?raw=true',
+            'CMORPH 3-month SPEI':  'https://github.ncep.noaa.gov/katie-kowal/pac_islands/blob/main/stations/images/cmorph3mospei_legend.png?raw=true',
+            'CMORPH 30 Day Precip Anomaly':  'https://github.ncep.noaa.gov/katie-kowal/pac_islands/blob/main/stations/images/cmorph30panom_legend.png?raw=true',
+            'CMORPH 30 Day Precip Percent':  'https://github.ncep.noaa.gov/katie-kowal/pac_islands/blob/main/stations/images/cmorph30ppercent_legend.png?raw=true',
+            'CMORPH 1-month SPI':  'https://github.ncep.noaa.gov/katie-kowal/pac_islands/blob/main/stations/images/cmorph1mospi_legend.png?raw=true',
+            'CMORPH 1-month SPEI':  'https://github.ncep.noaa.gov/katie-kowal/pac_islands/blob/main/stations/images/cmorph1mospei_legend.png?raw=true',
+            'Leaky Bucket Model 1-month Surface Runoff Index':  'https://github.ncep.noaa.gov/katie-kowal/pac_islands/blob/main/stations/images/lbm1mosri_legend.png?raw=true',
+            'CMORPH 7 Day Precip Total':  'https://github.ncep.noaa.gov/katie-kowal/pac_islands/blob/main/stations/images/cmorph7ptotal_legend.png?raw=true',
+            'CMORPH 7 Day Precip Anomaly': 'https://github.ncep.noaa.gov/katie-kowal/pac_islands/blob/main/stations/images/cmorph7panom_legend.png?raw=true',
+            'CMORPH 7 Day SPI':  'https://github.ncep.noaa.gov/katie-kowal/pac_islands/blob/main/stations/images/cmorph7spi_legend.png?raw=true',
+            'CDAS 7 Day Tmax': 'https://github.ncep.noaa.gov/katie-kowal/pac_islands/blob/main/stations/images/cdas7tmax_legend.png?raw=true',
+            'CDAS 7 Day Tmax Anomaly':  'https://github.ncep.noaa.gov/katie-kowal/pac_islands/blob/main/stations/images/cdas7tanom_legend.png?raw=true',
+            'VHI 1km': '',
+            'NASA ESI': '',
+            'GEFS Week 1 Precip Total Forecast': 'https://github.ncep.noaa.gov/katie-kowal/pac_islands/blob/main/stations/images/gefswk1ptotal_legend.png?raw=true',
+            'GEFS Week 1 Precip Anomaly Forecast': 'https://github.ncep.noaa.gov/katie-kowal/pac_islands/blob/main/stations/images/gefswk1panom_legend.png?raw=true',
+            'GEFS Week 1 Precip Exceedance Prob (50 mm)': 'https://github.ncep.noaa.gov/katie-kowal/pac_islands/blob/main/stations/images/gefswk1poe50_legend.png?raw=true',
+            'GEFS Week 1 Precip Exceedance Prob (100 mm)': 'https://github.ncep.noaa.gov/katie-kowal/pac_islands/blob/main/stations/images/gefswk1poe100_legend.png?raw=true',
+            'GEFS Week 1 Raw Precip Tercile Prob': 'https://github.ncep.noaa.gov/katie-kowal/pac_islands/blob/main/stations/images/gefswk1rawter_legend.png?raw=true',
+            'GEFS Week 1 Consolidated Precip Tercile Prob': 'https://github.ncep.noaa.gov/katie-kowal/pac_islands/blob/main/stations/images/gefswk1conster_legend.png?raw=true',
+            'GEFS Week 1 Temp Total Forecast': 'https://github.ncep.noaa.gov/katie-kowal/pac_islands/blob/main/stations/images/gefswk1ttotal_legend.png?raw=true',
+            'GEFS Week 1 Temp Anomaly Forecast': 'https://github.ncep.noaa.gov/katie-kowal/pac_islands/blob/main/stations/images/gefswk1tanom_legend.png?raw=true',
+            'Leaky Bucket Model Evaporative Stress Index Week 1 Forecast': 'https://github.ncep.noaa.gov/katie-kowal/pac_islands/blob/main/stations/images/lbmwk1esi_legend.png?raw=true',
+            'Leaky Bucket Model Soil Moisture Percentile Week 1 Forecast': 'https://github.ncep.noaa.gov/katie-kowal/pac_islands/blob/main/stations/images/lbmwk1smp_legend.png?raw=true',
+            'Leaky Bucket Model SPI Week 1 Forecast': 'https://github.ncep.noaa.gov/katie-kowal/pac_islands/blob/main/stations/images/lbmwk1spi_legend.png?raw=true',
+            'GEFS Week 2 Precip Total': 'https://github.ncep.noaa.gov/katie-kowal/pac_islands/blob/main/stations/images/gefswk2ptotal_legend.png?raw=true',
+            'GEFS Week 2 Precip Anomaly': 'https://github.ncep.noaa.gov/katie-kowal/pac_islands/blob/main/stations/images/gefswk2panom_legend.png?raw=true',
+            'GEFS Week 2 Temp Total Forecast': 'https://github.ncep.noaa.gov/katie-kowal/pac_islands/blob/main/stations/images/gefswk2ttotal_legend.png?raw=true',
+            'GEFS Week 2 Temp Anomaly Forecast': 'https://github.ncep.noaa.gov/katie-kowal/pac_islands/blob/main/stations/images/gefswk2tanom_legend.png?raw=true',
+            'GEFS Week 2 Precip Exceedance Prob (50 mm)': 'https://github.ncep.noaa.gov/katie-kowal/pac_islands/blob/main/stations/images/gefswk2poe50_legend.png?raw=true',
+            'GEFS Week 2 Precip Exceedance Prob (100 mm)': 'https://github.ncep.noaa.gov/katie-kowal/pac_islands/blob/main/stations/images/gefswk2poe100_legend.png?raw=true',
+            'GEFS Week 2 Raw Precip Tercile Prob': 'https://github.ncep.noaa.gov/katie-kowal/pac_islands/blob/main/stations/images/gefswk2rawter_legend.png?raw=true',
+            'GEFS Week 2 Consolidated Precip Tercile Prob': 'https://github.ncep.noaa.gov/katie-kowal/pac_islands/blob/main/stations/images/gefswk2conster_legend.png?raw=true',
+            'NMME 1 Month Precip Anomaly Forecast': 'https://github.ncep.noaa.gov/katie-kowal/pac_islands/blob/main/stations/images/nmme1mopanom_legend.png?raw=true', 
+             'NMME 1 Month SPI Forecast': 'https://github.ncep.noaa.gov/katie-kowal/pac_islands/blob/main/stations/images/nmme1mospi_legend.png?raw=true', 
+        };
+            
+        layerToName = {
+            [lyrsst7dayanom._leaflet_id]:'OISST SST 7-Day Anomaly',
+            [lyrsst7dayanomdiff._leaflet_id]:'OISST SST 7-Day Anomaly Difference',
+            [stationsLayerGroup._leaflet_id]:'CMORPH Time Series Points',
+            [lyrprcpanom90._leaflet_id]:'CMORPH 90 Day Precip Anomaly',
+            [lyrprcpper90._leaflet_id]:'CMORPH 90 Day Precip Percent',
+            [lyrspi3mo._leaflet_id]:'CMORPH 3-month SPI',
+            [lyrspei3mo._leaflet_id]:'CMORPH 3-month SPEI',
+            [lyrprcpanom30._leaflet_id]:'CMORPH 30 Day Precip Anomaly',
+            [lyrprcpper30._leaflet_id]:'CMORPH 30 Day Precip Percent',
+            [lyrspi1mo._leaflet_id]:'CMORPH 1-month SPI',
+            [lyrspei1mo._leaflet_id]:'CMORPH 1-month SPEI',
+            [lyrsri1mo._leaflet_id]:'Leaky Bucket Model 1-month Surface Runoff Index',
+            [lyrprcptotal7._leaflet_id]:'CMORPH 7 Day Precip Total',
+            [lyrprcpanom7._leaflet_id]:'CMORPH 7 Day Precip Anomaly',
+            [lyrspi1wk._leaflet_id]:'CMORPH 7 Day SPI',
+            [lyrtmax7._leaflet_id]:'CDAS 7 Day Tmax',
+            [lyrtanom7._leaflet_id]:'CDAS 7 Day Tmax Anomaly',
+            [lyrvhi._leaflet_id]:'VHI 1km',
+            [lyresi._leaflet_id]:'NASA ESI',
+            [lyrfcst_gefswk1ptotal._leaflet_id]:'GEFS Week 1 Precip Total Forecast',
+            [lyrfcst_gefswk1panom._leaflet_id]:'GEFS Week 1 Precip Anomaly Forecast',
+            [lyrfcst_gefswk1poe50._leaflet_id]:'GEFS Week 1 Precip Exceedance Prob (50 mm)',
+            [lyrfcst_gefswk1poe100._leaflet_id]:'GEFS Week 1 Precip Exceedance Prob (100 mm)',
+            [lyrfcst_gefswk1traw._leaflet_id]:'GEFS Week 1 Raw Precip Tercile Prob',
+            [lyrfcst_gefswk1tcons._leaflet_id]:'GEFS Week 1 Consolidated Precip Tercile Prob',
+            [lyrfcst_gefswk1ttotal._leaflet_id]:'GEFS Week 1 Temp Total Forecast',
+            [lyrfcst_gefswk1tanom._leaflet_id]:'GEFS Week 1 Temp Anomaly Forecast',
+            [lyrfcst_esiwk1._leaflet_id]:'Leaky Bucket Model Evaporative Stress Index Week 1 Forecast',
+            [lyrfcst_smpwk1._leaflet_id]:'Leaky Bucket Model Soil Moisture Percentile Week 1 Forecast',
+            [lyrfcst_spiwk1._leaflet_id]:'Leaky Bucket Model SPI Week 1 Forecast',
+            [lyrfcst_gefswk2ptotal._leaflet_id]:'GEFS Week 2 Precip Total',
+            [lyrfcst_gefswk2panom._leaflet_id]:'GEFS Week 2 Precip Anomaly',
+            [lyrfcst_gefswk2ttotal._leaflet_id]:'GEFS Week 2 Temp Total Forecast',
+            [lyrfcst_gefswk2tanom._leaflet_id]:'GEFS Week 2 Temp Anomaly Forecast',
+            [lyrfcst_gefswk2poe50._leaflet_id]:'GEFS Week 2 Precip Exceedance Prob (50 mm)',
+            [lyrfcst_gefswk2poe100._leaflet_id]:'GEFS Week 2 Precip Exceedance Prob (100 mm)',
+            [lyrfcst_gefswk2traw._leaflet_id]:'GEFS Week 2 Raw Precip Tercile Prob',
+            [lyrfcst_gefswk2tcons._leaflet_id]:'GEFS Week 2 Consolidated Precip Tercile Prob',
+            [lyrfcst_NMME1mopanom._leaflet_id]:'NMME 1 Month Precip Anomaly Forecast',
+            [lyrfcst_NMME1mospi._leaflet_id]:'NMME 1 Month SPI Forecast'  
+        };
             
             
+        legend = L.control({position: 'bottomright'});
+        // Define the onAdd method to show the legend
+        legend.onAdd = function (map) {
+            var div = L.DomUtil.create('div', 'legend');
+            div.innerHTML = ''; // Initialize empty
+            return div;
+        };
+
+        // Add the legend to the map
+        legend.addTo(map);
+            
+        // Function to update the legend image
+        function updateLegend(imageUrl) {
+            var legendDiv = document.getElementById('legend-container'); // document.querySelector('.legend');//
+            if (imageUrl) {
+                legendDiv.innerHTML = '<img src="' + imageUrl + '" alt="Legend" style="width: 400px; height: auto; max-height: 150px;">';
+            } else {
+                legendDiv.innerHTML = ''; // Clear the legend if no imageUrl is provided
+            }
+        }
+
+        // Listen for when the overlay is added to the map
+        map.on('overlayadd', function(event) {
+            var layerId= event.layer._leaflet_id;
+            var layerName = layerToName[layerId];
+            console.log(layerName);
+            // Check if this layer has a corresponding legend
+            if (layerToLegend[layerName]) {
+                updateLegend(layerToLegend[layerName]); // Update the legend with the correct image
+            }
+        });
+
+        // Listen for when the overlay is removed from the map
+        map.on('overlayremove', function(event) {
+            var layerId= event.layer._leaflet_id;
+            var layerName = layerToName[layerId];
+            // Check if the layer was removed and clear the legend if it has a corresponding entry
+            if (layerToLegend[layerName]) {
+                updateLegend(null); // Clear the legend when the layer is removed
+            }
+        });
+    
        // Add section labels to the control (custom)
        var baseContainer = ctlbase.getContainer();
        var baselayerList = baseContainer.querySelector('.leaflet-control-layers-list');
@@ -511,7 +659,6 @@
        // Add section labels to the control (custom)
        var monitorContainer = ctlmonitors.getContainer();
        var monitorlayerList = monitorContainer.querySelector('.leaflet-control-layers-list');
-
        var monitorLabel = document.createElement('div');
        monitorLabel.className = 'leaflet-control-label';
        monitorLabel.innerHTML = 'Monitor Tools';
@@ -520,25 +667,12 @@
         // Add section labels to the control (custom)
        var fcstContainer = ctlfcsts.getContainer();
        var fcstlayerList = fcstContainer.querySelector('.leaflet-control-layers-list');
-
        var fcstLabel = document.createElement('div');
        fcstLabel.className = 'leaflet-control-label';
        fcstLabel.innerHTML = 'Forecast Tools';
        fcstlayerList.insertBefore(fcstLabel, fcstlayerList.childNodes[0]); // Place it before the first overlay
-            
-            
         
-
-       
-//        $("#btnLocate").click(function(){
-//             map.locate();
-//         });
-
-//        $("#btnZocalo").click(function(){
-//             map.setView([-3, 170], 3);
-//         });
-        
-       $("#sldOpacity").on('change', function(){
+        $("#sldOpacity").on('change', function(){
             $("#image-opacity").html(this.value);
             lyrprcpanom90.setOpacity(this.value);
             lyrprcpper90.setOpacity(this.value);
@@ -583,14 +717,7 @@
             lyrsst7dayanom.setOpacity(this.value);
             lyrsst7dayanomdiff.setOpacity(this.value);
         });
-            
-       // $("#mjoOpacity").on('change', function(){
-        //     $("#mjo-opacity").html(this.value);
-        //     lyrmjo8.setOpacity(this.value);
-        //     lyrmjo3.setOpacity(this.value);
-        // });
-            
-            
+                
             
         // Add click event to display the latitude and longitude
         map.on('click', function(e) {

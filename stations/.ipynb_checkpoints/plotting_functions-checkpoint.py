@@ -44,7 +44,6 @@ def save_image(image, name, folder):
     ax.axis('off')  # Hide axis labels
     plt.savefig(os.path.join(folder, name + '.png'), bbox_inches = 'tight', pad_inches = 0)
     plt.show()
-    plt.close()
 
 # Define jitter function
 def jitter_coords(x, y, x_scale, y_scale):
