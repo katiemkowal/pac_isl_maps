@@ -56,6 +56,7 @@
     <div class="leaflet-pane leaflet-map-pane" style='transform: translate3d(-262px, 546px, 0px);'></div>
     <!-- Add a div below the map for the legend -->
     <div id="legend-container" style="text-align: center; padding: 20px;"></div>
+    <div id="header-container" style = "text_align: center; padding: 20px;"></div>
     <div 
     <div id="side-bar" class="col-nd-3">
 <!--         <button id='btnLocate' class='btn btn-primary btn-block'>Locate</button> -->
@@ -518,7 +519,49 @@
         ctlbase = L.control.layers(objBasemaps, null, {position: 'topright'}).addTo(map);
         ctlmonitors = L.control.layers(null, objOverlays_monitor, {position: 'topright'}).addTo(map);
         ctlfcsts = L.control.layers(null, objOverlays_fcst, {position: 'topright'}).addTo(map);
-         
+        layerToHeader = {
+            'OISST SST 7-Day Anomaly': 'https://github.com/katiemkowal/pac_isl_maps/tree/temp-branch/stations/images/oisst_diff_header.png?raw=true', //'https://github.ncep.noaa.gov/katie-kowal/pac_islands/blob/main/stations/images/oisst_legend.png?raw=true',
+            'OISST SST 7-Day Anomaly Difference': 'https://github.com/katiemkowal/pac_isl_maps/tree/temp-branch/stations/images/oisst_diff_header.png?raw=true',
+            'CMORPH Time Series Points': '',
+            'CMORPH 90 Day Precip Anomaly':  'https://github.com/katiemkowal/pac_isl_maps/tree/temp-branch/stations/images/cmorph90anom_header.png?raw=true',
+            'CMORPH 90 Day Precip Percent':  'https://github.com/katiemkowal/pac_isl_maps/tree/temp-branch/stations/images/cmorph90percent_header.png?raw=true',
+            'CMORPH 3-month SPI':  'https://github.com/katiemkowal/pac_isl_maps/tree/temp-branch/stations/images/cmorph3mospi_header.png?raw=true',
+            'CMORPH 3-month SPEI':  'https://github.com/katiemkowal/pac_isl_maps/tree/temp-branch/stations/images/cmorph3mospei_header.png?raw=true',
+            'CMORPH 30 Day Precip Anomaly':  'https://github.com/katiemkowal/pac_isl_maps/tree/temp-branch/stations/images/cmorph30panom_header.png?raw=true',
+            'CMORPH 30 Day Precip Percent':  'https://github.com/katiemkowal/pac_isl_maps/tree/temp-branch/stations/images/cmorph30ppercent_header.png?raw=true',
+            'CMORPH 1-month SPI':  'https://github.com/katiemkowal/pac_isl_maps/tree/temp-branch/stations/images/cmorph1mospi_header.png?raw=true',
+            'CMORPH 1-month SPEI':  'https://github.com/katiemkowal/pac_isl_maps/tree/temp-branch/stations/images/cmorph1mospei_header.png?raw=true',
+            'Leaky Bucket Model 1-month Surface Runoff Index':  'https://github.com/katiemkowal/pac_isl_maps/tree/temp-branch/stations/images/lbm1mosri_header.png?raw=true',
+            'CMORPH 7 Day Precip Total':  'https://github.com/katiemkowal/pac_isl_maps/tree/temp-branch/stations/images/cmorph7ptotal_header.png?raw=true',
+            'CMORPH 7 Day Precip Anomaly': 'https://github.com/katiemkowal/pac_isl_maps/tree/temp-branch/stations/images/cmorph7panom_header.png?raw=true',
+            'CMORPH 7 Day SPI':  'https://github.com/katiemkowal/pac_isl_maps/tree/temp-branch/stations/images/cmorph7spi_header.png?raw=true',
+            'CDAS 7 Day Tmax':'https://github.com/katiemkowal/pac_isl_maps/tree/temp-branch/stations/images/cdas7tmax_header.png?raw=true',
+            'CDAS 7 Day Tmax Anomaly':  'https://github.com/katiemkowal/pac_isl_maps/tree/temp-branch/stations/images/cdas7tanom_header.png?raw=true',
+            'VHI 1km': '',
+            'NASA ESI': '',
+            'GEFS Week 1 Precip Total Forecast': 'https://github.com/katiemkowal/pac_isl_maps/tree/temp-branch/stations/images/gefswk1ptotal_header.png?raw=true',
+            'GEFS Week 1 Precip Anomaly Forecast': 'https://github.com/katiemkowal/pac_isl_maps/tree/temp-branch/stations/images/gefswk1panom_header.png?raw=true',
+            'GEFS Week 1 Precip Exceedance Prob (50 mm)': 'https://github.com/katiemkowal/pac_isl_maps/tree/temp-branch/stations/images/gefswk1poe50_header.png?raw=true',
+            'GEFS Week 1 Precip Exceedance Prob (100 mm)': 'https://github.com/katiemkowal/pac_isl_maps/tree/temp-branch/stations/images/gefswk1poe100_header.png?raw=true',
+            'GEFS Week 1 Raw Precip Tercile Prob': 'https://github.com/katiemkowal/pac_isl_maps/tree/temp-branch/stations/images/gefswk1rawter_header.png?raw=true',
+            'GEFS Week 1 Consolidated Precip Tercile Prob': 'https://github.com/katiemkowal/pac_isl_maps/tree/temp-branch/stations/images/gefswk1conster_header.png?raw=true',
+            'GEFS Week 1 Temp Total Forecast': 'https://github.com/katiemkowal/pac_isl_maps/tree/temp-branch/stations/images/gefswk1ttotal_header.png?raw=true',
+            'GEFS Week 1 Temp Anomaly Forecast': 'https://github.com/katiemkowal/pac_isl_maps/tree/temp-branch/stations/images/gefswk1tanom_header.png?raw=true',
+            'Leaky Bucket Model Evaporative Stress Index Week 1 Forecast': 'https://github.com/katiemkowal/pac_isl_maps/tree/temp-branch/stations/images/lbmwk1esi_header.png?raw=true',
+            'Leaky Bucket Model Soil Moisture Percentile Week 1 Forecast': 'https://github.com/katiemkowal/pac_isl_maps/tree/temp-branch/stations/images/lbmwk1smp_header.png?raw=true',
+            'Leaky Bucket Model SPI Week 1 Forecast': 'https://github.com/katiemkowal/pac_isl_maps/tree/temp-branch/stations/images/lbmwk1spi_header.png?raw=true',
+            'GEFS Week 2 Precip Total': 'https://github.com/katiemkowal/pac_isl_maps/tree/temp-branch/stations/images/gefswk2ptotal_header.png?raw=true',
+            'GEFS Week 2 Precip Anomaly': 'https://github.com/katiemkowal/pac_isl_maps/tree/temp-branch/stations/images/gefswk2panom_header.png?raw=true',
+            'GEFS Week 2 Temp Total Forecast': 'https://github.com/katiemkowal/pac_isl_maps/tree/temp-branch/stations/images/gefswk2ttotal_header.png?raw=true',
+            'GEFS Week 2 Temp Anomaly Forecast': 'https://github.com/katiemkowal/pac_isl_maps/tree/temp-branch/stations/images/gefswk2tanom_header.png?raw=true',
+            'GEFS Week 2 Precip Exceedance Prob (50 mm)': 'https://github.com/katiemkowal/pac_isl_maps/tree/temp-branch/stations/images/gefswk2poe50_header.png?raw=true',
+            'GEFS Week 2 Precip Exceedance Prob (100 mm)': 'https://github.com/katiemkowal/pac_isl_maps/tree/temp-branch/stations/images//gefswk2poe100_header.png?raw=true',
+            'GEFS Week 2 Raw Precip Tercile Prob': 'https://github.com/katiemkowal/pac_isl_maps/tree/temp-branch/stations/images/gefswk2rawter_header.png?raw=true',
+            'GEFS Week 2 Consolidated Precip Tercile Prob': 'https://github.com/katiemkowal/pac_isl_maps/tree/temp-branch/stations/images/gefswk2conster_header.png?raw=true',
+            'NMME 1 Month Precip Anomaly Forecast': 'https://github.com/katiemkowal/pac_isl_maps/tree/temp-branch/stations/images/nmme1mopanom_header.png?raw=true', 
+             'NMME 1 Month SPI Forecast': 'https://github.com/katiemkowal/pac_isl_maps/tree/temp-branch/stations/images/nmme1mospi_header.png?raw=true', 
+        };
+            
         layerToLegend = {
             'OISST SST 7-Day Anomaly': 'https://github.com/katiemkowal/pac_isl_maps/tree/temp-branch/stations/images/oisst_diff_legend.png?raw=true', //'https://github.ncep.noaa.gov/katie-kowal/pac_islands/blob/main/stations/images/oisst_legend.png?raw=true',
             'OISST SST 7-Day Anomaly Difference': 'https://github.com/katiemkowal/pac_isl_maps/tree/temp-branch/stations/images/oisst_diff_legend.png?raw=true',
@@ -607,6 +650,7 @@
             
             
         legend = L.control({position: 'bottomright'});
+        headers = L.control({position: 'bottomleft'});
         // Define the onAdd method to show the legend
         legend.onAdd = function (map) {
             var div = L.DomUtil.create('div', 'legend');
@@ -614,8 +658,15 @@
             return div;
         };
 
+        headers.onAdd = function (map) {
+            var div = L.DomUtil.create('div', 'headers');
+            div.innerHTML = ''; // Initialize empty
+            return div;
+        };
+
         // Add the legend to the map
         legend.addTo(map);
+        headers.addTo(map);
             
         // Function to update the legend image
         function updateLegend(imageUrl) {
@@ -627,6 +678,15 @@
             }
         }
 
+        function updateHeaders(imageUrl) {
+            var headersDiv = document.getElementById('header-container'); // document.querySelector('.legend');//
+            if (imageUrl) {
+                headersDiv.innerHTML = '<img src="' + imageUrl + '" alt="Header" style="width: 400px; height: auto; max-height: 150px;">';
+            } else {
+                headersDiv.innerHTML = ''; // Clear the legend if no imageUrl is provided
+            }
+        }
+
         // Listen for when the overlay is added to the map
         map.on('overlayadd', function(event) {
             var layerId= event.layer._leaflet_id;
@@ -635,6 +695,7 @@
             // Check if this layer has a corresponding legend
             if (layerToLegend[layerName]) {
                 updateLegend(layerToLegend[layerName]); // Update the legend with the correct image
+                updateHeaders(layerToHeader[layerName]);
             }
         });
 
@@ -645,6 +706,7 @@
             // Check if the layer was removed and clear the legend if it has a corresponding entry
             if (layerToLegend[layerName]) {
                 updateLegend(null); // Clear the legend when the layer is removed
+                updateHeaders(null);
             }
         });
     
