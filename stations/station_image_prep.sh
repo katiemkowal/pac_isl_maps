@@ -22,7 +22,7 @@ main(){
 
     /cpc/home/kkowal/.conda/envs/map_env/bin/python /cpc/int_desk/pac_isl/stations/updated_images_for_leaflet.py
     cd /cpc/int_desk/pac_isl/stations/
-    current_branch=$temp-branch
+    current_branch=temp-branch
     log "Current branch: $current_branch"
     git add .
     git commit -m "automated commit by cron job on $(date)"
