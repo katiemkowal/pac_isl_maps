@@ -1,0 +1,674 @@
+/bin/sh: /cpc/int_desk/pac_isl/stations/station_image_prep.sh: Permission denied
+/cpc/home/kkowal/.conda/envs/map_env/bin/python: can't open file '/cpc/home/kkowal/updated_images_for_leaflet.py': [Errno 2] No such file or directory
+OISST SST 7-Day Anomaly
+OISST SST 7-Day Anomaly Difference
+CMORPH 90 Day Precip Anomaly
+CMORPH 90 Day Precip Percent
+CMORPH 3-month SPI
+CMORPH 3-month SPEI
+CMORPH 30 Day Precip Anomaly
+CMORPH 30 Day Precip Percent
+CMORPH 1-month SPI
+CMORPH 1-month SPEI
+Leaky Bucket Model 1-month Surface Runoff Index
+CMORPH 7 Day Precip Total
+CMORPH 7 Day Precip Anomaly
+CMORPH 7 Day SPI
+CDAS 7 Day Tmax
+CDAS 7 Day Tmax Anomaly
+GEFS Week 1 Precip Total Forecast
+GEFS Week 1 Precip Anomaly Forecast
+GEFS Week 1 Precip Exceedance Prob (50 mm)
+GEFS Week 1 Precip Exceedance Prob (100 mm)
+GEFS Week 1 Raw Precip Tercile Prob
+GEFS Week 1 Consolidated Precip Tercile Prob
+GEFS Week 1 Temp Total Forecast
+GEFS Week 1 Temp Anomaly Forecast
+Leaky Bucket Model Evaporative Stress Index Week 1 Forecast
+Leaky Bucket Model Soil Moisture Percentile Week 1 Forecast
+Leaky Bucket Model SPI Week 1 Forecast
+GEFS Week 2 Precip Total
+GEFS Week 2 Precip Anomaly
+GEFS Week 2 Temp Total Forecast
+GEFS Week 2 Temp Anomaly Forecast
+GEFS Week 2 Precip Exceedance Prob (50 mm)
+GEFS Week 2 Precip Exceedance Prob (100 mm)
+GEFS Week 2 Raw Precip Tercile Prob
+GEFS Week 2 Consolidated Precip Tercile Prob
+NMME 1 Month Precip Anomaly Forecast
+NMME 1 Month SPI Forecast
+OISST SST 7-Day Anomaly
+OISST SST 7-Day Anomaly Difference
+CMORPH 90 Day Precip Anomaly
+CMORPH 90 Day Precip Percent
+CMORPH 3-month SPI
+CMORPH 3-month SPEI
+CMORPH 30 Day Precip Anomaly
+CMORPH 30 Day Precip Percent
+CMORPH 1-month SPI
+CMORPH 1-month SPEI
+Leaky Bucket Model 1-month Surface Runoff Index
+CMORPH 7 Day Precip Total
+CMORPH 7 Day Precip Anomaly
+CMORPH 7 Day SPI
+CDAS 7 Day Tmax
+CDAS 7 Day Tmax Anomaly
+GEFS Week 1 Precip Total Forecast
+GEFS Week 1 Precip Anomaly Forecast
+GEFS Week 1 Precip Exceedance Prob (50 mm)
+GEFS Week 1 Precip Exceedance Prob (100 mm)
+GEFS Week 1 Raw Precip Tercile Prob
+GEFS Week 1 Consolidated Precip Tercile Prob
+GEFS Week 1 Temp Total Forecast
+GEFS Week 1 Temp Anomaly Forecast
+Leaky Bucket Model Evaporative Stress Index Week 1 Forecast
+Leaky Bucket Model Soil Moisture Percentile Week 1 Forecast
+Leaky Bucket Model SPI Week 1 Forecast
+GEFS Week 2 Precip Total
+GEFS Week 2 Precip Anomaly
+GEFS Week 2 Temp Total Forecast
+GEFS Week 2 Temp Anomaly Forecast
+GEFS Week 2 Precip Exceedance Prob (50 mm)
+GEFS Week 2 Precip Exceedance Prob (100 mm)
+GEFS Week 2 Raw Precip Tercile Prob
+GEFS Week 2 Consolidated Precip Tercile Prob
+NMME 1 Month Precip Anomaly Forecast
+NMME 1 Month SPI Forecast
+GEFS Week 1 Precip Total Forecast
+GEFS Week 1 Precip Anomaly Forecast
+GEFS Week 1 Precip Exceedance Prob (50 mm)
+GEFS Week 1 Precip Exceedance Prob (100 mm)
+GEFS Week 1 Raw Precip Tercile Prob
+GEFS Week 1 Consolidated Precip Tercile Prob
+GEFS Week 1 Temp Total Forecast
+GEFS Week 1 Temp Anomaly Forecast
+Leaky Bucket Model Evaporative Stress Index Week 1 Forecast
+Leaky Bucket Model Soil Moisture Percentile Week 1 Forecast
+Leaky Bucket Model SPI Week 1 Forecast
+GEFS Week 2 Precip Total
+GEFS Week 2 Precip Anomaly
+GEFS Week 2 Temp Total Forecast
+GEFS Week 2 Temp Anomaly Forecast
+GEFS Week 2 Precip Exceedance Prob (50 mm)
+GEFS Week 2 Precip Exceedance Prob (100 mm)
+GEFS Week 2 Raw Precip Tercile Prob
+GEFS Week 2 Consolidated Precip Tercile Prob
+NMME 1 Month Precip Anomaly Forecast
+NMME 1 Month SPI Forecast
+OISST SST 7-Day Anomaly
+OISST SST 7-Day Anomaly Difference
+CMORPH 90 Day Precip Anomaly
+CMORPH 90 Day Precip Percent
+CMORPH 3-month SPI
+CMORPH 3-month SPEI
+CMORPH 30 Day Precip Anomaly
+CMORPH 30 Day Precip Percent
+CMORPH 1-month SPI
+CMORPH 1-month SPEI
+Leaky Bucket Model 1-month Surface Runoff Index
+CMORPH 7 Day Precip Total
+CMORPH 7 Day Precip Anomaly
+CMORPH 7 Day SPI
+CDAS 7 Day Tmax
+CDAS 7 Day Tmax Anomaly
+OISST SST 7-Day Anomaly
+OISST SST 7-Day Anomaly Difference
+CMORPH 90 Day Precip Anomaly
+CMORPH 90 Day Precip Percent
+CMORPH 3-month SPI
+CMORPH 3-month SPEI
+CMORPH 30 Day Precip Anomaly
+CMORPH 30 Day Precip Percent
+CMORPH 1-month SPI
+CMORPH 1-month SPEI
+Leaky Bucket Model 1-month Surface Runoff Index
+CMORPH 7 Day Precip Total
+CMORPH 7 Day Precip Anomaly
+CMORPH 7 Day SPI
+CDAS 7 Day Tmax
+CDAS 7 Day Tmax Anomaly
+GEFS Week 1 Precip Total Forecast
+GEFS Week 1 Precip Anomaly Forecast
+GEFS Week 1 Precip Exceedance Prob (50 mm)
+GEFS Week 1 Precip Exceedance Prob (100 mm)
+GEFS Week 1 Raw Precip Tercile Prob
+GEFS Week 1 Consolidated Precip Tercile Prob
+GEFS Week 1 Temp Total Forecast
+GEFS Week 1 Temp Anomaly Forecast
+Leaky Bucket Model Evaporative Stress Index Week 1 Forecast
+Leaky Bucket Model Soil Moisture Percentile Week 1 Forecast
+Leaky Bucket Model SPI Week 1 Forecast
+GEFS Week 2 Precip Total
+GEFS Week 2 Precip Anomaly
+GEFS Week 2 Temp Total Forecast
+GEFS Week 2 Temp Anomaly Forecast
+GEFS Week 2 Precip Exceedance Prob (50 mm)
+GEFS Week 2 Precip Exceedance Prob (100 mm)
+GEFS Week 2 Raw Precip Tercile Prob
+GEFS Week 2 Consolidated Precip Tercile Prob
+NMME 1 Month Precip Anomaly Forecast
+NMME 1 Month SPI Forecast
+OISST SST 7-Day Anomaly
+OISST SST 7-Day Anomaly Difference
+CMORPH 90 Day Precip Anomaly
+CMORPH 90 Day Precip Percent
+CMORPH 3-month SPI
+CMORPH 3-month SPEI
+CMORPH 30 Day Precip Anomaly
+CMORPH 30 Day Precip Percent
+CMORPH 1-month SPI
+CMORPH 1-month SPEI
+Leaky Bucket Model 1-month Surface Runoff Index
+CMORPH 7 Day Precip Total
+CMORPH 7 Day Precip Anomaly
+CMORPH 7 Day SPI
+CDAS 7 Day Tmax
+CDAS 7 Day Tmax Anomaly
+GEFS Week 1 Precip Total Forecast
+GEFS Week 1 Precip Anomaly Forecast
+GEFS Week 1 Precip Exceedance Prob (50 mm)
+GEFS Week 1 Precip Exceedance Prob (100 mm)
+GEFS Week 1 Raw Precip Tercile Prob
+GEFS Week 1 Consolidated Precip Tercile Prob
+GEFS Week 1 Temp Total Forecast
+GEFS Week 1 Temp Anomaly Forecast
+Leaky Bucket Model Evaporative Stress Index Week 1 Forecast
+Leaky Bucket Model Soil Moisture Percentile Week 1 Forecast
+Leaky Bucket Model SPI Week 1 Forecast
+GEFS Week 2 Precip Total
+GEFS Week 2 Precip Anomaly
+GEFS Week 2 Temp Total Forecast
+GEFS Week 2 Temp Anomaly Forecast
+GEFS Week 2 Precip Exceedance Prob (50 mm)
+GEFS Week 2 Precip Exceedance Prob (100 mm)
+GEFS Week 2 Raw Precip Tercile Prob
+GEFS Week 2 Consolidated Precip Tercile Prob
+NMME 1 Month Precip Anomaly Forecast
+NMME 1 Month SPI Forecast
+GEFS Week 1 Precip Total Forecast
+GEFS Week 1 Precip Anomaly Forecast
+GEFS Week 1 Precip Exceedance Prob (50 mm)
+GEFS Week 1 Precip Exceedance Prob (100 mm)
+GEFS Week 1 Raw Precip Tercile Prob
+GEFS Week 1 Consolidated Precip Tercile Prob
+GEFS Week 1 Temp Total Forecast
+GEFS Week 1 Temp Anomaly Forecast
+Leaky Bucket Model Evaporative Stress Index Week 1 Forecast
+Leaky Bucket Model Soil Moisture Percentile Week 1 Forecast
+Leaky Bucket Model SPI Week 1 Forecast
+GEFS Week 2 Precip Total
+GEFS Week 2 Precip Anomaly
+GEFS Week 2 Temp Total Forecast
+GEFS Week 2 Temp Anomaly Forecast
+GEFS Week 2 Precip Exceedance Prob (50 mm)
+GEFS Week 2 Precip Exceedance Prob (100 mm)
+GEFS Week 2 Raw Precip Tercile Prob
+GEFS Week 2 Consolidated Precip Tercile Prob
+NMME 1 Month Precip Anomaly Forecast
+NMME 1 Month SPI Forecast
+OISST SST 7-Day Anomaly
+OISST SST 7-Day Anomaly Difference
+CMORPH 90 Day Precip Anomaly
+CMORPH 90 Day Precip Percent
+CMORPH 3-month SPI
+CMORPH 3-month SPEI
+CMORPH 30 Day Precip Anomaly
+CMORPH 30 Day Precip Percent
+CMORPH 1-month SPI
+CMORPH 1-month SPEI
+Leaky Bucket Model 1-month Surface Runoff Index
+CMORPH 7 Day Precip Total
+CMORPH 7 Day Precip Anomaly
+CMORPH 7 Day SPI
+CDAS 7 Day Tmax
+CDAS 7 Day Tmax Anomaly
+error: unknown option `show-current'
+usage: git branch [options] [-r | -a] [--merged | --no-merged]
+   or: git branch [options] [-l] [-f] <branchname> [<start-point>]
+   or: git branch [options] [-r] (-d | -D) <branchname>...
+   or: git branch [options] (-m | -M) [<oldbranch>] <newbranch>
+
+Generic options
+    -v, --verbose         show hash and subject, give twice for upstream branch
+    -q, --quiet           suppress informational messages
+    -t, --track           set up tracking mode (see git-pull(1))
+    --set-upstream        change upstream info
+    -u, --set-upstream-to <upstream>
+                          change the upstream info
+    --unset-upstream      Unset the upstream info
+    --color[=<when>]      use colored output
+    -r, --remotes         act on remote-tracking branches
+    --contains <commit>   print only branches that contain the commit
+    --abbrev[=<n>]        use <n> digits to display SHA-1s
+
+Specific git-branch actions:
+    -a, --all             list both remote-tracking and local branches
+    -d, --delete          delete fully merged branch
+    -D                    delete branch (even if not merged)
+    -m, --move            move/rename a branch and its reflog
+    -M                    move/rename a branch, even if target exists
+    --list                list branch names
+    -l, --create-reflog   create the branch's reflog
+    --edit-description    edit the description for the branch
+    -f, --force           force creation (when already exists)
+    --no-merged <commit>  print only not merged branches
+    --merged <commit>     print only merged branches
+    --column[=<style>]    list branches in columns
+
+Current branch: 
+fatal: '/cpc/int_desk/pac_isl/stations/images' is outside repository
+# On branch main
+# Changes not staged for commit:
+#   (use "git add/rm <file>..." to update what will be committed)
+#   (use "git checkout -- <file>..." to discard changes in working directory)
+#
+#	deleted:    README.md
+#
+# Untracked files:
+#   (use "git add <file>..." to include in what will be committed)
+#
+#	.bash_history
+#	.bash_logout
+#	.bash_profile
+#	.bashrc
+#	.cache/
+#	.cdsapirc
+#	.conda/
+#	.emacs
+#	.gitconfig
+#	.history
+#	.ipa/
+#	.ipynb_checkpoints/
+#	.ipython/
+#	.jupyter/
+#	.keras/
+#	.kshrc
+#	.local/
+#	.nfs00000000046d485c00003d94
+#	.python_history
+#	.ssh/
+#	.subversion/
+#	.viminfo
+#	pac_islands/
+no changes added to commit (use "git add" and/or "git commit -a")
+fatal: remote part of refspec is not a valid name in 
+OISST SST 7-Day Anomaly
+OISST SST 7-Day Anomaly Difference
+CMORPH 90 Day Precip Anomaly
+CMORPH 90 Day Precip Percent
+CMORPH 3-month SPI
+CMORPH 3-month SPEI
+CMORPH 30 Day Precip Anomaly
+CMORPH 30 Day Precip Percent
+CMORPH 1-month SPI
+CMORPH 1-month SPEI
+Leaky Bucket Model 1-month Surface Runoff Index
+CMORPH 7 Day Precip Total
+CMORPH 7 Day Precip Anomaly
+CMORPH 7 Day SPI
+CDAS 7 Day Tmax
+CDAS 7 Day Tmax Anomaly
+GEFS Week 1 Precip Total Forecast
+GEFS Week 1 Precip Anomaly Forecast
+GEFS Week 1 Precip Exceedance Prob (50 mm)
+GEFS Week 1 Precip Exceedance Prob (100 mm)
+GEFS Week 1 Raw Precip Tercile Prob
+GEFS Week 1 Consolidated Precip Tercile Prob
+GEFS Week 1 Temp Total Forecast
+GEFS Week 1 Temp Anomaly Forecast
+Leaky Bucket Model Evaporative Stress Index Week 1 Forecast
+Leaky Bucket Model Soil Moisture Percentile Week 1 Forecast
+Leaky Bucket Model SPI Week 1 Forecast
+GEFS Week 2 Precip Total
+GEFS Week 2 Precip Anomaly
+GEFS Week 2 Temp Total Forecast
+GEFS Week 2 Temp Anomaly Forecast
+GEFS Week 2 Precip Exceedance Prob (50 mm)
+GEFS Week 2 Precip Exceedance Prob (100 mm)
+GEFS Week 2 Raw Precip Tercile Prob
+GEFS Week 2 Consolidated Precip Tercile Prob
+NMME 1 Month Precip Anomaly Forecast
+NMME 1 Month SPI Forecast
+OISST SST 7-Day Anomaly
+OISST SST 7-Day Anomaly Difference
+CMORPH 90 Day Precip Anomaly
+CMORPH 90 Day Precip Percent
+CMORPH 3-month SPI
+CMORPH 3-month SPEI
+CMORPH 30 Day Precip Anomaly
+CMORPH 30 Day Precip Percent
+CMORPH 1-month SPI
+CMORPH 1-month SPEI
+Leaky Bucket Model 1-month Surface Runoff Index
+CMORPH 7 Day Precip Total
+CMORPH 7 Day Precip Anomaly
+CMORPH 7 Day SPI
+CDAS 7 Day Tmax
+CDAS 7 Day Tmax Anomaly
+GEFS Week 1 Precip Total Forecast
+GEFS Week 1 Precip Anomaly Forecast
+GEFS Week 1 Precip Exceedance Prob (50 mm)
+GEFS Week 1 Precip Exceedance Prob (100 mm)
+GEFS Week 1 Raw Precip Tercile Prob
+GEFS Week 1 Consolidated Precip Tercile Prob
+GEFS Week 1 Temp Total Forecast
+GEFS Week 1 Temp Anomaly Forecast
+Leaky Bucket Model Evaporative Stress Index Week 1 Forecast
+Leaky Bucket Model Soil Moisture Percentile Week 1 Forecast
+Leaky Bucket Model SPI Week 1 Forecast
+GEFS Week 2 Precip Total
+GEFS Week 2 Precip Anomaly
+GEFS Week 2 Temp Total Forecast
+GEFS Week 2 Temp Anomaly Forecast
+GEFS Week 2 Precip Exceedance Prob (50 mm)
+GEFS Week 2 Precip Exceedance Prob (100 mm)
+GEFS Week 2 Raw Precip Tercile Prob
+GEFS Week 2 Consolidated Precip Tercile Prob
+NMME 1 Month Precip Anomaly Forecast
+NMME 1 Month SPI Forecast
+GEFS Week 1 Precip Total Forecast
+GEFS Week 1 Precip Anomaly Forecast
+GEFS Week 1 Precip Exceedance Prob (50 mm)
+GEFS Week 1 Precip Exceedance Prob (100 mm)
+GEFS Week 1 Raw Precip Tercile Prob
+GEFS Week 1 Consolidated Precip Tercile Prob
+GEFS Week 1 Temp Total Forecast
+GEFS Week 1 Temp Anomaly Forecast
+Leaky Bucket Model Evaporative Stress Index Week 1 Forecast
+Leaky Bucket Model Soil Moisture Percentile Week 1 Forecast
+Leaky Bucket Model SPI Week 1 Forecast
+GEFS Week 2 Precip Total
+GEFS Week 2 Precip Anomaly
+GEFS Week 2 Temp Total Forecast
+GEFS Week 2 Temp Anomaly Forecast
+GEFS Week 2 Precip Exceedance Prob (50 mm)
+GEFS Week 2 Precip Exceedance Prob (100 mm)
+GEFS Week 2 Raw Precip Tercile Prob
+GEFS Week 2 Consolidated Precip Tercile Prob
+NMME 1 Month Precip Anomaly Forecast
+NMME 1 Month SPI Forecast
+OISST SST 7-Day Anomaly
+OISST SST 7-Day Anomaly Difference
+CMORPH 90 Day Precip Anomaly
+CMORPH 90 Day Precip Percent
+CMORPH 3-month SPI
+CMORPH 3-month SPEI
+CMORPH 30 Day Precip Anomaly
+CMORPH 30 Day Precip Percent
+CMORPH 1-month SPI
+CMORPH 1-month SPEI
+Leaky Bucket Model 1-month Surface Runoff Index
+CMORPH 7 Day Precip Total
+CMORPH 7 Day Precip Anomaly
+CMORPH 7 Day SPI
+CDAS 7 Day Tmax
+CDAS 7 Day Tmax Anomaly
+error: unknown option `show-current'
+usage: git branch [options] [-r | -a] [--merged | --no-merged]
+   or: git branch [options] [-l] [-f] <branchname> [<start-point>]
+   or: git branch [options] [-r] (-d | -D) <branchname>...
+   or: git branch [options] (-m | -M) [<oldbranch>] <newbranch>
+
+Generic options
+    -v, --verbose         show hash and subject, give twice for upstream branch
+    -q, --quiet           suppress informational messages
+    -t, --track           set up tracking mode (see git-pull(1))
+    --set-upstream        change upstream info
+    -u, --set-upstream-to <upstream>
+                          change the upstream info
+    --unset-upstream      Unset the upstream info
+    --color[=<when>]      use colored output
+    -r, --remotes         act on remote-tracking branches
+    --contains <commit>   print only branches that contain the commit
+    --abbrev[=<n>]        use <n> digits to display SHA-1s
+
+Specific git-branch actions:
+    -a, --all             list both remote-tracking and local branches
+    -d, --delete          delete fully merged branch
+    -D                    delete branch (even if not merged)
+    -m, --move            move/rename a branch and its reflog
+    -M                    move/rename a branch, even if target exists
+    --list                list branch names
+    -l, --create-reflog   create the branch's reflog
+    --edit-description    edit the description for the branch
+    -f, --force           force creation (when already exists)
+    --no-merged <commit>  print only not merged branches
+    --merged <commit>     print only merged branches
+    --column[=<style>]    list branches in columns
+
+[temp-branch 4b3c680] automated commit by cron job on Thu Nov  7 20:18:19 UTC 2024
+ 89 files changed, 17 insertions(+)
+ create mode 100644 stations/images/.ipynb_checkpoints/cdas7tanom_data-checkpoint.png
+ create mode 100644 stations/images/.ipynb_checkpoints/cdas7tanom_header-checkpoint.png
+ create mode 100644 stations/images/.ipynb_checkpoints/lbmwk1esi_data-checkpoint.png
+ create mode 100644 stations/images/.ipynb_checkpoints/lbmwk1esi_header-checkpoint.png
+ create mode 100644 stations/images/.ipynb_checkpoints/lbmwk1esi_legend-checkpoint.png
+ create mode 100644 stations/images/.ipynb_checkpoints/lbmwk1smp_header-checkpoint.png
+ create mode 100644 stations/images/.ipynb_checkpoints/lbmwk1smp_legend-checkpoint.png
+ create mode 100644 stations/images/.ipynb_checkpoints/oisst_data-checkpoint.png
+ create mode 100644 stations/images/.ipynb_checkpoints/oisst_diff_data-checkpoint.png
+ create mode 100644 stations/images/.ipynb_checkpoints/oisst_diff_header-checkpoint.png
+ create mode 100644 stations/images/.ipynb_checkpoints/station_image_prep-checkpoint.log
+ rewrite stations/images/cdas7tanom_data.png (99%)
+ rewrite stations/images/cdas7tanom_header.png (99%)
+ rewrite stations/images/cdas7tmax_data.png (99%)
+ rewrite stations/images/cdas7tmax_header.png (98%)
+ rewrite stations/images/cmorph1mospei_data.png (99%)
+ rewrite stations/images/cmorph1mospei_header.png (99%)
+ rewrite stations/images/cmorph1mospi_data.png (99%)
+ rewrite stations/images/cmorph1mospi_header.png (99%)
+ rewrite stations/images/cmorph30panom_data.png (97%)
+ rewrite stations/images/cmorph30panom_header.png (99%)
+ rewrite stations/images/cmorph30ppercent_data.png (97%)
+ rewrite stations/images/cmorph30ppercent_header.png (99%)
+ rewrite stations/images/cmorph30ppercent_legend.png (97%)
+ rewrite stations/images/cmorph3mospei_data.png (99%)
+ rewrite stations/images/cmorph3mospei_header.png (99%)
+ rewrite stations/images/cmorph3mospi_data.png (98%)
+ rewrite stations/images/cmorph3mospi_header.png (99%)
+ rewrite stations/images/cmorph7panom_data.png (96%)
+ rewrite stations/images/cmorph7panom_header.png (99%)
+ rewrite stations/images/cmorph7ptotal_data.png (96%)
+ rewrite stations/images/cmorph7ptotal_header.png (98%)
+ rewrite stations/images/cmorph7ptotal_legend.png (97%)
+ rewrite stations/images/cmorph7spi_data.png (98%)
+ rewrite stations/images/cmorph7spi_header.png (98%)
+ rewrite stations/images/cmorph90anom_data.png (98%)
+ rewrite stations/images/cmorph90anom_header.png (99%)
+ rewrite stations/images/cmorph90percent_data.png (98%)
+ rewrite stations/images/cmorph90percent_header.png (98%)
+ rewrite stations/images/cmorph90percent_legend.png (97%)
+ rewrite stations/images/gefswk1conster_data.png (99%)
+ rewrite stations/images/gefswk1conster_header.png (99%)
+ rewrite stations/images/gefswk1conster_legend.png (99%)
+ rewrite stations/images/gefswk1panom_data.png (99%)
+ rewrite stations/images/gefswk1panom_header.png (99%)
+ rewrite stations/images/gefswk1poe100_data.png (98%)
+ rewrite stations/images/gefswk1poe100_header.png (98%)
+ rewrite stations/images/gefswk1poe50_data.png (98%)
+ rewrite stations/images/gefswk1poe50_header.png (99%)
+ rewrite stations/images/gefswk1ptotal_data.png (98%)
+ rewrite stations/images/gefswk1ptotal_header.png (99%)
+ rewrite stations/images/gefswk1rawter_data.png (99%)
+ rewrite stations/images/gefswk1rawter_header.png (99%)
+ rewrite stations/images/gefswk1rawter_legend.png (99%)
+ rewrite stations/images/gefswk1tanom_data.png (99%)
+ rewrite stations/images/gefswk1tanom_header.png (99%)
+ rewrite stations/images/gefswk1ttotal_data.png (98%)
+ rewrite stations/images/gefswk1ttotal_header.png (99%)
+ rewrite stations/images/gefswk2conster_data.png (99%)
+ rewrite stations/images/gefswk2conster_header.png (99%)
+ rewrite stations/images/gefswk2conster_legend.png (99%)
+ rewrite stations/images/gefswk2panom_data.png (99%)
+ rewrite stations/images/gefswk2panom_header.png (99%)
+ rewrite stations/images/gefswk2poe100_data.png (99%)
+ rewrite stations/images/gefswk2poe100_header.png (99%)
+ rewrite stations/images/gefswk2poe50_data.png (99%)
+ rewrite stations/images/gefswk2poe50_header.png (99%)
+ rewrite stations/images/gefswk2ptotal_data.png (99%)
+ rewrite stations/images/gefswk2ptotal_header.png (99%)
+ rewrite stations/images/gefswk2rawter_data.png (99%)
+ rewrite stations/images/gefswk2rawter_header.png (99%)
+ rewrite stations/images/gefswk2rawter_legend.png (99%)
+ rewrite stations/images/gefswk2tanom_data.png (99%)
+ rewrite stations/images/gefswk2tanom_header.png (99%)
+ rewrite stations/images/gefswk2ttotal_data.png (98%)
+ rewrite stations/images/gefswk2ttotal_header.png (99%)
+ rewrite stations/images/lbm1mosri_data.png (99%)
+ rewrite stations/images/lbm1mosri_header.png (99%)
+ rewrite stations/images/lbmwk1esi_data.png (98%)
+ rewrite stations/images/lbmwk1esi_header.png (99%)
+ rewrite stations/images/lbmwk1smp_data.png (99%)
+ rewrite stations/images/lbmwk1smp_header.png (99%)
+ rewrite stations/images/lbmwk1spi_data.png (99%)
+ rewrite stations/images/lbmwk1spi_header.png (99%)
+ rewrite stations/images/oisst_data.png (97%)
+ rewrite stations/images/oisst_diff_data.png (97%)
+ rewrite stations/images/oisst_diff_header.png (99%)
+ rewrite stations/images/oisst_header.png (99%)
+ create mode 100644 stations/images/station_image_prep.log
+fatal: remote part of refspec is not a valid name in 
+OISST SST 7-Day Anomaly
+OISST SST 7-Day Anomaly Difference
+CMORPH 90 Day Precip Anomaly
+CMORPH 90 Day Precip Percent
+CMORPH 3-month SPI
+CMORPH 3-month SPEI
+CMORPH 30 Day Precip Anomaly
+CMORPH 30 Day Precip Percent
+CMORPH 1-month SPI
+CMORPH 1-month SPEI
+Leaky Bucket Model 1-month Surface Runoff Index
+CMORPH 7 Day Precip Total
+CMORPH 7 Day Precip Anomaly
+CMORPH 7 Day SPI
+CDAS 7 Day Tmax
+CDAS 7 Day Tmax Anomaly
+GEFS Week 1 Precip Total Forecast
+GEFS Week 1 Precip Anomaly Forecast
+GEFS Week 1 Precip Exceedance Prob (50 mm)
+GEFS Week 1 Precip Exceedance Prob (100 mm)
+GEFS Week 1 Raw Precip Tercile Prob
+GEFS Week 1 Consolidated Precip Tercile Prob
+GEFS Week 1 Temp Total Forecast
+GEFS Week 1 Temp Anomaly Forecast
+Leaky Bucket Model Evaporative Stress Index Week 1 Forecast
+Leaky Bucket Model Soil Moisture Percentile Week 1 Forecast
+Leaky Bucket Model SPI Week 1 Forecast
+GEFS Week 2 Precip Total
+GEFS Week 2 Precip Anomaly
+GEFS Week 2 Temp Total Forecast
+GEFS Week 2 Temp Anomaly Forecast
+GEFS Week 2 Precip Exceedance Prob (50 mm)
+GEFS Week 2 Precip Exceedance Prob (100 mm)
+GEFS Week 2 Raw Precip Tercile Prob
+GEFS Week 2 Consolidated Precip Tercile Prob
+NMME 1 Month Precip Anomaly Forecast
+NMME 1 Month SPI Forecast
+OISST SST 7-Day Anomaly
+OISST SST 7-Day Anomaly Difference
+CMORPH 90 Day Precip Anomaly
+CMORPH 90 Day Precip Percent
+CMORPH 3-month SPI
+CMORPH 3-month SPEI
+CMORPH 30 Day Precip Anomaly
+CMORPH 30 Day Precip Percent
+CMORPH 1-month SPI
+CMORPH 1-month SPEI
+Leaky Bucket Model 1-month Surface Runoff Index
+CMORPH 7 Day Precip Total
+CMORPH 7 Day Precip Anomaly
+CMORPH 7 Day SPI
+CDAS 7 Day Tmax
+CDAS 7 Day Tmax Anomaly
+GEFS Week 1 Precip Total Forecast
+GEFS Week 1 Precip Anomaly Forecast
+GEFS Week 1 Precip Exceedance Prob (50 mm)
+GEFS Week 1 Precip Exceedance Prob (100 mm)
+GEFS Week 1 Raw Precip Tercile Prob
+GEFS Week 1 Consolidated Precip Tercile Prob
+GEFS Week 1 Temp Total Forecast
+GEFS Week 1 Temp Anomaly Forecast
+Leaky Bucket Model Evaporative Stress Index Week 1 Forecast
+Leaky Bucket Model Soil Moisture Percentile Week 1 Forecast
+Leaky Bucket Model SPI Week 1 Forecast
+GEFS Week 2 Precip Total
+GEFS Week 2 Precip Anomaly
+GEFS Week 2 Temp Total Forecast
+GEFS Week 2 Temp Anomaly Forecast
+GEFS Week 2 Precip Exceedance Prob (50 mm)
+GEFS Week 2 Precip Exceedance Prob (100 mm)
+GEFS Week 2 Raw Precip Tercile Prob
+GEFS Week 2 Consolidated Precip Tercile Prob
+NMME 1 Month Precip Anomaly Forecast
+NMME 1 Month SPI Forecast
+GEFS Week 1 Precip Total Forecast
+GEFS Week 1 Precip Anomaly Forecast
+GEFS Week 1 Precip Exceedance Prob (50 mm)
+GEFS Week 1 Precip Exceedance Prob (100 mm)
+GEFS Week 1 Raw Precip Tercile Prob
+GEFS Week 1 Consolidated Precip Tercile Prob
+GEFS Week 1 Temp Total Forecast
+GEFS Week 1 Temp Anomaly Forecast
+Leaky Bucket Model Evaporative Stress Index Week 1 Forecast
+Leaky Bucket Model Soil Moisture Percentile Week 1 Forecast
+Leaky Bucket Model SPI Week 1 Forecast
+GEFS Week 2 Precip Total
+GEFS Week 2 Precip Anomaly
+GEFS Week 2 Temp Total Forecast
+GEFS Week 2 Temp Anomaly Forecast
+GEFS Week 2 Precip Exceedance Prob (50 mm)
+GEFS Week 2 Precip Exceedance Prob (100 mm)
+GEFS Week 2 Raw Precip Tercile Prob
+GEFS Week 2 Consolidated Precip Tercile Prob
+NMME 1 Month Precip Anomaly Forecast
+NMME 1 Month SPI Forecast
+OISST SST 7-Day Anomaly
+OISST SST 7-Day Anomaly Difference
+CMORPH 90 Day Precip Anomaly
+CMORPH 90 Day Precip Percent
+CMORPH 3-month SPI
+CMORPH 3-month SPEI
+CMORPH 30 Day Precip Anomaly
+CMORPH 30 Day Precip Percent
+CMORPH 1-month SPI
+CMORPH 1-month SPEI
+Leaky Bucket Model 1-month Surface Runoff Index
+CMORPH 7 Day Precip Total
+CMORPH 7 Day Precip Anomaly
+CMORPH 7 Day SPI
+CDAS 7 Day Tmax
+CDAS 7 Day Tmax Anomaly
+error: unknown option `show-current'
+usage: git branch [options] [-r | -a] [--merged | --no-merged]
+   or: git branch [options] [-l] [-f] <branchname> [<start-point>]
+   or: git branch [options] [-r] (-d | -D) <branchname>...
+   or: git branch [options] (-m | -M) [<oldbranch>] <newbranch>
+
+Generic options
+    -v, --verbose         show hash and subject, give twice for upstream branch
+    -q, --quiet           suppress informational messages
+    -t, --track           set up tracking mode (see git-pull(1))
+    --set-upstream        change upstream info
+    -u, --set-upstream-to <upstream>
+                          change the upstream info
+    --unset-upstream      Unset the upstream info
+    --color[=<when>]      use colored output
+    -r, --remotes         act on remote-tracking branches
+    --contains <commit>   print only branches that contain the commit
+    --abbrev[=<n>]        use <n> digits to display SHA-1s
+
+Specific git-branch actions:
+    -a, --all             list both remote-tracking and local branches
+    -d, --delete          delete fully merged branch
+    -D                    delete branch (even if not merged)
+    -m, --move            move/rename a branch and its reflog
+    -M                    move/rename a branch, even if target exists
+    --list                list branch names
+    -l, --create-reflog   create the branch's reflog
+    --edit-description    edit the description for the branch
+    -f, --force           force creation (when already exists)
+    --no-merged <commit>  print only not merged branches
+    --merged <commit>     print only merged branches
+    --column[=<style>]    list branches in columns
+
