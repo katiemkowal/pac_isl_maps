@@ -19,7 +19,7 @@ log() {
 #main function
 main(){
     log "starting cron task"
-
+    /cpc/home/kkowal/.conda/envs/xcast_env/bin/python /cpc/int_desk/data/oisstv2/download_oisstv2.py
     /cpc/home/kkowal/.conda/envs/map_env/bin/python /cpc/int_desk/pac_isl/stations/updated_images_for_leaflet.py
     cd /cpc/int_desk/pac_isl/stations/
     current_branch=temp-branch
