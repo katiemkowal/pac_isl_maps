@@ -6,7 +6,6 @@
     <title>Pacific Islands Trial Map</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet-polyline-measure/src/leaflet.polylineMeasure.css">
-<!--     <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-sidebar-v2/3.1.2/leaflet-sidebar.min.js"></script> -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     
     <style>
@@ -55,18 +54,15 @@
     <div id="map" style="width: 95%; margin: auto; position: relative; outline: none;" class="leaflet-container leaflet-touch leaflet-fade-anom leaflet-grab leaflet-touch-drag leaflet-touch-zoom" tabindex="0"></div>
     <div class="leaflet-pane leaflet-map-pane" style='transform: translate3d(-262px, 546px, 0px);'></div>
     <!-- Add a div below the map for the legend -->
-    <div id="legend-container" style="text-align: center; padding: 20px;"></div>
+    
     <div id="header-container" style = "text_align: center; padding: 20px;"></div>
+    <div id="legend-container" style="text_align: center; padding: 10px;"></div>
     <div 
     <div id="side-bar" class="col-nd-3">
-<!--         <button id='btnLocate' class='btn btn-primary btn-block'>Locate</button> -->
-<!--         <button id='btnZocalo' class='btn btn-primary btn-block'>ZoomToPacific</button> -->
         <h4> Figure Opacity: <span id='image-opacity'></span></h4>
         <input type ='range' id ='sldOpacity' min = '0' max = '1' step = '0.1' value='0.5'>
         <h4> SST Opacity: <span id='sst-opacity'></span></h4>
         <input type ='range' id ='sstOpacity' min = '0' max = '1' step = '0.1' value='0.5'>
-<!--         <h4> MJO Opacity: <span id='mjo-opacity'></span></h4> -->
-<!--         <input type ='range' id ='mjoOpacity' min = '0' max = '1' step = '0.1' value='0.5'> -->
     </div>
     
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
@@ -175,48 +171,48 @@
 
         layerlinks = {
             'Monitor Tools': {
-                'OISST SST 7-Day Anomaly': 'https://github.ncep.noaa.gov/katie-kowal/pac_islands/blob/main/stations/images/oisst_data.png?raw=true',
-                'OISST SST 7-Day Anomaly Difference': 'https://github.ncep.noaa.gov/katie-kowal/pac_islands/blob/main/stations/images/oisst_diff_data.png?raw=true',
+                'OISST SST 7-Day Anomaly': 'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/oisst_data.png?raw=true',
+                'OISST SST 7-Day Anomaly Difference': 'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/oisst_diff_data.png?raw=true',
                 'CMORPH Time Series Points': 'https://www.cpc.ncep.noaa.gov/products/international/zz_CP_Islands/zz_CMORPH_BLD_2nd/CMORPH_BLD_Islands_180day.shtml',
-                'CMORPH 90 Day Precip Anomaly': 'https://github.ncep.noaa.gov/katie-kowal/pac_islands/blob/main/stations/images/cmorph90anom_data.png?raw=true',
-                'CMORPH 90 Day Precip Percent': 'https://github.ncep.noaa.gov/katie-kowal/pac_islands/blob/main/stations/images/cmorph90percent_data.png?raw=true',
-                'CMORPH 3-month SPI': 'https://github.ncep.noaa.gov/katie-kowal/pac_islands/blob/main/stations/images/cmorph3mospi_data.png?raw=true',
-                'CMORPH 3-month SPEI': 'https://github.ncep.noaa.gov/katie-kowal/pac_islands/blob/main/stations/images/cmorph3mospi_data.png?raw=true',
-                'CMORPH 30 Day Precip Anomaly': 'https://github.ncep.noaa.gov/katie-kowal/pac_islands/blob/main/stations/images/cmorph30panom_data.png?raw=true',
-                'CMORPH 30 Day Precip Percent': 'https://github.ncep.noaa.gov/katie-kowal/pac_islands/blob/main/stations/images/cmorph30ppercent_data.png?raw=true',
-                'CMORPH 1-month SPI': 'https://github.ncep.noaa.gov/katie-kowal/pac_islands/blob/main/stations/images/cmorph1mospi_data.png?raw=true',
-                'CMORPH 1-month SPEI': 'https://github.ncep.noaa.gov/katie-kowal/pac_islands/blob/main/stations/images/cmorph1mospei_data.png?raw=true',
-                'Leaky Bucket Model 1-month Surface Runoff Index': 'https://github.ncep.noaa.gov/katie-kowal/pac_islands/blob/main/stations/images/lbm1mosri_data.png?raw=true',
-                'CMORPH 7 Day Precip Total': 'https://github.ncep.noaa.gov/katie-kowal/pac_islands/blob/main/stations/images/cmorph7ptotal_data.png?raw=true',
-                'CMORPH 7 Day Precip Anomaly': 'https://github.ncep.noaa.gov/katie-kowal/pac_islands/blob/main/stations/images/cmorph7panom_data.png?raw=true',
-                'CMORPH 7 Day SPI': 'https://github.ncep.noaa.gov/katie-kowal/pac_islands/blob/main/stations/images/cmorph7spi_data.png?raw=true',
-                'CDAS 7 Day Tmax':  'https://github.ncep.noaa.gov/katie-kowal/pac_islands/blob/main/stations/images/cdas7tmax_data.png?raw=true',
-                'CDAS 7 Day Tmax Anomaly': 'https://github.ncep.noaa.gov/katie-kowal/pac_islands/blob/main/stations/images/cdas7tanom_data.png?raw=true',
+                'CMORPH 90 Day Precip Anomaly': 'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/cmorph90anom_data.png?raw=true',
+                'CMORPH 90 Day Precip Percent': 'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/cmorph90percent_data.png?raw=true',
+                'CMORPH 3-month SPI': 'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/cmorph3mospi_data.png?raw=true',
+                'CMORPH 3-month SPEI': 'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/cmorph3mospi_data.png?raw=true',
+                'CMORPH 30 Day Precip Anomaly': 'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/cmorph30panom_data.png?raw=true',
+                'CMORPH 30 Day Precip Percent': 'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/cmorph30ppercent_data.png?raw=true',
+                'CMORPH 1-month SPI': 'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/cmorph1mospi_data.png?raw=true',
+                'CMORPH 1-month SPEI': 'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/cmorph1mospei_data.png?raw=true',
+                'Leaky Bucket Model 1-month Surface Runoff Index': 'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/lbm1mosri_data.png?raw=true',
+                'CMORPH 7 Day Precip Total': 'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/cmorph7ptotal_data.png?raw=true',
+                'CMORPH 7 Day Precip Anomaly': 'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/cmorph7panom_data.png?raw=true',
+                'CMORPH 7 Day SPI': 'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/cmorph7spi_data.png?raw=true',
+                'CDAS 7 Day Tmax':  'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/cdas7tmax_data.png?raw=true',
+                'CDAS 7 Day Tmax Anomaly': 'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/cdas7tanom_data.png?raw=true',
                 'VHI 1km': 'https://www.ncei.noaa.gov/pub/data/nidis/tile/noaa-vhi-1km/{z}/{x}/{y}.png',
                 'NASA ESI': 'https://www.ncei.noaa.gov/pub/data/nidis/tile/nasa-esi-5km-4wk/{z}/{x}/{y}.png'
             },
             'Forecast Tools': {
-                'GEFS Week 1 Precip Total Forecast':  'https://github.ncep.noaa.gov/katie-kowal/pac_islands/blob/main/stations/images/gefswk1ptotal_data.png?raw=true',
-                'GEFS Week 1 Precip Anomaly Forecast': 'https://github.ncep.noaa.gov/katie-kowal/pac_islands/blob/main/stations/images/gefswk1panom_data.png?raw=true',
-                'GEFS Week 1 Precip Exceedance Prob (50 mm)': 'https://github.ncep.noaa.gov/katie-kowal/pac_islands/blob/main/stations/images/gefswk1poe50_data.png?raw=true',
-                'GEFS Week 1 Precip Exceedance Prob (100 mm)': 'https://github.ncep.noaa.gov/katie-kowal/pac_islands/blob/main/stations/images/gefswk1poe100_data.png?raw=true',
-                'GEFS Week 1 Raw Precip Tercile Prob': 'https://github.ncep.noaa.gov/katie-kowal/pac_islands/blob/main/stations/images/gefswk1rawter_data.png?raw=true',
-                'GEFS Week 1 Consolidated Precip Tercile Prob': 'https://github.ncep.noaa.gov/katie-kowal/pac_islands/blob/main/stations/images/gefswk1conster_data.png?raw=true',
-                'GEFS Week 1 Temp Total Forecast': 'https://github.ncep.noaa.gov/katie-kowal/pac_islands/blob/main/stations/images/gefswk1ttotal_data.png?raw=true',
-                'GEFS Week 1 Temp Anomaly Forecast': 'https://github.ncep.noaa.gov/katie-kowal/pac_islands/blob/main/stations/images/gefswk1tanom_data.png?raw=true',
-                'Leaky Bucket Model Evaporative Stress Index Week 1 Forecast': 'https://github.ncep.noaa.gov/katie-kowal/pac_islands/blob/main/stations/images/lbmwk1esi_data.png?raw=true',
-                'Leaky Bucket Model Soil Moisture Percentile Week 1 Forecast':'https://github.ncep.noaa.gov/katie-kowal/pac_islands/blob/main/stations/images/lbmwk1smp_data.png?raw=true',
-                'Leaky Bucket Model SPI Week 1 Forecast': 'https://github.ncep.noaa.gov/katie-kowal/pac_islands/blob/main/stations/images/lbmwk1spi_data.png?raw=true',
-                'GEFS Week 2 Precip Total':'https://github.ncep.noaa.gov/katie-kowal/pac_islands/blob/main/stations/images/gefswk2ptotal_data.png?raw=true',
-                'GEFS Week 2 Precip Anomaly': 'https://github.ncep.noaa.gov/katie-kowal/pac_islands/blob/main/stations/images/gefswk2panom_data.png?raw=true',
-                'GEFS Week 2 Temp Total Forecast': 'https://github.ncep.noaa.gov/katie-kowal/pac_islands/blob/main/stations/images/gefswk2ttotal_data.png?raw=true',
-                'GEFS Week 2 Temp Anomaly Forecast': 'https://github.ncep.noaa.gov/katie-kowal/pac_islands/blob/main/stations/images/gefswk2tanom_data.png?raw=true',
-                'GEFS Week 2 Precip Exceedance Prob (50 mm)': 'https://github.ncep.noaa.gov/katie-kowal/pac_islands/blob/main/stations/images/gefswk2poe50_data.png?raw=true',
-                'GEFS Week 2 Precip Exceedance Prob (100 mm)': 'https://github.ncep.noaa.gov/katie-kowal/pac_islands/blob/main/stations/images/gefswk2poe100_data.png?raw=true',
-                'GEFS Week 2 Raw Precip Tercile Prob': 'https://github.ncep.noaa.gov/katie-kowal/pac_islands/blob/main/stations/images/gefswk2rawter_data.png?raw=true',
-                'GEFS Week 2 Consolidated Precip Tercile Prob': 'https://github.ncep.noaa.gov/katie-kowal/pac_islands/blob/main/stations/images/gefswk2conster_data.png?raw=true',
-                'NMME 1 Month Precip Anomaly Forecast': 'https://github.ncep.noaa.gov/katie-kowal/pac_islands/blob/main/stations/images/nmme1mopanom_data.png?raw=true',
-                'NMME 1 Month SPI Forecast': 'https://github.ncep.noaa.gov/katie-kowal/pac_islands/blob/main/stations/images/nmme1mospi_data.png?raw=true'
+                'GEFS Week 1 Precip Total Forecast':  'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/gefswk1ptotal_data.png?raw=true',
+                'GEFS Week 1 Precip Anomaly Forecast': 'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/gefswk1panom_data.png?raw=true',
+                'GEFS Week 1 Precip Exceedance Prob (50 mm)': 'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/gefswk1poe50_data.png?raw=true',
+                'GEFS Week 1 Precip Exceedance Prob (100 mm)': 'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/gefswk1poe100_data.png?raw=true',
+                'GEFS Week 1 Raw Precip Tercile Prob': 'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/gefswk1rawter_data.png?raw=true',
+                'GEFS Week 1 Consolidated Precip Tercile Prob': 'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/gefswk1conster_data.png?raw=true',
+                'GEFS Week 1 Temp Total Forecast': 'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/gefswk1ttotal_data.png?raw=true',
+                'GEFS Week 1 Temp Anomaly Forecast': 'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/gefswk1tanom_data.png?raw=true',
+                'Leaky Bucket Model Evaporative Stress Index Week 1 Forecast': 'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/lbmwk1esi_data.png?raw=true',
+                'Leaky Bucket Model Soil Moisture Percentile Week 1 Forecast':'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/lbmwk1smp_data.png?raw=true',
+                'Leaky Bucket Model SPI Week 1 Forecast': 'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/lbmwk1spi_data.png?raw=true',
+                'GEFS Week 2 Precip Total':'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/gefswk2ptotal_data.png?raw=true',
+                'GEFS Week 2 Precip Anomaly': 'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/gefswk2panom_data.png?raw=true',
+                'GEFS Week 2 Temp Total Forecast': 'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/gefswk2ttotal_data.png?raw=true',
+                'GEFS Week 2 Temp Anomaly Forecast': 'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/gefswk2tanom_data.png?raw=true',
+                'GEFS Week 2 Precip Exceedance Prob (50 mm)': 'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/gefswk2poe50_data.png?raw=true',
+                'GEFS Week 2 Precip Exceedance Prob (100 mm)': 'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/gefswk2poe100_data.png?raw=true',
+                'GEFS Week 2 Raw Precip Tercile Prob': 'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/gefswk2rawter_data.png?raw=true',
+                'GEFS Week 2 Consolidated Precip Tercile Prob': 'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/gefswk2conster_data.png?raw=true',
+                'NMME 1 Month Precip Anomaly Forecast': 'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/nmme1mopanom_data.png?raw=true',
+                'NMME 1 Month SPI Forecast': 'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images//nmme1mospi_data.png?raw=true'
             }
         };
 
@@ -519,90 +515,91 @@
         ctlbase = L.control.layers(objBasemaps, null, {position: 'topright'}).addTo(map);
         ctlmonitors = L.control.layers(null, objOverlays_monitor, {position: 'topright'}).addTo(map);
         ctlfcsts = L.control.layers(null, objOverlays_fcst, {position: 'topright'}).addTo(map);
+
         layerToHeader = {
-            'OISST SST 7-Day Anomaly': 'https://github.com/katiemkowal/pac_isl_maps/tree/temp-branch/stations/images/oisst_diff_header.png?raw=true', //'https://github.ncep.noaa.gov/katie-kowal/pac_islands/blob/main/stations/images/oisst_legend.png?raw=true',
-            'OISST SST 7-Day Anomaly Difference': 'https://github.com/katiemkowal/pac_isl_maps/tree/temp-branch/stations/images/oisst_diff_header.png?raw=true',
+            'OISST SST 7-Day Anomaly': 'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/oisst_header.png?raw=true', //'https://github.ncep.noaa.gov/katie-kowal/pac_islands/blob/main/stations/images/oisst_legend.png?raw=true',
+            'OISST SST 7-Day Anomaly Difference': 'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/oisst_diff_header.png?raw=true',
             'CMORPH Time Series Points': '',
-            'CMORPH 90 Day Precip Anomaly':  'https://github.com/katiemkowal/pac_isl_maps/tree/temp-branch/stations/images/cmorph90anom_header.png?raw=true',
-            'CMORPH 90 Day Precip Percent':  'https://github.com/katiemkowal/pac_isl_maps/tree/temp-branch/stations/images/cmorph90percent_header.png?raw=true',
-            'CMORPH 3-month SPI':  'https://github.com/katiemkowal/pac_isl_maps/tree/temp-branch/stations/images/cmorph3mospi_header.png?raw=true',
-            'CMORPH 3-month SPEI':  'https://github.com/katiemkowal/pac_isl_maps/tree/temp-branch/stations/images/cmorph3mospei_header.png?raw=true',
-            'CMORPH 30 Day Precip Anomaly':  'https://github.com/katiemkowal/pac_isl_maps/tree/temp-branch/stations/images/cmorph30panom_header.png?raw=true',
-            'CMORPH 30 Day Precip Percent':  'https://github.com/katiemkowal/pac_isl_maps/tree/temp-branch/stations/images/cmorph30ppercent_header.png?raw=true',
-            'CMORPH 1-month SPI':  'https://github.com/katiemkowal/pac_isl_maps/tree/temp-branch/stations/images/cmorph1mospi_header.png?raw=true',
-            'CMORPH 1-month SPEI':  'https://github.com/katiemkowal/pac_isl_maps/tree/temp-branch/stations/images/cmorph1mospei_header.png?raw=true',
-            'Leaky Bucket Model 1-month Surface Runoff Index':  'https://github.com/katiemkowal/pac_isl_maps/tree/temp-branch/stations/images/lbm1mosri_header.png?raw=true',
-            'CMORPH 7 Day Precip Total':  'https://github.com/katiemkowal/pac_isl_maps/tree/temp-branch/stations/images/cmorph7ptotal_header.png?raw=true',
-            'CMORPH 7 Day Precip Anomaly': 'https://github.com/katiemkowal/pac_isl_maps/tree/temp-branch/stations/images/cmorph7panom_header.png?raw=true',
-            'CMORPH 7 Day SPI':  'https://github.com/katiemkowal/pac_isl_maps/tree/temp-branch/stations/images/cmorph7spi_header.png?raw=true',
-            'CDAS 7 Day Tmax':'https://github.com/katiemkowal/pac_isl_maps/tree/temp-branch/stations/images/cdas7tmax_header.png?raw=true',
-            'CDAS 7 Day Tmax Anomaly':  'https://github.com/katiemkowal/pac_isl_maps/tree/temp-branch/stations/images/cdas7tanom_header.png?raw=true',
+            'CMORPH 90 Day Precip Anomaly':  'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/cmorph90anom_header.png?raw=true',
+            'CMORPH 90 Day Precip Percent':  'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/cmorph90percent_header.png?raw=true',
+            'CMORPH 3-month SPI':  'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/cmorph3mospi_header.png?raw=true',
+            'CMORPH 3-month SPEI':  'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/cmorph3mospei_header.png?raw=true',
+            'CMORPH 30 Day Precip Anomaly':  'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/cmorph30panom_header.png?raw=true',
+            'CMORPH 30 Day Precip Percent':  'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/cmorph30ppercent_header.png?raw=true',
+            'CMORPH 1-month SPI':  'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/cmorph1mospi_header.png?raw=true',
+            'CMORPH 1-month SPEI':  'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/cmorph1mospei_header.png?raw=true',
+            'Leaky Bucket Model 1-month Surface Runoff Index':  'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/lbm1mosri_header.png?raw=true',
+            'CMORPH 7 Day Precip Total':  'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/cmorph7ptotal_header.png?raw=true',
+            'CMORPH 7 Day Precip Anomaly': 'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/cmorph7panom_header.png?raw=true',
+            'CMORPH 7 Day SPI':  'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/cmorph7spi_header.png?raw=true',
+            'CDAS 7 Day Tmax':'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/cdas7tmax_header.png?raw=true',
+            'CDAS 7 Day Tmax Anomaly':  'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/cdas7tanom_header.png?raw=true',
             'VHI 1km': '',
             'NASA ESI': '',
-            'GEFS Week 1 Precip Total Forecast': 'https://github.com/katiemkowal/pac_isl_maps/tree/temp-branch/stations/images/gefswk1ptotal_header.png?raw=true',
-            'GEFS Week 1 Precip Anomaly Forecast': 'https://github.com/katiemkowal/pac_isl_maps/tree/temp-branch/stations/images/gefswk1panom_header.png?raw=true',
-            'GEFS Week 1 Precip Exceedance Prob (50 mm)': 'https://github.com/katiemkowal/pac_isl_maps/tree/temp-branch/stations/images/gefswk1poe50_header.png?raw=true',
-            'GEFS Week 1 Precip Exceedance Prob (100 mm)': 'https://github.com/katiemkowal/pac_isl_maps/tree/temp-branch/stations/images/gefswk1poe100_header.png?raw=true',
-            'GEFS Week 1 Raw Precip Tercile Prob': 'https://github.com/katiemkowal/pac_isl_maps/tree/temp-branch/stations/images/gefswk1rawter_header.png?raw=true',
-            'GEFS Week 1 Consolidated Precip Tercile Prob': 'https://github.com/katiemkowal/pac_isl_maps/tree/temp-branch/stations/images/gefswk1conster_header.png?raw=true',
-            'GEFS Week 1 Temp Total Forecast': 'https://github.com/katiemkowal/pac_isl_maps/tree/temp-branch/stations/images/gefswk1ttotal_header.png?raw=true',
-            'GEFS Week 1 Temp Anomaly Forecast': 'https://github.com/katiemkowal/pac_isl_maps/tree/temp-branch/stations/images/gefswk1tanom_header.png?raw=true',
-            'Leaky Bucket Model Evaporative Stress Index Week 1 Forecast': 'https://github.com/katiemkowal/pac_isl_maps/tree/temp-branch/stations/images/lbmwk1esi_header.png?raw=true',
-            'Leaky Bucket Model Soil Moisture Percentile Week 1 Forecast': 'https://github.com/katiemkowal/pac_isl_maps/tree/temp-branch/stations/images/lbmwk1smp_header.png?raw=true',
-            'Leaky Bucket Model SPI Week 1 Forecast': 'https://github.com/katiemkowal/pac_isl_maps/tree/temp-branch/stations/images/lbmwk1spi_header.png?raw=true',
-            'GEFS Week 2 Precip Total': 'https://github.com/katiemkowal/pac_isl_maps/tree/temp-branch/stations/images/gefswk2ptotal_header.png?raw=true',
-            'GEFS Week 2 Precip Anomaly': 'https://github.com/katiemkowal/pac_isl_maps/tree/temp-branch/stations/images/gefswk2panom_header.png?raw=true',
-            'GEFS Week 2 Temp Total Forecast': 'https://github.com/katiemkowal/pac_isl_maps/tree/temp-branch/stations/images/gefswk2ttotal_header.png?raw=true',
-            'GEFS Week 2 Temp Anomaly Forecast': 'https://github.com/katiemkowal/pac_isl_maps/tree/temp-branch/stations/images/gefswk2tanom_header.png?raw=true',
-            'GEFS Week 2 Precip Exceedance Prob (50 mm)': 'https://github.com/katiemkowal/pac_isl_maps/tree/temp-branch/stations/images/gefswk2poe50_header.png?raw=true',
-            'GEFS Week 2 Precip Exceedance Prob (100 mm)': 'https://github.com/katiemkowal/pac_isl_maps/tree/temp-branch/stations/images//gefswk2poe100_header.png?raw=true',
-            'GEFS Week 2 Raw Precip Tercile Prob': 'https://github.com/katiemkowal/pac_isl_maps/tree/temp-branch/stations/images/gefswk2rawter_header.png?raw=true',
-            'GEFS Week 2 Consolidated Precip Tercile Prob': 'https://github.com/katiemkowal/pac_isl_maps/tree/temp-branch/stations/images/gefswk2conster_header.png?raw=true',
-            'NMME 1 Month Precip Anomaly Forecast': 'https://github.com/katiemkowal/pac_isl_maps/tree/temp-branch/stations/images/nmme1mopanom_header.png?raw=true', 
-             'NMME 1 Month SPI Forecast': 'https://github.com/katiemkowal/pac_isl_maps/tree/temp-branch/stations/images/nmme1mospi_header.png?raw=true', 
+            'GEFS Week 1 Precip Total Forecast': 'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/gefswk1ptotal_header.png?raw=true',
+            'GEFS Week 1 Precip Anomaly Forecast': 'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/gefswk1panom_header.png?raw=true',
+            'GEFS Week 1 Precip Exceedance Prob (50 mm)': 'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/gefswk1poe50_header.png?raw=true',
+            'GEFS Week 1 Precip Exceedance Prob (100 mm)': 'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/gefswk1poe100_header.png?raw=true',
+            'GEFS Week 1 Raw Precip Tercile Prob': 'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/gefswk1rawter_header.png?raw=true',
+            'GEFS Week 1 Consolidated Precip Tercile Prob': 'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/gefswk1conster_header.png?raw=true',
+            'GEFS Week 1 Temp Total Forecast': 'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/gefswk1ttotal_header.png?raw=true',
+            'GEFS Week 1 Temp Anomaly Forecast': 'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/gefswk1tanom_header.png?raw=true',
+            'Leaky Bucket Model Evaporative Stress Index Week 1 Forecast': 'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/lbmwk1esi_header.png?raw=true',
+            'Leaky Bucket Model Soil Moisture Percentile Week 1 Forecast': 'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/lbmwk1smp_header.png?raw=true',
+            'Leaky Bucket Model SPI Week 1 Forecast': 'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/lbmwk1spi_header.png?raw=true',
+            'GEFS Week 2 Precip Total': 'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/gefswk2ptotal_header.png?raw=true',
+            'GEFS Week 2 Precip Anomaly': 'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/gefswk2panom_header.png?raw=true',
+            'GEFS Week 2 Temp Total Forecast': 'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/gefswk2ttotal_header.png?raw=true',
+            'GEFS Week 2 Temp Anomaly Forecast': 'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/gefswk2tanom_header.png?raw=true',
+            'GEFS Week 2 Precip Exceedance Prob (50 mm)': 'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/gefswk2poe50_header.png?raw=true',
+            'GEFS Week 2 Precip Exceedance Prob (100 mm)': 'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images//gefswk2poe100_header.png?raw=true',
+            'GEFS Week 2 Raw Precip Tercile Prob': 'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/gefswk2rawter_header.png?raw=true',
+            'GEFS Week 2 Consolidated Precip Tercile Prob': 'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/gefswk2conster_header.png?raw=true',
+            'NMME 1 Month Precip Anomaly Forecast': 'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/nmme1mopanom_header.png?raw=true', 
+             'NMME 1 Month SPI Forecast': 'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/nmme1mospi_header.png?raw=true', 
         };
             
         layerToLegend = {
-            'OISST SST 7-Day Anomaly': 'https://github.com/katiemkowal/pac_isl_maps/tree/temp-branch/stations/images/oisst_diff_legend.png?raw=true', //'https://github.ncep.noaa.gov/katie-kowal/pac_islands/blob/main/stations/images/oisst_legend.png?raw=true',
-            'OISST SST 7-Day Anomaly Difference': 'https://github.com/katiemkowal/pac_isl_maps/tree/temp-branch/stations/images/oisst_diff_legend.png?raw=true',
+            'OISST SST 7-Day Anomaly': 'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/oisst_diff_legend.png?raw=true', //'https://github.ncep.noaa.gov/katie-kowal/pac_islands/blob/main/stations/images/oisst_legend.png?raw=true',
+            'OISST SST 7-Day Anomaly Difference': 'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/oisst_diff_legend.png?raw=true',
             'CMORPH Time Series Points': '',
-            'CMORPH 90 Day Precip Anomaly':  'https://github.com/katiemkowal/pac_isl_maps/tree/temp-branch/stations/images/cmorph90anom_legend.png?raw=true',
-            'CMORPH 90 Day Precip Percent':  'https://github.com/katiemkowal/pac_isl_maps/tree/temp-branch/stations/images/cmorph90percent_legend.png?raw=true',
-            'CMORPH 3-month SPI':  'https://github.com/katiemkowal/pac_isl_maps/tree/temp-branch/stations/images/cmorph3mospi_legend.png?raw=true',
-            'CMORPH 3-month SPEI':  'https://github.com/katiemkowal/pac_isl_maps/tree/temp-branch/stations/images/cmorph3mospei_legend.png?raw=true',
-            'CMORPH 30 Day Precip Anomaly':  'https://github.com/katiemkowal/pac_isl_maps/tree/temp-branch/stations/images/cmorph30panom_legend.png?raw=true',
-            'CMORPH 30 Day Precip Percent':  'https://github.com/katiemkowal/pac_isl_maps/tree/temp-branch/stations/images/cmorph30ppercent_legend.png?raw=true',
-            'CMORPH 1-month SPI':  'https://github.com/katiemkowal/pac_isl_maps/tree/temp-branch/stations/images/cmorph1mospi_legend.png?raw=true',
-            'CMORPH 1-month SPEI':  'https://github.com/katiemkowal/pac_isl_maps/tree/temp-branch/stations/images/cmorph1mospei_legend.png?raw=true',
-            'Leaky Bucket Model 1-month Surface Runoff Index':  'https://github.com/katiemkowal/pac_isl_maps/tree/temp-branch/stations/images/lbm1mosri_legend.png?raw=true',
-            'CMORPH 7 Day Precip Total':  'https://github.com/katiemkowal/pac_isl_maps/tree/temp-branch/stations/images/cmorph7ptotal_legend.png?raw=true',
-            'CMORPH 7 Day Precip Anomaly': 'https://github.com/katiemkowal/pac_isl_maps/tree/temp-branch/stations/images/cmorph7panom_legend.png?raw=true',
-            'CMORPH 7 Day SPI':  'https://github.com/katiemkowal/pac_isl_maps/tree/temp-branch/stations/images/cmorph7spi_legend.png?raw=true',
-            'CDAS 7 Day Tmax':'https://github.com/katiemkowal/pac_isl_maps/tree/temp-branch/stations/images/cdas7tmax_legend.png?raw=true',
-            'CDAS 7 Day Tmax Anomaly':  'https://github.com/katiemkowal/pac_isl_maps/tree/temp-branch/stations/images/cdas7tanom_legend.png?raw=true',
+            'CMORPH 90 Day Precip Anomaly':  'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/cmorph90anom_legend.png?raw=true',
+            'CMORPH 90 Day Precip Percent':  'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/cmorph90percent_legend.png?raw=true',
+            'CMORPH 3-month SPI':  'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/cmorph3mospi_legend.png?raw=true',
+            'CMORPH 3-month SPEI':  'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/cmorph3mospei_legend.png?raw=true',
+            'CMORPH 30 Day Precip Anomaly':  'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/cmorph30panom_legend.png?raw=true',
+            'CMORPH 30 Day Precip Percent':  'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/cmorph30ppercent_legend.png?raw=true',
+            'CMORPH 1-month SPI':  'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/cmorph1mospi_legend.png?raw=true',
+            'CMORPH 1-month SPEI':  'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/cmorph1mospei_legend.png?raw=true',
+            'Leaky Bucket Model 1-month Surface Runoff Index':  'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/lbm1mosri_legend.png?raw=true',
+            'CMORPH 7 Day Precip Total':  'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/cmorph7ptotal_legend.png?raw=true',
+            'CMORPH 7 Day Precip Anomaly': 'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/cmorph7panom_legend.png?raw=true',
+            'CMORPH 7 Day SPI':  'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/cmorph7spi_legend.png?raw=true',
+            'CDAS 7 Day Tmax':'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/cdas7tmax_legend.png?raw=true',
+            'CDAS 7 Day Tmax Anomaly':  'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/cdas7tanom_legend.png?raw=true',
             'VHI 1km': '',
             'NASA ESI': '',
-            'GEFS Week 1 Precip Total Forecast': 'https://github.com/katiemkowal/pac_isl_maps/tree/temp-branch/stations/images/gefswk1ptotal_legend.png?raw=true',
-            'GEFS Week 1 Precip Anomaly Forecast': 'https://github.com/katiemkowal/pac_isl_maps/tree/temp-branch/stations/images/gefswk1panom_legend.png?raw=true',
-            'GEFS Week 1 Precip Exceedance Prob (50 mm)': 'https://github.com/katiemkowal/pac_isl_maps/tree/temp-branch/stations/images/gefswk1poe50_legend.png?raw=true',
-            'GEFS Week 1 Precip Exceedance Prob (100 mm)': 'https://github.com/katiemkowal/pac_isl_maps/tree/temp-branch/stations/images/gefswk1poe100_legend.png?raw=true',
-            'GEFS Week 1 Raw Precip Tercile Prob': 'https://github.com/katiemkowal/pac_isl_maps/tree/temp-branch/stations/images/gefswk1rawter_legend.png?raw=true',
-            'GEFS Week 1 Consolidated Precip Tercile Prob': 'https://github.com/katiemkowal/pac_isl_maps/tree/temp-branch/stations/images/gefswk1conster_legend.png?raw=true',
-            'GEFS Week 1 Temp Total Forecast': 'https://github.com/katiemkowal/pac_isl_maps/tree/temp-branch/stations/images/gefswk1ttotal_legend.png?raw=true',
-            'GEFS Week 1 Temp Anomaly Forecast': 'https://github.com/katiemkowal/pac_isl_maps/tree/temp-branch/stations/images/gefswk1tanom_legend.png?raw=true',
-            'Leaky Bucket Model Evaporative Stress Index Week 1 Forecast': 'https://github.com/katiemkowal/pac_isl_maps/tree/temp-branch/stations/images/lbmwk1esi_legend.png?raw=true',
-            'Leaky Bucket Model Soil Moisture Percentile Week 1 Forecast': 'https://github.com/katiemkowal/pac_isl_maps/tree/temp-branch/stations/images/lbmwk1smp_legend.png?raw=true',
-            'Leaky Bucket Model SPI Week 1 Forecast': 'https://github.com/katiemkowal/pac_isl_maps/tree/temp-branch/stations/images/lbmwk1spi_legend.png?raw=true',
-            'GEFS Week 2 Precip Total': 'https://github.com/katiemkowal/pac_isl_maps/tree/temp-branch/stations/images/gefswk2ptotal_legend.png?raw=true',
-            'GEFS Week 2 Precip Anomaly': 'https://github.com/katiemkowal/pac_isl_maps/tree/temp-branch/stations/images/gefswk2panom_legend.png?raw=true',
-            'GEFS Week 2 Temp Total Forecast': 'https://github.com/katiemkowal/pac_isl_maps/tree/temp-branch/stations/images/gefswk2ttotal_legend.png?raw=true',
-            'GEFS Week 2 Temp Anomaly Forecast': 'https://github.com/katiemkowal/pac_isl_maps/tree/temp-branch/stations/images/gefswk2tanom_legend.png?raw=true',
-            'GEFS Week 2 Precip Exceedance Prob (50 mm)': 'https://github.com/katiemkowal/pac_isl_maps/tree/temp-branch/stations/images/gefswk2poe50_legend.png?raw=true',
-            'GEFS Week 2 Precip Exceedance Prob (100 mm)': 'https://github.com/katiemkowal/pac_isl_maps/tree/temp-branch/stations/images//gefswk2poe100_legend.png?raw=true',
-            'GEFS Week 2 Raw Precip Tercile Prob': 'https://github.com/katiemkowal/pac_isl_maps/tree/temp-branch/stations/images/gefswk2rawter_legend.png?raw=true',
-            'GEFS Week 2 Consolidated Precip Tercile Prob': 'https://github.com/katiemkowal/pac_isl_maps/tree/temp-branch/stations/images/gefswk2conster_legend.png?raw=true',
-            'NMME 1 Month Precip Anomaly Forecast': 'https://github.com/katiemkowal/pac_isl_maps/tree/temp-branch/stations/images/nmme1mopanom_legend.png?raw=true', 
-             'NMME 1 Month SPI Forecast': 'https://github.com/katiemkowal/pac_isl_maps/tree/temp-branch/stations/images/nmme1mospi_legend.png?raw=true', 
+            'GEFS Week 1 Precip Total Forecast': 'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/gefswk1ptotal_legend.png?raw=true',
+            'GEFS Week 1 Precip Anomaly Forecast': 'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/gefswk1panom_legend.png?raw=true',
+            'GEFS Week 1 Precip Exceedance Prob (50 mm)': 'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/gefswk1poe50_legend.png?raw=true',
+            'GEFS Week 1 Precip Exceedance Prob (100 mm)': 'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/gefswk1poe100_legend.png?raw=true',
+            'GEFS Week 1 Raw Precip Tercile Prob': 'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/gefswk1rawter_legend.png?raw=true',
+            'GEFS Week 1 Consolidated Precip Tercile Prob': 'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/gefswk1conster_legend.png?raw=true',
+            'GEFS Week 1 Temp Total Forecast': 'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/gefswk1ttotal_legend.png?raw=true',
+            'GEFS Week 1 Temp Anomaly Forecast': 'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/gefswk1tanom_legend.png?raw=true',
+            'Leaky Bucket Model Evaporative Stress Index Week 1 Forecast': 'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/lbmwk1esi_legend.png?raw=true',
+            'Leaky Bucket Model Soil Moisture Percentile Week 1 Forecast': 'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/lbmwk1smp_legend.png?raw=true',
+            'Leaky Bucket Model SPI Week 1 Forecast': 'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/lbmwk1spi_legend.png?raw=true',
+            'GEFS Week 2 Precip Total': 'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/gefswk2ptotal_legend.png?raw=true',
+            'GEFS Week 2 Precip Anomaly': 'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/gefswk2panom_legend.png?raw=true',
+            'GEFS Week 2 Temp Total Forecast': 'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/gefswk2ttotal_legend.png?raw=true',
+            'GEFS Week 2 Temp Anomaly Forecast': 'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/gefswk2tanom_legend.png?raw=true',
+            'GEFS Week 2 Precip Exceedance Prob (50 mm)': 'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/gefswk2poe50_legend.png?raw=true',
+            'GEFS Week 2 Precip Exceedance Prob (100 mm)': 'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images//gefswk2poe100_legend.png?raw=true',
+            'GEFS Week 2 Raw Precip Tercile Prob': 'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/gefswk2rawter_legend.png?raw=true',
+            'GEFS Week 2 Consolidated Precip Tercile Prob': 'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/gefswk2conster_legend.png?raw=true',
+            'NMME 1 Month Precip Anomaly Forecast': 'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/nmme1mopanom_legend.png?raw=true', 
+             'NMME 1 Month SPI Forecast': 'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/nmme1mospi_legend.png?raw=true', 
         };
             
         layerToName = {
@@ -648,42 +645,34 @@
             [lyrfcst_NMME1mospi._leaflet_id]:'NMME 1 Month SPI Forecast'  
         };
             
-            
+        header = L.control({position: 'bottomright'});
         legend = L.control({position: 'bottomright'});
-        headers = L.control({position: 'bottomleft'});
         // Define the onAdd method to show the legend
         legend.onAdd = function (map) {
             var div = L.DomUtil.create('div', 'legend');
             div.innerHTML = ''; // Initialize empty
             return div;
         };
-
-        headers.onAdd = function (map) {
-            var div = L.DomUtil.create('div', 'headers');
+        header.onAdd = function (map) {
+            var div = L.DomUtil.create('div', 'legend');
             div.innerHTML = ''; // Initialize empty
             return div;
         };
 
         // Add the legend to the map
+        header.addTo(map);
         legend.addTo(map);
-        headers.addTo(map);
             
         // Function to update the legend image
-        function updateLegend(imageUrl) {
+        function updateLegend(imageUrl1, imageUrl2) {
+            var headerDiv = document.getElementById('header-container');
             var legendDiv = document.getElementById('legend-container'); // document.querySelector('.legend');//
-            if (imageUrl) {
-                legendDiv.innerHTML = '<img src="' + imageUrl + '" alt="Legend" style="width: 400px; height: auto; max-height: 150px;">';
+            if (imageUrl1) {
+                headerDiv.innerHTML = '<img src="' + imageUrl1 + '" alt="Header" style="width: 400px; height: auto; max-height: 150px;">';
+                legendDiv.innerHTML = '<img src="' + imageUrl2 + '" alt="Legend" style="width: 400px; height: auto; max-height: 150px;">';
             } else {
+                headerDiv.innerHTML = '';
                 legendDiv.innerHTML = ''; // Clear the legend if no imageUrl is provided
-            }
-        }
-
-        function updateHeaders(imageUrl) {
-            var headersDiv = document.getElementById('header-container'); // document.querySelector('.legend');//
-            if (imageUrl) {
-                headersDiv.innerHTML = '<img src="' + imageUrl + '" alt="Header" style="width: 400px; height: auto; max-height: 150px;">';
-            } else {
-                headersDiv.innerHTML = ''; // Clear the legend if no imageUrl is provided
             }
         }
 
@@ -694,8 +683,7 @@
             console.log(layerName);
             // Check if this layer has a corresponding legend
             if (layerToLegend[layerName]) {
-                updateLegend(layerToLegend[layerName]); // Update the legend with the correct image
-                updateHeaders(layerToHeader[layerName]);
+                updateLegend(layerToHeader[layerName], layerToLegend[layerName]); // Update the legend with the correct image
             }
         });
 
@@ -705,8 +693,7 @@
             var layerName = layerToName[layerId];
             // Check if the layer was removed and clear the legend if it has a corresponding entry
             if (layerToLegend[layerName]) {
-                updateLegend(null); // Clear the legend when the layer is removed
-                updateHeaders(null);
+                updateLegend(null, null); // Clear the legend when the layer is removed
             }
         });
     
