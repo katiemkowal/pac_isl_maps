@@ -6924,3 +6924,292 @@ Generating Base Tiles:
 0...10...20...30...40...50...60...70...80...90...100 - done.
 Generating Overview Tiles:
 0...10...20...30...40...50...60...70...80...90...100 - done.
+[temp-branch e662338] automated commit by cron job on Sun Nov 17 17:25:56 UTC 2024
+ 72 files changed, 293 insertions(+)
+ rewrite stations/images/cdas7tanom_data.png (98%)
+ rewrite stations/images/cdas7tanom_header.png (98%)
+ rewrite stations/images/cdas7tmax_data.png (99%)
+ rewrite stations/images/cdas7tmax_header.png (99%)
+ rewrite stations/images/cmorph1mospei_data.png (98%)
+ rewrite stations/images/cmorph1mospei_header.png (99%)
+ rewrite stations/images/cmorph1mospi_data.png (98%)
+ rewrite stations/images/cmorph1mospi_header.png (98%)
+ rewrite stations/images/cmorph30panom_data.png (97%)
+ rewrite stations/images/cmorph30panom_header.png (99%)
+ rewrite stations/images/cmorph30ppercent_data.png (97%)
+ rewrite stations/images/cmorph30ppercent_header.png (99%)
+ rewrite stations/images/cmorph3mospei_data.png (99%)
+ rewrite stations/images/cmorph3mospei_header.png (99%)
+ rewrite stations/images/cmorph3mospi_data.png (98%)
+ rewrite stations/images/cmorph3mospi_header.png (99%)
+ rewrite stations/images/cmorph7panom_data.png (96%)
+ rewrite stations/images/cmorph7panom_header.png (99%)
+ rewrite stations/images/cmorph7ptotal_data.png (97%)
+ rewrite stations/images/cmorph7ptotal_header.png (98%)
+ rewrite stations/images/cmorph7spi_data.png (98%)
+ rewrite stations/images/cmorph7spi_header.png (98%)
+ rewrite stations/images/cmorph90anom_data.png (98%)
+ rewrite stations/images/cmorph90anom_header.png (99%)
+ rewrite stations/images/cmorph90percent_data.png (98%)
+ rewrite stations/images/cmorph90percent_header.png (99%)
+ rewrite stations/images/gefswk1conster_data.png (98%)
+ rewrite stations/images/gefswk1conster_header.png (98%)
+ rewrite stations/images/gefswk1panom_data.png (99%)
+ rewrite stations/images/gefswk1panom_header.png (98%)
+ rewrite stations/images/gefswk1poe100_data.png (98%)
+ rewrite stations/images/gefswk1poe100_header.png (99%)
+ rewrite stations/images/gefswk1poe50_data.png (99%)
+ rewrite stations/images/gefswk1poe50_header.png (99%)
+ rewrite stations/images/gefswk1ptotal_data.png (98%)
+ rewrite stations/images/gefswk1ptotal_header.png (99%)
+ rewrite stations/images/gefswk1rawter_data.png (98%)
+ rewrite stations/images/gefswk1rawter_header.png (99%)
+ rewrite stations/images/gefswk1tanom_data.png (99%)
+ rewrite stations/images/gefswk1tanom_header.png (99%)
+ rewrite stations/images/gefswk1ttotal_data.png (99%)
+ rewrite stations/images/gefswk1ttotal_header.png (98%)
+ rewrite stations/images/gefswk2conster_data.png (98%)
+ rewrite stations/images/gefswk2conster_header.png (99%)
+ rewrite stations/images/gefswk2panom_data.png (98%)
+ rewrite stations/images/gefswk2panom_header.png (99%)
+ rewrite stations/images/gefswk2poe100_data.png (98%)
+ rewrite stations/images/gefswk2poe100_header.png (99%)
+ rewrite stations/images/gefswk2poe50_data.png (99%)
+ rewrite stations/images/gefswk2poe50_header.png (99%)
+ rewrite stations/images/gefswk2ptotal_data.png (99%)
+ rewrite stations/images/gefswk2ptotal_header.png (99%)
+ rewrite stations/images/gefswk2rawter_data.png (98%)
+ rewrite stations/images/gefswk2rawter_header.png (99%)
+ rewrite stations/images/gefswk2tanom_data.png (99%)
+ rewrite stations/images/gefswk2tanom_header.png (99%)
+ rewrite stations/images/gefswk2ttotal_data.png (98%)
+ rewrite stations/images/gefswk2ttotal_header.png (99%)
+ rewrite stations/images/lbm1mosri_data.png (99%)
+ rewrite stations/images/lbm1mosri_header.png (99%)
+ rewrite stations/images/lbmwk1esi_data.png (99%)
+ rewrite stations/images/lbmwk1esi_header.png (98%)
+ rewrite stations/images/lbmwk1smp_data.png (98%)
+ rewrite stations/images/lbmwk1smp_header.png (99%)
+ rewrite stations/images/lbmwk1spi_data.png (99%)
+ rewrite stations/images/lbmwk1spi_header.png (98%)
+ rewrite stations/images/oisst_data.png (96%)
+ rewrite stations/images/oisst_diff_data.png (97%)
+ rewrite stations/images/oisst_diff_header.png (99%)
+ rewrite stations/images/oisst_header.png (99%)
+remote: To git@github.com:katiemkowal/pac_isl_maps.git
+   81426ba..e662338  temp-branch -> temp-branch
+sst.day.mean.1981.nc
+already downloaded
+sst.day.mean.1982.nc
+already downloaded
+sst.day.mean.1983.nc
+already downloaded
+sst.day.mean.1984.nc
+already downloaded
+sst.day.mean.1985.nc
+already downloaded
+sst.day.mean.1986.nc
+already downloaded
+sst.day.mean.1987.nc
+already downloaded
+sst.day.mean.1988.nc
+already downloaded
+sst.day.mean.1989.nc
+already downloaded
+sst.day.mean.1990.nc
+already downloaded
+sst.day.mean.1991.nc
+already downloaded
+sst.day.mean.1992.nc
+already downloaded
+sst.day.mean.1993.nc
+already downloaded
+sst.day.mean.1994.nc
+already downloaded
+sst.day.mean.1995.nc
+already downloaded
+sst.day.mean.1996.nc
+already downloaded
+sst.day.mean.1997.nc
+already downloaded
+sst.day.mean.1998.nc
+already downloaded
+sst.day.mean.1999.nc
+already downloaded
+sst.day.mean.2000.nc
+already downloaded
+sst.day.mean.2001.nc
+already downloaded
+sst.day.mean.2002.nc
+already downloaded
+sst.day.mean.2003.nc
+already downloaded
+sst.day.mean.2004.nc
+already downloaded
+sst.day.mean.2005.nc
+already downloaded
+sst.day.mean.2006.nc
+already downloaded
+sst.day.mean.2007.nc
+already downloaded
+sst.day.mean.2008.nc
+already downloaded
+sst.day.mean.2009.nc
+already downloaded
+sst.day.mean.2010.nc
+already downloaded
+sst.day.mean.2011.nc
+already downloaded
+sst.day.mean.2012.nc
+already downloaded
+sst.day.mean.2013.nc
+already downloaded
+sst.day.mean.2014.nc
+already downloaded
+sst.day.mean.2015.nc
+already downloaded
+sst.day.mean.2016.nc
+already downloaded
+sst.day.mean.2017.nc
+already downloaded
+sst.day.mean.2018.nc
+already downloaded
+sst.day.mean.2019.nc
+already downloaded
+sst.day.mean.2020.nc
+already downloaded
+sst.day.mean.2021.nc
+already downloaded
+sst.day.mean.2022.nc
+already downloaded
+sst.day.mean.2023.nc
+already downloaded
+sst.day.mean.2024.nc
+downloading:  https://downloads.psl.noaa.gov/Datasets/noaa.oisst.v2.highres/sst.day.mean.2024.nc
+OISST SST 7-Day Anomaly
+OISST SST 7-Day Anomaly Difference
+CMORPH 90 Day Precip Anomaly
+CMORPH 90 Day Precip Percent
+CMORPH 3-month SPI
+CMORPH 3-month SPEI
+CMORPH 30 Day Precip Anomaly
+CMORPH 30 Day Precip Percent
+CMORPH 1-month SPI
+CMORPH 1-month SPEI
+Leaky Bucket Model 1-month Surface Runoff Index
+CMORPH 7 Day Precip Total
+CMORPH 7 Day Precip Anomaly
+CMORPH 7 Day SPI
+CDAS 7 Day Tmax
+CDAS 7 Day Tmax Anomaly
+GEFS Week 1 Precip Total Forecast
+GEFS Week 1 Precip Anomaly Forecast
+GEFS Week 1 Precip Exceedance Prob (50 mm)
+GEFS Week 1 Precip Exceedance Prob (100 mm)
+GEFS Week 1 Raw Precip Tercile Prob
+GEFS Week 1 Consolidated Precip Tercile Prob
+GEFS Week 1 Temp Total Forecast
+GEFS Week 1 Temp Anomaly Forecast
+Leaky Bucket Model Evaporative Stress Index Week 1 Forecast
+Leaky Bucket Model Soil Moisture Percentile Week 1 Forecast
+Leaky Bucket Model SPI Week 1 Forecast
+GEFS Week 2 Precip Total
+GEFS Week 2 Precip Anomaly
+GEFS Week 2 Temp Total Forecast
+GEFS Week 2 Temp Anomaly Forecast
+GEFS Week 2 Precip Exceedance Prob (50 mm)
+GEFS Week 2 Precip Exceedance Prob (100 mm)
+GEFS Week 2 Raw Precip Tercile Prob
+GEFS Week 2 Consolidated Precip Tercile Prob
+NMME 1 Month Precip Anomaly Forecast
+NMME 1 Month SPI Forecast
+OISST SST 7-Day Anomaly
+OISST SST 7-Day Anomaly Difference
+CMORPH 90 Day Precip Anomaly
+CMORPH 90 Day Precip Percent
+CMORPH 3-month SPI
+CMORPH 3-month SPEI
+CMORPH 30 Day Precip Anomaly
+CMORPH 30 Day Precip Percent
+CMORPH 1-month SPI
+CMORPH 1-month SPEI
+Leaky Bucket Model 1-month Surface Runoff Index
+CMORPH 7 Day Precip Total
+CMORPH 7 Day Precip Anomaly
+CMORPH 7 Day SPI
+CDAS 7 Day Tmax
+CDAS 7 Day Tmax Anomaly
+GEFS Week 1 Precip Total Forecast
+GEFS Week 1 Precip Anomaly Forecast
+GEFS Week 1 Precip Exceedance Prob (50 mm)
+GEFS Week 1 Precip Exceedance Prob (100 mm)
+GEFS Week 1 Raw Precip Tercile Prob
+GEFS Week 1 Consolidated Precip Tercile Prob
+GEFS Week 1 Temp Total Forecast
+GEFS Week 1 Temp Anomaly Forecast
+Leaky Bucket Model Evaporative Stress Index Week 1 Forecast
+Leaky Bucket Model Soil Moisture Percentile Week 1 Forecast
+Leaky Bucket Model SPI Week 1 Forecast
+GEFS Week 2 Precip Total
+GEFS Week 2 Precip Anomaly
+GEFS Week 2 Temp Total Forecast
+GEFS Week 2 Temp Anomaly Forecast
+GEFS Week 2 Precip Exceedance Prob (50 mm)
+GEFS Week 2 Precip Exceedance Prob (100 mm)
+GEFS Week 2 Raw Precip Tercile Prob
+GEFS Week 2 Consolidated Precip Tercile Prob
+NMME 1 Month Precip Anomaly Forecast
+NMME 1 Month SPI Forecast
+GEFS Week 1 Precip Total Forecast
+GEFS Week 1 Precip Anomaly Forecast
+GEFS Week 1 Precip Exceedance Prob (50 mm)
+GEFS Week 1 Precip Exceedance Prob (100 mm)
+GEFS Week 1 Raw Precip Tercile Prob
+GEFS Week 1 Consolidated Precip Tercile Prob
+GEFS Week 1 Temp Total Forecast
+GEFS Week 1 Temp Anomaly Forecast
+Leaky Bucket Model Evaporative Stress Index Week 1 Forecast
+Leaky Bucket Model Soil Moisture Percentile Week 1 Forecast
+Leaky Bucket Model SPI Week 1 Forecast
+GEFS Week 2 Precip Total
+GEFS Week 2 Precip Anomaly
+GEFS Week 2 Temp Total Forecast
+GEFS Week 2 Temp Anomaly Forecast
+GEFS Week 2 Precip Exceedance Prob (50 mm)
+GEFS Week 2 Precip Exceedance Prob (100 mm)
+GEFS Week 2 Raw Precip Tercile Prob
+GEFS Week 2 Consolidated Precip Tercile Prob
+NMME 1 Month Precip Anomaly Forecast
+NMME 1 Month SPI Forecast
+OISST SST 7-Day Anomaly
+OISST SST 7-Day Anomaly Difference
+CMORPH 90 Day Precip Anomaly
+CMORPH 90 Day Precip Percent
+CMORPH 3-month SPI
+CMORPH 3-month SPEI
+CMORPH 30 Day Precip Anomaly
+CMORPH 30 Day Precip Percent
+CMORPH 1-month SPI
+CMORPH 1-month SPEI
+Leaky Bucket Model 1-month Surface Runoff Index
+CMORPH 7 Day Precip Total
+CMORPH 7 Day Precip Anomaly
+CMORPH 7 Day SPI
+CDAS 7 Day Tmax
+CDAS 7 Day Tmax Anomaly
+ERROR 6: EPSG PCS/GCS code 900913 not found in EPSG support files.  Is this a valid
+EPSG coordinate system?
+ERROR 6: No translation for an empty SRS to PROJ.4 format is known.
+ERROR 6: No translation for an empty SRS to PROJ.4 format is known.
+Generating Base Tiles:
+0...10...20...30...40...50...60...70...80...90...100 - done.
+Generating Overview Tiles:
+0...10...20...30...40...50...60...70...80...90...100 - done.
+ERROR 6: EPSG PCS/GCS code 900913 not found in EPSG support files.  Is this a valid
+EPSG coordinate system?
+ERROR 6: No translation for an empty SRS to PROJ.4 format is known.
+ERROR 6: No translation for an empty SRS to PROJ.4 format is known.
+Generating Base Tiles:
+0...10...20...30...40...50...60...70...80...90...100 - done.
+Generating Overview Tiles:
+0...10...20...30...40...50...60...70...80...90...100 - done.
