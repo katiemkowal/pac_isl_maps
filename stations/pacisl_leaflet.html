@@ -171,7 +171,7 @@
 
         layerlinks = {
             'Monitor Tools': {
-                'OISST SST 7-Day Anomaly': 'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/sst_anom7_tiles/{z}/{x}/{y}.png',//images/oisst_data.png?raw=true',
+                'OISST SST 7-Day Anomaly': 'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/sst_anom7_tiles/{z}/{x}/{y}.png?raw=true',//images/oisst_data.png?raw=true',
                 'OISST SST 7-Day Anomaly Difference': 'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/oisst_diff_data.png?raw=true',
                 'CMORPH Time Series Points': 'https://www.cpc.ncep.noaa.gov/products/international/zz_CP_Islands/zz_CMORPH_BLD_2nd/CMORPH_BLD_Islands_180day.shtml',
                 'CMORPH 90 Day Precip Anomaly': 'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/cmorph90anom_data.png?raw=true',
@@ -268,7 +268,7 @@
         str90day = 'https://www.cpc.ncep.noaa.gov/products/international/zz_CP_Islands/zz_CMORPH_ADJ_EOD/cmorph_90day_ptts_';
         str30day = 'https://www.cpc.ncep.noaa.gov/products/international/zz_CP_Islands/zz_CMORPH_ADJ_EOD/cmorph_30day_ptts_';
             
-        lyrsst7dayanom = L.tileLayer(layerlinks['Monitor Tools']['OISST SST 7-Day Anomaly'], {opacity:0.5, maxZoom: 5, minZoom:0});//L.imageOverlay(layerlinks['Monitor Tools']['OISST SST 7-Day Anomaly'], sst_bounds, {opacity:0.5});
+        lyrsst7dayanom = L.tileLayer(layerlinks['Monitor Tools']['OISST SST 7-Day Anomaly']);//, {opacity:0.5, maxZoom: 5, minZoom:0});//L.imageOverlay(layerlinks['Monitor Tools']['OISST SST 7-Day Anomaly'], sst_bounds, {opacity:0.5});
         lyrsst7dayanomdiff = L.imageOverlay(layerlinks['Monitor Tools']['OISST SST 7-Day Anomaly Difference'], sst_bounds, {opacity:0.5});
         lyrprcpanom90 = L.imageOverlay(layerlinks['Monitor Tools']['CMORPH 90 Day Precip Anomaly'], bounds, {opacity:0.5});
         lyrprcpper90 = L.imageOverlay(layerlinks['Monitor Tools']['CMORPH 90 Day Precip Percent'], bounds, {opacity:0.5});
