@@ -12846,3 +12846,223 @@ Generating Base Tiles:
 0...10...20...30...40...50...60...70...80...90...100 - done.
 Generating Overview Tiles:
 0...10...20...30...40...50...60...70...80...90...100 - done.
+[temp-branch f047910] automated commit by cron job on Tue Nov 19 19:48:36 UTC 2024
+ 3 files changed, 2286 insertions(+), 1 deletion(-)
+ create mode 100644 stations/images/sst_anom7diff_tiles/0/0/.ipynb_checkpoints/0-checkpoint.png
+remote: To git@github.com:katiemkowal/pac_isl_maps.git
+   5fa4b33..f047910  temp-branch -> temp-branch
+sst.day.mean.1981.nc
+already downloaded
+sst.day.mean.1982.nc
+already downloaded
+sst.day.mean.1983.nc
+already downloaded
+sst.day.mean.1984.nc
+already downloaded
+sst.day.mean.1985.nc
+already downloaded
+sst.day.mean.1986.nc
+already downloaded
+sst.day.mean.1987.nc
+already downloaded
+sst.day.mean.1988.nc
+already downloaded
+sst.day.mean.1989.nc
+already downloaded
+sst.day.mean.1990.nc
+already downloaded
+sst.day.mean.1991.nc
+already downloaded
+sst.day.mean.1992.nc
+already downloaded
+sst.day.mean.1993.nc
+already downloaded
+sst.day.mean.1994.nc
+already downloaded
+sst.day.mean.1995.nc
+already downloaded
+sst.day.mean.1996.nc
+already downloaded
+sst.day.mean.1997.nc
+already downloaded
+sst.day.mean.1998.nc
+already downloaded
+sst.day.mean.1999.nc
+already downloaded
+sst.day.mean.2000.nc
+already downloaded
+sst.day.mean.2001.nc
+already downloaded
+sst.day.mean.2002.nc
+already downloaded
+sst.day.mean.2003.nc
+already downloaded
+sst.day.mean.2004.nc
+already downloaded
+sst.day.mean.2005.nc
+already downloaded
+sst.day.mean.2006.nc
+already downloaded
+sst.day.mean.2007.nc
+already downloaded
+sst.day.mean.2008.nc
+already downloaded
+sst.day.mean.2009.nc
+already downloaded
+sst.day.mean.2010.nc
+already downloaded
+sst.day.mean.2011.nc
+already downloaded
+sst.day.mean.2012.nc
+already downloaded
+sst.day.mean.2013.nc
+already downloaded
+sst.day.mean.2014.nc
+already downloaded
+sst.day.mean.2015.nc
+already downloaded
+sst.day.mean.2016.nc
+already downloaded
+sst.day.mean.2017.nc
+already downloaded
+sst.day.mean.2018.nc
+already downloaded
+sst.day.mean.2019.nc
+already downloaded
+sst.day.mean.2020.nc
+already downloaded
+sst.day.mean.2021.nc
+already downloaded
+sst.day.mean.2022.nc
+already downloaded
+sst.day.mean.2023.nc
+already downloaded
+sst.day.mean.2024.nc
+downloading:  https://downloads.psl.noaa.gov/Datasets/noaa.oisst.v2.highres/sst.day.mean.2024.nc
+OISST SST 7-Day Anomaly
+OISST SST 7-Day Anomaly Difference
+CMORPH 90 Day Precip Anomaly
+CMORPH 90 Day Precip Percent
+CMORPH 3-month SPI
+CMORPH 3-month SPEI
+CMORPH 30 Day Precip Anomaly
+CMORPH 30 Day Precip Percent
+CMORPH 1-month SPI
+CMORPH 1-month SPEI
+Leaky Bucket Model 1-month Surface Runoff Index
+CMORPH 7 Day Precip Total
+CMORPH 7 Day Precip Anomaly
+CMORPH 7 Day SPI
+CDAS 7 Day Tmax
+CDAS 7 Day Tmax Anomaly
+GEFS Week 1 Precip Total Forecast
+GEFS Week 1 Precip Anomaly Forecast
+GEFS Week 1 Precip Exceedance Prob (50 mm)
+GEFS Week 1 Precip Exceedance Prob (100 mm)
+GEFS Week 1 Raw Precip Tercile Prob
+GEFS Week 1 Consolidated Precip Tercile Prob
+GEFS Week 1 Temp Total Forecast
+GEFS Week 1 Temp Anomaly Forecast
+Leaky Bucket Model Evaporative Stress Index Week 1 Forecast
+Leaky Bucket Model Soil Moisture Percentile Week 1 Forecast
+Leaky Bucket Model SPI Week 1 Forecast
+GEFS Week 2 Precip Total
+GEFS Week 2 Precip Anomaly
+GEFS Week 2 Temp Total Forecast
+GEFS Week 2 Temp Anomaly Forecast
+GEFS Week 2 Precip Exceedance Prob (50 mm)
+GEFS Week 2 Precip Exceedance Prob (100 mm)
+GEFS Week 2 Raw Precip Tercile Prob
+GEFS Week 2 Consolidated Precip Tercile Prob
+NMME 1 Month Precip Anomaly Forecast
+NMME 1 Month SPI Forecast
+OISST SST 7-Day Anomaly
+OISST SST 7-Day Anomaly Difference
+CMORPH 90 Day Precip Anomaly
+CMORPH 90 Day Precip Percent
+CMORPH 3-month SPI
+CMORPH 3-month SPEI
+CMORPH 30 Day Precip Anomaly
+CMORPH 30 Day Precip Percent
+CMORPH 1-month SPI
+CMORPH 1-month SPEI
+Leaky Bucket Model 1-month Surface Runoff Index
+CMORPH 7 Day Precip Total
+CMORPH 7 Day Precip Anomaly
+CMORPH 7 Day SPI
+CDAS 7 Day Tmax
+CDAS 7 Day Tmax Anomaly
+GEFS Week 1 Precip Total Forecast
+GEFS Week 1 Precip Anomaly Forecast
+GEFS Week 1 Precip Exceedance Prob (50 mm)
+GEFS Week 1 Precip Exceedance Prob (100 mm)
+GEFS Week 1 Raw Precip Tercile Prob
+GEFS Week 1 Consolidated Precip Tercile Prob
+GEFS Week 1 Temp Total Forecast
+GEFS Week 1 Temp Anomaly Forecast
+Leaky Bucket Model Evaporative Stress Index Week 1 Forecast
+Leaky Bucket Model Soil Moisture Percentile Week 1 Forecast
+Leaky Bucket Model SPI Week 1 Forecast
+GEFS Week 2 Precip Total
+GEFS Week 2 Precip Anomaly
+GEFS Week 2 Temp Total Forecast
+GEFS Week 2 Temp Anomaly Forecast
+GEFS Week 2 Precip Exceedance Prob (50 mm)
+GEFS Week 2 Precip Exceedance Prob (100 mm)
+GEFS Week 2 Raw Precip Tercile Prob
+GEFS Week 2 Consolidated Precip Tercile Prob
+NMME 1 Month Precip Anomaly Forecast
+NMME 1 Month SPI Forecast
+GEFS Week 1 Precip Total Forecast
+GEFS Week 1 Precip Anomaly Forecast
+GEFS Week 1 Precip Exceedance Prob (50 mm)
+GEFS Week 1 Precip Exceedance Prob (100 mm)
+GEFS Week 1 Raw Precip Tercile Prob
+GEFS Week 1 Consolidated Precip Tercile Prob
+GEFS Week 1 Temp Total Forecast
+GEFS Week 1 Temp Anomaly Forecast
+Leaky Bucket Model Evaporative Stress Index Week 1 Forecast
+Leaky Bucket Model Soil Moisture Percentile Week 1 Forecast
+Leaky Bucket Model SPI Week 1 Forecast
+GEFS Week 2 Precip Total
+GEFS Week 2 Precip Anomaly
+GEFS Week 2 Temp Total Forecast
+GEFS Week 2 Temp Anomaly Forecast
+GEFS Week 2 Precip Exceedance Prob (50 mm)
+GEFS Week 2 Precip Exceedance Prob (100 mm)
+GEFS Week 2 Raw Precip Tercile Prob
+GEFS Week 2 Consolidated Precip Tercile Prob
+NMME 1 Month Precip Anomaly Forecast
+NMME 1 Month SPI Forecast
+OISST SST 7-Day Anomaly
+OISST SST 7-Day Anomaly Difference
+CMORPH 90 Day Precip Anomaly
+CMORPH 90 Day Precip Percent
+CMORPH 3-month SPI
+CMORPH 3-month SPEI
+CMORPH 30 Day Precip Anomaly
+CMORPH 30 Day Precip Percent
+CMORPH 1-month SPI
+CMORPH 1-month SPEI
+Leaky Bucket Model 1-month Surface Runoff Index
+CMORPH 7 Day Precip Total
+CMORPH 7 Day Precip Anomaly
+CMORPH 7 Day SPI
+CDAS 7 Day Tmax
+CDAS 7 Day Tmax Anomaly
+ERROR 6: EPSG PCS/GCS code 900913 not found in EPSG support files.  Is this a valid
+EPSG coordinate system?
+ERROR 6: No translation for an empty SRS to PROJ.4 format is known.
+ERROR 6: No translation for an empty SRS to PROJ.4 format is known.
+Generating Base Tiles:
+0...10...20...30...40...50...60...70...80...90...100 - done.
+Generating Overview Tiles:
+0...10...20...30...40...50...60...70...80...90...100 - done.
+ERROR 6: EPSG PCS/GCS code 900913 not found in EPSG support files.  Is this a valid
+EPSG coordinate system?
+ERROR 6: No translation for an empty SRS to PROJ.4 format is known.
+ERROR 6: No translation for an empty SRS to PROJ.4 format is known.
+Generating Base Tiles:
+0...10...20...30...40...50...60...70...80...90...100 - done.
+Generating Overview Tiles:
+0...10...20...30...40...50...60...70...80...90...100 - done.
