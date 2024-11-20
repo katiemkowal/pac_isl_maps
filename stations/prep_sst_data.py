@@ -64,7 +64,13 @@ with dask.config.set(**{'array.slicing.split_large_chunks': False}):
     sst_anom_diff = sst_anom_diff.persist()
 
 # Define the colormap
-colors = ["darkblue", "blue", "dodgerblue", "lightblue", "white", "lightyellow", "gold", "orange", "red", "darkred"]
+colors = [(21/255, 100/255, 208/255), (25/255, 105/255, 221/255), #dark blue, blue
+ (60/255, 149/255, 244/255), (69/255, 157/255, 244/255), #med blue med blue
+ (149/255, 209/255,249/255),(226/255, 244/255, 244/255),#lightblue, almost white blue
+(251/255, 254/255, 254/255), #off white
+(254/255, 249/255, 169/255), (254/255, 191/255,  59/255), #light yellow, light orange
+ (254/255,  95/255, 0/255), (253/255,  49/255,0/255), #organce, bright red
+ (175/255,   3/255,   0/255), (164/255, 0/255, 0/255)]# dark red, darker red]
 custom_cmap = LinearSegmentedColormap.from_list("blue_white_yellow_red", colors)
 
 # Write CRS to the datasets
@@ -89,11 +95,10 @@ sst_7norm = np.clip(sst_anom7_mercator.sst, vmin, vmax)
 sst_7diffnorm = np.clip(sst_anomdiff_mercator.sst, vmindiff, vmaxdiff)
 
 # Apply a colormap (e.g., "RdBu" or custom color map)
-cmap = plt.get_cmap(custom_cmap)
-sst_7rgb = cmap(sst_7norm)[:, :, :3]  # Extract RGB channels (ignore alpha channel)
+sst_7rgb = custom_cmap((sst_7norm - (vmin)) / (vmax - (vmin)))[:, :, :3]  # Extract RGB channels (ignore alpha channel)
 sst_7rgb = (sst_7rgb * 255).astype(np.uint8)  # Scale to 0-255 for image representation
 
-sst_7diffrgb = cmap(sst_7diffnorm)[:, :, :3]  # Extract RGB channels (ignore alpha channel)
+sst_7diffrgb = custom_cmap((sst_7diffnorm - (-2)) / (2 - (-2)))[:, :, :3]   # Extract RGB channels (ignore alpha channel)
 sst_7diffrgb = (sst_7diffrgb * 255).astype(np.uint8)  # Scale to 0-255 for image representation
 
 # Create an alpha channel for transparency (0 for NaN, 255 for valid data)
