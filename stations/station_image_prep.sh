@@ -21,6 +21,7 @@ main(){
     log "starting cron task"
     /cpc/home/kkowal/.conda/envs/xcast_env/bin/python /cpc/int_desk/data/oisstv2/download_oisstv2.py
     /cpc/home/kkowal/.conda/envs/map_env/bin/python /cpc/int_desk/pac_isl/stations/updated_images_for_leaflet.py
+    /cpc/home/kkowa/.conda/envs/map_env/bin/python /cpc/int_desk/pac_isl/stations/prep_sst_data.py
     cd /cpc/int_desk/pac_isl/stations/
     gdal2tiles.py -p mercator --s_srs EPSG:3857 -z 0-5 /cpc/int_desk/pac_isl/stations/images/sst_mercator7.tif /cpc/int_desk/pac_isl/stations/images/sst_anom7_tiles
     gdal2tiles.py -p mercator -z 0-5 /cpc/int_desk/pac_isl/stations/images/sst_mercator7diff.tif /cpc/int_desk/pac_isl/stations/images/sst_anom7diff_tiles

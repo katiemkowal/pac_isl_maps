@@ -116,6 +116,7 @@
 
         map.addLayer(lyrOSM);
 
+        // if you want to toggle between basemaps, add more options here
         objBasemaps = {
             'Open Street Maps': lyrOSM,
             'Carto Maps': lyrCarto
@@ -167,9 +168,11 @@
         sst_bounds = L.latLngBounds(sst_southWest, sst_northEast);
 
         layerlinks = {
-            'Monitor Tools': {
+           'SST Estimates':{
                 'OISST SST 7-Day Anomaly': 'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/sst_anom7_tiles/{z}/{x}/{y}.png?raw=true',//images/oisst_data.png?raw=true',
-                'OISST SST 7-Day Anomaly Difference': 'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/oisst_diff_data.png?raw=true',
+                'OISST SST 7-Day Anomaly Difference': 'https:github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/sst_anom7diff_tiles/{z}/{x}/{y}.png?raw=true', //'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/oisst_diff_data.png?raw=true',
+            },
+            'Monitor Tools': {
                 'CMORPH Time Series Points': 'https://www.cpc.ncep.noaa.gov/products/international/zz_CP_Islands/zz_CMORPH_BLD_2nd/CMORPH_BLD_Islands_180day.shtml',
                 'CMORPH 90 Day Precip Anomaly': 'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/cmorph90anom_data.png?raw=true',
                 'CMORPH 90 Day Precip Percent': 'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/cmorph90percent_data.png?raw=true',
@@ -215,9 +218,11 @@
 
 
         htmllinks = {
-            'Monitor Tools': {
+            'SST Estimates': {
                 'OISST SST 7-Day Anomaly': 'https://www.cpc.ncep.noaa.gov/products/international/oisst/oisst_7day_pac_anom.gif',
-                'OISST SST 7-Day Anomaly Difference': 'https://www.cpc.ncep.noaa.gov/products/international/oisst/oisst_7day_pac_diff.gif',
+                'OISST SST 7-Day Anomaly Difference': 'https://www.cpc.ncep.noaa.gov/products/international/oisst/oisst_7day_pac_diff.gif'
+            },
+            'Monitor Tools': {
                 'CMORPH Time Series Points': 'https://www.cpc.ncep.noaa.gov/products/international/zz_CP_Islands/zz_CMORPH_BLD_2nd/CMORPH_BLD_Islands_180day.shtml',
                 'CMORPH 90 Day Precip Anomaly': 'https://www.cpc.ncep.noaa.gov/products/international/drought/precip/img/Anom_90day_PacificIslands.png',
                 'CMORPH 90 Day Precip Percent': 'https://www.cpc.ncep.noaa.gov/products/international/drought/precip/img/Perc_90day_PacificIslands.png',
@@ -265,9 +270,8 @@
         str90day = 'https://www.cpc.ncep.noaa.gov/products/international/zz_CP_Islands/zz_CMORPH_ADJ_EOD/cmorph_90day_ptts_';
         str30day = 'https://www.cpc.ncep.noaa.gov/products/international/zz_CP_Islands/zz_CMORPH_ADJ_EOD/cmorph_30day_ptts_';
             
-        //, zIndex:1000, bounds: [[-85.05, -180], [85.05, 180]]});//, maxZoom: 5, minZoom:0});//L.imageOverlay(layerlinks['Monitor Tools']['OISST SST 7-Day Anomaly'], sst_bounds, {opacity:0.5});
-        lyrsst7dayanom = L.tileLayer(layerlinks['Monitor Tools']['OISST SST 7-Day Anomaly'],{opacity:0.5, tms:true});
-        lyrsst7dayanomdiff = L.imageOverlay(layerlinks['Monitor Tools']['OISST SST 7-Day Anomaly Difference'], sst_bounds, {opacity:0.5});
+        lyrsst7dayanom = L.tileLayer(layerlinks['SST Estimates']['OISST SST 7-Day Anomaly'], {opacity:0.5, tms:true});
+        lyrsst7dayanomdiff = L.tileLayer(layerlinks['SST Estimates']['OISST SST 7-Day Anomaly Difference'],{opacity:0.5, tms:true});
         lyrprcpanom90 = L.imageOverlay(layerlinks['Monitor Tools']['CMORPH 90 Day Precip Anomaly'], bounds, {opacity:0.5});
         lyrprcpper90 = L.imageOverlay(layerlinks['Monitor Tools']['CMORPH 90 Day Precip Percent'], bounds, {opacity:0.5});
         lyrspi3mo = L.imageOverlay(layerlinks['Monitor Tools']['CMORPH 3-month SPI'], spi_bounds, {opacity:0.5});
@@ -452,10 +456,13 @@
                                          {radius:e.accuracy/2}).addTo(map);
             map.setView(e.latlng,14);
         });
-            
+        
+        obsOverlays_sstestimates = {
+            [`<a href="${htmllinks['SST Estimates']['OISST SST 7-Day Anomaly']}" target="_blank">OISST SST 7-Day Anomaly</a>`] : lyrsst7dayanom,
+            [`<a href="${htmllinks['SST Estimates']['OISST SST 7-Day Anomaly Difference']}" target="_blank">OISST SST 7-Day Anomaly Difference</a>`] : lyrsst7dayanomdiff
+        };
+
         objOverlays_monitor = {
-            [`<a href="${htmllinks['Monitor Tools']['OISST SST 7-Day Anomaly']}" target="_blank">OISST SST 7-Day Anomaly</a>`] : lyrsst7dayanom,
-            [`<a href="${htmllinks['Monitor Tools']['OISST SST 7-Day Anomaly Difference']}" target="_blank">OISST SST 7-Day Anomaly Difference</a>`] : lyrsst7dayanomdiff,
             [`<a href="${htmllinks['Monitor Tools']['CMORPH Time Series Points']}" target="_blank">CMORPH Time Series Points</a>`] : stationsLayerGroup,
             [`<a href="${htmllinks['Monitor Tools']['CMORPH 90 Day Precip Anomaly']}" target="_blank">CMORPH 90 Day Precip Anomaly</a>`] : lyrprcpanom90,
             [`<a href="${htmllinks['Monitor Tools']['CMORPH 90 Day Precip Percent']}" target="_blank">CMORPH 90 Day Precip Percent</a>`] : lyrprcpper90,
@@ -499,7 +506,8 @@
             [`<a href="${htmllinks['Forecast Tools']['NMME 1 Month SPI Forecast']}" target="_blank">NMME 1 Month SPI Forecast</a>`]: lyrfcst_NMME1mospi
         };
             
-        ctlbase = L.control.layers(objBasemaps, null, {position: 'topright'}).addTo(map);
+        ctlbase = L.control.layers(objBasemaps, null, {position: 'bottomright'}).addTo(map);
+        ctlsst = L.control.layers(null, obsOverlays_sstestimates, {position: 'topright'}).addTo(map);
         ctlmonitors = L.control.layers(null, objOverlays_monitor, {position: 'topright'}).addTo(map);
         ctlfcsts = L.control.layers(null, objOverlays_fcst, {position: 'topright'}).addTo(map);
 
@@ -634,6 +642,7 @@
             
         header = L.control({position: 'bottomright'});
         legend = L.control({position: 'bottomright'});
+            
         // Define the onAdd method to show the legend
         legend.onAdd = function (map) {
             var div = L.DomUtil.create('div', 'legend');
@@ -691,13 +700,21 @@
        baseLabel.className = 'leaflet-control-label';
        baseLabel.innerHTML = 'Base Layers';
        baselayerList.insertBefore(baseLabel, baselayerList.childNodes[0]);
+            
+       // Add section labels to the control (custom)
+       var sstContainer = ctlsst.getContainer();
+       var sstlayerList = sstContainer.querySelector('.leaflet-control-layers-list');
+       var sstLabel = document.createElement('div');
+       sstLabel.className = 'leaflet-control-label';
+       sstLabel.innerHTML = 'SST Monitors';
+       sstlayerList.insertBefore(sstLabel, sstlayerList.childNodes[0]); // Place it before the first overlay
 
        // Add section labels to the control (custom)
        var monitorContainer = ctlmonitors.getContainer();
        var monitorlayerList = monitorContainer.querySelector('.leaflet-control-layers-list');
        var monitorLabel = document.createElement('div');
        monitorLabel.className = 'leaflet-control-label';
-       monitorLabel.innerHTML = 'Monitor Tools';
+       monitorLabel.innerHTML = 'Precip, Temp, Veg. Monitors';
        monitorlayerList.insertBefore(monitorLabel, monitorlayerList.childNodes[0]); // Place it before the first overlay
             
         // Add section labels to the control (custom)
