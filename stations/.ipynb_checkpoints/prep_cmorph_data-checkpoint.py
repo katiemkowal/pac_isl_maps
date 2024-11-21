@@ -27,7 +27,7 @@ maxanom = 25
 minpercent = 0
 maxpercent = 800
 mintotal = 1
-max_total = 50
+maxtotal = 50
 
 # Define custom intervals for the colormap
 #anomaly color bar breaks
@@ -245,8 +245,8 @@ last7_anomnorm = np.clip(last7_anom_mc.anom, minanom, maxanom)
 last7_total = calc_totalavg_pastdays(allptotal, 'ptotal', 7) 
 last7_total_crs = last7_total.rio.write_crs('EPSG:4326', inplace = True)
 last7_total_clipped = last7_total.sel(x=slice(0,359.999), y = slice(-59,59))
-last7_total_mc = convert_to_mercator(last7_total_clipped, 'anom')
-last7_totalnorm = np.clip(last7_total_mc.p_total, mintotal, maxtotal)
+last7_total_mc = convert_to_mercator(last7_total_clipped, 'ptotal')
+last7_totalnorm = np.clip(last7_total_mc.ptotal, mintotal, maxtotal)
 
 # Create a ListedColormap using your defined colors
 anom_cmap = ListedColormap(anom_colors)
