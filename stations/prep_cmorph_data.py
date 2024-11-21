@@ -91,7 +91,7 @@ def calc_anom_pastdays(ds, ds_var, ds_clim, ds_clim_var, days):
 
 #convert the data array to RGB values for image export using defined colorschemes
 # Apply the colormap and norm to the data
-def apply_colormap(da, colormap, norm):
+def apply_colormap(da, colormap, norm, value_intervals):
     """
     Apply a custom colormap to the data array based on specified boundaries.
 
@@ -184,9 +184,9 @@ anom_cmap = ListedColormap(anom_colors)
 # Create a BoundaryNorm to map the data to the value intervals
 anom_norm = BoundaryNorm(boundaries=anom_intervals, ncolors=len(anom_colors))
 
-last90_rgb = apply_colormap(last90_anomnorm, anom_cmap, anom_norm)
-last30_rgb = apply_colormap(last30_anomnorm, anom_cmap, anom_norm)
-last7_rgb = apply_colormap(last7_anomnorm, anom_cmap, anom_norm)
+last90_rgb = apply_colormap(last90_anomnorm, anom_cmap, anom_norm, anom_intervals)
+last30_rgb = apply_colormap(last30_anomnorm, anom_cmap, anom_norm, anom_intervals)
+last7_rgb = apply_colormap(last7_anomnorm, anom_cmap, anom_norm, anom_intervals)
 
 #write to raster
 last90_rgb.rio.to_raster(os.path.join(figure_dir, 'cmorph90anom.tif'), dtype="uint8")
