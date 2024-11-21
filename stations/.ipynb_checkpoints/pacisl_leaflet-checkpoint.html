@@ -271,7 +271,7 @@
         str30day = 'https://www.cpc.ncep.noaa.gov/products/international/zz_CP_Islands/zz_CMORPH_ADJ_EOD/cmorph_30day_ptts_';
             
         lyrsst7dayanom = L.tileLayer(layerlinks['SST Estimates']['OISST SST 7-Day Anomaly'], {opacity:0.5, tms:true});
-        lyrsst7dayanomdiff = L.tileLayer(layerlinks['SST Estimates']['OISST SST 7-Day Anomaly Difference'],{opacity:0.5, tms:true});// sst_bounds, {opacity:0.5});
+        lyrsst7dayanomdiff = L.tileLayer(layerlinks['SST Estimates']['OISST SST 7-Day Anomaly Difference'],{opacity:0.5, tms:true});
         lyrprcpanom90 = L.imageOverlay(layerlinks['Monitor Tools']['CMORPH 90 Day Precip Anomaly'], bounds, {opacity:0.5});
         lyrprcpper90 = L.imageOverlay(layerlinks['Monitor Tools']['CMORPH 90 Day Precip Percent'], bounds, {opacity:0.5});
         lyrspi3mo = L.imageOverlay(layerlinks['Monitor Tools']['CMORPH 3-month SPI'], spi_bounds, {opacity:0.5});
