@@ -26,11 +26,14 @@ minanom = -25
 maxanom = 25
 minpercent = 0
 maxpercent = 800
+mintotal = 1
+max_total = 50
 
 # Define custom intervals for the colormap
 #anomaly color bar breaks
 anom_intervals = [-25, -20, -15, -10, -5, -3, -2, -1, 1, 2, 3, 5, 10, 15, 20, 25]
 percent_intervals = [0, 5, 10, 25, 50, 80, 120, 150, 200, 400, 600, 800]
+total_intervals = [1, 2, 3, 4, 6, 8, 10, 15, 20, 30, 40, 50]
 
 # Define colors for the colormap (corresponding to your value intervals)
 #these were found usuing find_dominant_colors function in prep_data.ipynb in this folder
@@ -64,6 +67,20 @@ percent_colors = [
     (30/255, 180/255,  29/255), #dark green
     (153/255, 211/255, 250/255), #light blue
     (40/255, 130/255, 240/255) #med blue
+]
+
+total_colors = [
+    (201/255, 254/255, 192/255), #light green
+    (124/255, 245/255, 119/255), #bright green
+    (30/255, 180/255,  29/255), #dark green
+    (153/255, 211/255, 250/255), #light blue
+    (40/255, 130/255, 240/255), #med blue
+    (39/255, 129/255, 240/255), #darker blue
+    (254/255, 249/255, 170/255), #light yellow
+    (254/255, 160/255,   1/255), #orange
+    (225/255,  20/255,   0/255), #red
+    (165/255,   0/255,   0/255), #dark red
+    (229/255, 139/255, 139/255) #rose
 ]
 
 ########## functions
@@ -106,16 +123,21 @@ def calc_anom_pastdays(ds, ds_var, ds_clim, ds_clim_var, days):
     days_anom = (days_ds[ds_var] - days_clim[ds_clim_var]).to_dataset(name = 'anom')
     return days_anom
 
+def calc_totalavg_pastdays(ds, ds_var, days):
+    days_ds = ds.isel(time=slice(-days, None)).mean(dim='time')
+    return days_ds
+
 def calc_percent_pastdays(ds, ds_var, ds_clim, ds_clim_var, days):
     days_ds = ds.isel(time=slice(-days, None)).mean(dim='time')
     days_clim = ds_clim.isel(time=slice(-days, None)).mean(dim = 'time')
-    days_percent = (days_ds[ds_var]/days_clim[ds_clim_var])*100.to_dataset(name = 'anom')
+    days_percent = ((days_ds[ds_var]/days_clim[ds_clim_var])*100).to_dataset(name = 'anom')
     return days_percent
 
-def calc_spi_pastdays(ds, ds_var, ds_clim, ds_clim_var, days):
+def calc_spi_pastdays(ds, ds_var, ds_clim, ds_clim_var, ds_climsd, ds_climsdvar, days):
     days_ds = ds.isel(time=slice(-days, None)).mean(dim='time')
     days_clim = ds_clim.isel(time=slice(-days, None)).mean(dim = 'time')
-    days_spi = (days_ds[ds_var] - days_clim[ds_clim_var]).to_dataset(name = 'anom')
+    days_climsd = ds_climsd.isel(time=slice(-days, None)).mean(dim='time')
+    days_spi = (days_ds[ds_var] - days_clim[ds_clim_var])/days_climsd[ds_climsdvar].to_dataset(name = 'anom')
     return days_spi
 
 #convert the data array to RGB values for image export using defined colorschemes
@@ -219,23 +241,34 @@ last7_anom_clipped = last7_anom.sel(x=slice(0,359.999), y = slice(-59,59))
 last7_anom_mc = convert_to_mercator(last7_anom_clipped, 'anom')
 last7_anomnorm = np.clip(last7_anom_mc.anom, minanom, maxanom)
 
+
+last7_total = calc_totalavg_pastdays(allptotal, 'ptotal', 7) 
+last7_total_crs = last7_totalrio.write_crs('EPSG:4326', inplace = True)
+last7_total_clipped = last7_total.sel(x=slice(0,359.999), y = slice(-59,59))
+last7_total_mc = convert_to_mercator(last7_total_clipped, 'anom')
+last7_totalnorm = np.clip(last7_total_mc.anom, mintotal, maxtotal)
+
 # Create a ListedColormap using your defined colors
 anom_cmap = ListedColormap(anom_colors)
 percent_cmap = ListedColormap(percent_colors)
+total_cmap = ListedColormap(total_colors)
 
 # Create a BoundaryNorm to map the data to the value intervals
 anom_norm = BoundaryNorm(boundaries=anom_intervals, ncolors=len(anom_colors))
 percent_norm = BoundaryNorm(boundaries=percent_intervals, ncolors=len(percent_colors))
+total_norm = BoundaryNorm(boundaries=total_intervals, ncolors=len(total_colors))
 
 last90_rgb = apply_colormap(last90_anomnorm, anom_cmap, anom_norm, anom_intervals)
 last90p_rgb =  apply_colormap(last90_percentnorm, percent_cmap, percent_norm, percent_intervals)
 last30_rgb = apply_colormap(last30_anomnorm, anom_cmap, anom_norm, anom_intervals)
 last30p_rgb =  apply_colormap(last30_percentnorm, percent_cmap, percent_norm, percent_intervals)
 last7_rgb = apply_colormap(last7_anomnorm, anom_cmap, anom_norm, anom_intervals)
+last7t_rgb = apply_colormap(last7_totalnorm, total_cmap, total_norm, total_intervals) 
 
 #write to raster
 last90_rgb.rio.to_raster(os.path.join(figure_dir, 'cmorph90anom.tif'), dtype="uint8")
-last90p_rgb.rio.to_raster(os.path.join(figure_dir, 'cmorph90percent.tif'), dtype="uint8")
+# last90p_rgb.rio.to_raster(os.path.join(figure_dir, 'cmorph90percent.tif'), dtype="uint8")
 last30_rgb.rio.to_raster(os.path.join(figure_dir, 'cmorph30anom.tif'), dtype="uint8")
-last30p_rgb.rio.to_raster(os.path.join(figure_dir, 'cmorph30percent.tif'), dtype="uint8")
+# last30p_rgb.rio.to_raster(os.path.join(figure_dir, 'cmorph30percent.tif'), dtype="uint8")
 last7_rgb.rio.to_raster(os.path.join(figure_dir, 'cmorph7anom.tif'), dtype="uint8")
+last7t_rgb.rio.to_raster(os.path.join(figure_dir, 'cmorph7total.tif'), dtype="uint8")

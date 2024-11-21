@@ -27,10 +27,11 @@ main(){
     gdal2tiles.py -p mercator -z 0-5 /cpc/int_desk/pac_isl/stations/images/sst_mercator7.tif /cpc/int_desk/pac_isl/stations/images/sst_anom7_tiles
     gdal2tiles.py -p mercator -z 0-5 /cpc/int_desk/pac_isl/stations/images/sst_mercator7diff.tif /cpc/int_desk/pac_isl/stations/images/sst_anom7diff_tiles
     gdal2tiles.py -p mercator -z 0-5 /cpc/int_desk/pac_isl/stations/images/cmorph90anom.tif /cpc/int_desk/pac_isl/stations/images/cmorph90anom_tiles
-    gdal2tiles.py -p mercator -z 0-5 /cpc/int_desk/pac_isl/stations/images/cmorph90percent.tif /cpc/int_desk/pac_isl/stations/images/cmorph90percent_tiles
+  #  gdal2tiles.py -p mercator -z 0-5 /cpc/int_desk/pac_isl/stations/images/cmorph90percent.tif /cpc/int_desk/pac_isl/stations/images/cmorph90percent_tiles
     gdal2tiles.py -p mercator -z 0-5 /cpc/int_desk/pac_isl/stations/images/cmorph30anom.tif /cpc/int_desk/pac_isl/stations/images/cmorph30anom_tiles
-    gdal2tiles.py -p mercator -z 0-5 /cpc/int_desk/pac_isl/stations/images/cmorph30percent.tif /cpc/int_desk/pac_isl/stations/images/cmorph30percent_tiles
+   # gdal2tiles.py -p mercator -z 0-5 /cpc/int_desk/pac_isl/stations/images/cmorph30percent.tif /cpc/int_desk/pac_isl/stations/images/cmorph30percent_tiles
     gdal2tiles.py -p mercator -z 0-5 /cpc/int_desk/pac_isl/stations/images/cmorph7anom.tif /cpc/int_desk/pac_isl/stations/images/cmorph7anom_tiles
+    gdal2tiles.py -p mercator -z 0-5 /cpc/int_desk/pac_isl/stations/images/cmorph7total.tif /cpc/int_desk/pac_isl/stations/images/cmorph7total_tiles
 
     current_branch=temp-branch
     log "Current branch: $current_branch"
