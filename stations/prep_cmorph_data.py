@@ -109,7 +109,7 @@ def calc_anom_pastdays(ds, ds_var, ds_clim, ds_clim_var, days):
 def calc_percent_pastdays(ds, ds_var, ds_clim, ds_clim_var, days):
     days_ds = ds.isel(time=slice(-days, None)).mean(dim='time')
     days_clim = ds_clim.isel(time=slice(-days, None)).mean(dim = 'time')
-    days_percent = (days_ds[ds_var]/days_clim[ds_clim_var]).to_dataset(name = 'anom')
+    days_percent = (days_ds[ds_var]/days_clim[ds_clim_var])*100.to_dataset(name = 'anom')
     return days_percent
 
 def calc_spi_pastdays(ds, ds_var, ds_clim, ds_clim_var, days):
