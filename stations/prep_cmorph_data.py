@@ -26,7 +26,7 @@ minanom = -25
 maxanom = 25
 minpercent = 0
 maxpercent = 800
-mintotal = 1
+mintotal = 0
 maxtotal = 50
 
 # Define custom intervals for the colormap
