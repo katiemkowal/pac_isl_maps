@@ -33,7 +33,7 @@ maxtotal = 50
 #anomaly color bar breaks
 anom_intervals = [-25, -20, -15, -10, -5, -3, -2, -1, 1, 2, 3, 5, 10, 15, 20, 25]
 percent_intervals = [0, 5, 10, 25, 50, 80, 120, 150, 200, 400, 600, 800]
-total_intervals = [1, 2, 3, 4, 6, 8, 10, 15, 20, 30, 40, 50]
+total_intervals = [0, 1, 2, 3, 4, 6, 8, 10, 15, 20, 30, 40, 50]
 
 # Define colors for the colormap (corresponding to your value intervals)
 #these were found usuing find_dominant_colors function in prep_data.ipynb in this folder
@@ -70,6 +70,7 @@ percent_colors = [
 ]
 
 total_colors = [
+    (254/255, 254/255, 254/255), #off white
     (201/255, 254/255, 192/255), #light green
     (124/255, 245/255, 119/255), #bright green
     (30/255, 180/255,  29/255), #dark green
