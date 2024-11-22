@@ -38328,3 +38328,91 @@ Generating Base Tiles:
 0...10...20...30...40...50...60...70...80...90...100 - done.
 Generating Overview Tiles:
 0...10...20...30...40...50...60...70...80...90...100 - done.
+warning: You ran 'git add' with neither '-A (--all)' or '--ignore-removal',
+whose behaviour will change in Git 2.0 with respect to paths you removed.
+Paths like 'stations/images/.ipynb_checkpoints/sst_mercator7-checkpoint.png' that are
+removed from your working tree are ignored with this version of Git.
+
+* 'git add --ignore-removal <pathspec>', which is the current default,
+  ignores paths you removed from your working tree.
+
+* 'git add --all <pathspec>' will let you also record the removals.
+
+Run 'git status' to check the paths you removed from your working tree.
+
+ERROR 6: EPSG PCS/GCS code 900913 not found in EPSG support files.  Is this a valid
+EPSG coordinate system?
+ERROR 6: No translation for an empty SRS to PROJ.4 format is known.
+ERROR 6: No translation for an empty SRS to PROJ.4 format is known.
+Generating Base Tiles:
+0...10...20...30...40...50...60...70...80...90...100 - done.
+Generating Overview Tiles:
+0...10...20..[temp-branch 1f456dc] automated commit by cron job on Fri Nov 22 16:34:21 UTC 2024
+ 12 files changed, 476 insertions(+), 4 deletions(-)
+ rewrite stations/images/lbm1mosri_data.png (99%)
+ rewrite stations/images/lbm1mosri_header.png (99%)
+ rewrite stations/images/lbmwk1esi_data.png (99%)
+ rewrite stations/images/lbmwk1esi_header.png (99%)
+ rewrite stations/images/lbmwk1smp_data.png (98%)
+ rewrite stations/images/lbmwk1smp_header.png (99%)
+ rewrite stations/images/lbmwk1spi_data.png (99%)
+ rewrite stations/images/lbmwk1spi_header.png (99%)
+.30...40.remote: To git@github.com:katiemkowal/pac_isl_maps.git
+   8ed7587..1f456dc  temp-branch -> temp-branch
+..50...60...70...80...90...100 - done.
+ERROR 6: EPSG PCS/GCS code 900913 not found in EPSG support files.  Is this a valid
+EPSG coordinate system?
+ERROR 6: No translation for an empty SRS to PROJ.4 format is known.
+ERROR 6: No translation for an empty SRS to PROJ.4 format is known.
+Generating Base Tiles:
+0...10...20...30...40...50...60...70...80...90...100 - done.
+Generating Overview Tiles:
+0...10...20...30...40...50...60...70...80...90...100 - done.
+ERROR 6: EPSG PCS/GCS code 900913 not found in EPSG support files.  Is this a valid
+EPSG coordinate system?
+ERROR 6: No translation for an empty SRS to PROJ.4 format is known.
+ERROR 6: No translation for an empty SRS to PROJ.4 format is known.
+Generating Base Tiles:
+0...10...20...30...40...50...60...70...80...90...100 - done.
+Generating Overview Tiles:
+0...10...20...30...40...50...60...70...80...90...100 - done.
+ERROR 6: EPSG PCS/GCS code 900913 not found in EPSG support files.  Is this a valid
+EPSG coordinate system?
+ERROR 6: No translation for an empty SRS to PROJ.4 format is known.
+ERROR 6: No translation for an empty SRS to PROJ.4 format is known.
+Generating Base Tiles:
+0...10...20...30...40...50...60...70...80...90...100 - done.
+Generating Overview Tiles:
+0...10...20...30...40...50...60...70...80...90...100 - done.
+ERROR 6: EPSG PCS/GCS code 900913 not found in EPSG support files.  Is this a valid
+EPSG coordinate system?
+ERROR 6: No translation for an empty SRS to PROJ.4 format is known.
+ERROR 6: No translation for an empty SRS to PROJ.4 format is known.
+Generating Base Tiles:
+0...10...20...30...40...50...60...70...80...90...100 - done.
+Generating Overview Tiles:
+0...10...20...30...40...50...60...70...80...90...100 - done.
+ERROR 6: EPSG PCS/GCS code 900913 not found in EPSG support files.  Is this a valid
+EPSG coordinate system?
+ERROR 6: No translation for an empty SRS to PROJ.4 format is known.
+ERROR 6: No translation for an empty SRS to PROJ.4 format is known.
+Generating Base Tiles:
+0...10...20...30...40...50...60...70...80...90...100 - done.
+Generating Overview Tiles:
+0...10...20...30...40...50...60...70...80...90...100 - done.
+ERROR 6: EPSG PCS/GCS code 900913 not found in EPSG support files.  Is this a valid
+EPSG coordinate system?
+ERROR 6: No translation for an empty SRS to PROJ.4 format is known.
+ERROR 6: No translation for an empty SRS to PROJ.4 format is known.
+Generating Base Tiles:
+0...10...20...30...40...50...60...70...80...90...100 - done.
+Generating Overview Tiles:
+0...10...20...30...40...50...60...70...80...90...100 - done.
+ERROR 6: EPSG PCS/GCS code 900913 not found in EPSG support files.  Is this a valid
+EPSG coordinate system?
+ERROR 6: No translation for an empty SRS to PROJ.4 format is known.
+ERROR 6: No translation for an empty SRS to PROJ.4 format is known.
+Generating Base Tiles:
+0...10...20...30...40...50...60...70...80...90...100 - done.
+Generating Overview Tiles:
+0...10...20...30...40...50...60...70...80...90...100 - done.
