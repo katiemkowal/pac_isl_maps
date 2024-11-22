@@ -131,15 +131,8 @@ def calc_totalavg_pastdays(ds, ds_var, days):
 def calc_percent_pastdays(ds, ds_var, ds_clim, ds_clim_var, days):
     days_ds = ds.isel(time=slice(-days, None)).mean(dim='time')
     days_clim = ds_clim.isel(time=slice(-days, None)).mean(dim = 'time')
-    days_percent = ((days_ds[ds_var]/days_clim[ds_clim_var])*100).to_dataset(name = 'anom')
+    days_percent = ((days_ds[ds_var]/days_clim[ds_clim_var])*100).to_dataset(name = 'percent')
     return days_percent
-
-def calc_spi_pastdays(ds, ds_var, ds_clim, ds_clim_var, ds_climsd, ds_climsdvar, days):
-    days_ds = ds.isel(time=slice(-days, None)).mean(dim='time')
-    days_clim = ds_clim.isel(time=slice(-days, None)).mean(dim = 'time')
-    days_climsd = ds_climsd.isel(time=slice(-days, None)).mean(dim='time')
-    days_spi = (days_ds[ds_var] - days_clim[ds_clim_var])/days_climsd[ds_climsdvar].to_dataset(name = 'anom')
-    return days_spi
 
 #convert the data array to RGB values for image export using defined colorschemes
 # Apply the colormap and norm to the data
@@ -220,9 +213,9 @@ last90_anomnorm = np.clip(last90_anom_mc.anom, minanom, maxanom)
 
 last90_percent = calc_percent_pastdays(allptotal, 'ptotal', allptotalclim, 'ptotalclim', 90) 
 last90_percent_crs = last90_percent.rio.write_crs('EPSG:4326', inplace = True)
-last90_percent_clipped = last90_anom.sel(x=slice(0,359.999), y = slice(-59,59))
-last90_percent_mc = convert_to_mercator(last90_percent_clipped, 'anom')
-last90_percentnorm = np.clip(last90_percent_mc.anom, minpercent, maxpercent)
+last90_percent_clipped = last90_percent.sel(x=slice(0,359.999), y = slice(-59,59))
+last90_percent_mc = convert_to_mercator(last90_percent_clipped, 'percent')
+last90_percentnorm = np.clip(last90_percent_mc.percent, minpercent, maxpercent)
 
 last30_anom = calc_anom_pastdays(allptotal, 'ptotal', allptotalclim, 'ptotalclim', 30) 
 last30_anom_crs = last30_anom.rio.write_crs('EPSG:4326', inplace = True)
@@ -233,8 +226,8 @@ last30_anomnorm = np.clip(last30_anom_mc.anom, minanom, maxanom)
 last30_percent = calc_percent_pastdays(allptotal, 'ptotal', allptotalclim, 'ptotalclim', 30) 
 last30_percent_crs = last30_percent.rio.write_crs('EPSG:4326', inplace = True)
 last30_percent_clipped = last30_percent.sel(x=slice(0,359.999), y = slice(-59,59))
-last30_percent_mc = convert_to_mercator(last30_percent_clipped, 'anom')
-last30_percentnorm = np.clip(last30_percent_mc.anom, minpercent, maxpercent)
+last30_percent_mc = convert_to_mercator(last30_percent_clipped, 'percent')
+last30_percentnorm = np.clip(last30_percent_mc.percent, minpercent, maxpercent)
 
 last7_anom = calc_anom_pastdays(allptotal, 'ptotal', allptotalclim, 'ptotalclim', 7) 
 last7_anom_crs = last7_anom.rio.write_crs('EPSG:4326', inplace = True)
@@ -268,8 +261,8 @@ last7t_rgb = apply_colormap(last7_totalnorm, total_cmap, total_norm, total_inter
 
 #write to raster
 last90_rgb.rio.to_raster(os.path.join(figure_dir, 'cmorph90anom.tif'), dtype="uint8")
-# last90p_rgb.rio.to_raster(os.path.join(figure_dir, 'cmorph90percent.tif'), dtype="uint8")
+last90p_rgb.rio.to_raster(os.path.join(figure_dir, 'cmorph90percent.tif'), dtype="uint8")
 last30_rgb.rio.to_raster(os.path.join(figure_dir, 'cmorph30anom.tif'), dtype="uint8")
-# last30p_rgb.rio.to_raster(os.path.join(figure_dir, 'cmorph30percent.tif'), dtype="uint8")
+last30p_rgb.rio.to_raster(os.path.join(figure_dir, 'cmorph30percent.tif'), dtype="uint8")
 last7_rgb.rio.to_raster(os.path.join(figure_dir, 'cmorph7anom.tif'), dtype="uint8")
 last7t_rgb.rio.to_raster(os.path.join(figure_dir, 'cmorph7total.tif'), dtype="uint8")
