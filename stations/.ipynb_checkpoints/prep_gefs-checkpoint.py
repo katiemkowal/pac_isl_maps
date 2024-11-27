@@ -89,8 +89,13 @@ intervals = {"Below-Normal": bn_intervals, "Near-Normal": nn_intervals, "Above-N
 
 #convert lat/lon coords to mercator projection for tiles
 def convert_to_mercator(ds, var):
-    # ds = ds.where(~np.isnan(ds[var]), drop=True)
-    ds_mercator = ds.rio.reproject("EPSG:3857")#, resolution = 10000)
+    mercator_bbox = (
+    *crs_mercator.transform(-22, (132+180)%360-180),  # Transform bottom-left corner
+    *crs_mercator.transform(9, (205+180)%360-180),  # Transform top-right corner
+)
+    ds_mercator = ds.rio.reproject("EPSG:3857",  transform=Affine.translation(mercator_bbox[0], mercator_bbox[1]),  # Adjust transform
+    shape=(mercator_bbox[3] - mercator_bbox[1], mercator_bbox[2] - mercator_bbox[0]),
+    resampling="bilinear")#, resolution = 10000)
     # ds_clip = ds_mercator.where(ds_mercator.notnull(), drop=True)
     return ds_mercator
 #convert the data array to RGB values for image export using defined colorschemes
