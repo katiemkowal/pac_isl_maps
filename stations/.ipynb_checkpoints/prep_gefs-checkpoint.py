@@ -8,6 +8,8 @@ from matplotlib.colors import BoundaryNorm, ListedColormap
 import matplotlib as mpl
 import rioxarray as rio
 from rasterio.warp import calculate_default_transform
+from pyproj import CRS
+from affine import Affine
 
 gefs_procdir = '/cpc/africawrf/ebekele/projects/PREPARE_pacific/notebooks/unmasked'
 gefs_rawdir = '/cpc/africawrf/ebekele/projects/PREPARE_pacific/subseason_unmasked'
