@@ -8,8 +8,8 @@ from matplotlib.colors import BoundaryNorm, ListedColormap
 import matplotlib as mpl
 import rioxarray as rio
 from rasterio.warp import calculate_default_transform
-from pyproj import CRS
-from affine import Affine
+# from pyproj import CRS
+# from affine import Affine
 
 gefs_procdir = '/cpc/africawrf/ebekele/projects/PREPARE_pacific/notebooks/unmasked'
 gefs_rawdir = '/cpc/africawrf/ebekele/projects/PREPARE_pacific/subseason_unmasked'
@@ -91,14 +91,15 @@ intervals = {"Below-Normal": bn_intervals, "Near-Normal": nn_intervals, "Above-N
 
 #convert lat/lon coords to mercator projection for tiles
 def convert_to_mercator(ds, var):
-    crs_mercator = CRS.from_epsg(3857)
-    mercator_bbox = (
-    *crs_mercator.transform(-22, (132+180)%360-180),  # Transform bottom-left corner
-    *crs_mercator.transform(9, (205+180)%360-180),  # Transform top-right corner
-)
-    ds_mercator = ds.rio.reproject("EPSG:3857",  transform=Affine.translation(mercator_bbox[0], mercator_bbox[1]),  # Adjust transform
-    shape=(mercator_bbox[3] - mercator_bbox[1], mercator_bbox[2] - mercator_bbox[0]),
-    resampling="bilinear")#, resolution = 10000)
+    # crs_mercator = CRS.from_epsg(3857)
+    # mercator_bbox = (
+    # *crs_mercator.transform(-22, (132+180)%360-180),  # Transform bottom-left corner
+    # *crs_mercator.transform(9, (205+180)%360-180),  # Transform top-right corner
+# )
+    ds_mercator = ds.rio.reproject("EPSG:3857")
+                                   # ,  transform=Affine.translation(mercator_bbox[0], mercator_bbox[1]),  # Adjust transform
+    # shape=(mercator_bbox[3] - mercator_bbox[1], mercator_bbox[2] - mercator_bbox[0]),
+    # resampling="bilinear")#, resolution = 10000)
     # ds_clip = ds_mercator.where(ds_mercator.notnull(), drop=True)
     return ds_mercator
 #convert the data array to RGB values for image export using defined colorschemes
@@ -229,7 +230,7 @@ gefs_wk1cons = gefs_wk1cons.rename({'lon':'x', 'lat':'y'})
 gefswk1_pcons_rgba = process_gefs_probabilities(gefs_wk1cons, categories, colormaps, intervals,
                                                crs="EPSG:4326", time_index=0)
 gefswk1pcons_prep = gefswk1_pcons_rgba.to_dataset(name = 'color')
-gefswk1pcons_prep = gefswk1pcons_prep.isel(x=slice(130,205))
+gefswk1pcons_prep = gefswk1pcons_prep.isel(x=slice(132,205))
 # gefswk1pcons_prep = gefswk1pcons_prep.isel(y=slice(None,None,-1))
 gefswk1pcons_prep['x'] = (gefswk1pcons_prep.x + 180)%360 -180
 gefswk1pcons_prep = gefswk1pcons_prep.sortby('x', ascending = False)
