@@ -89,6 +89,7 @@ intervals = {"Below-Normal": bn_intervals, "Near-Normal": nn_intervals, "Above-N
 
 #convert lat/lon coords to mercator projection for tiles
 def convert_to_mercator(ds, var):
+    crs_mercator = CRS.from_epsg(3857)
     mercator_bbox = (
     *crs_mercator.transform(-22, (132+180)%360-180),  # Transform bottom-left corner
     *crs_mercator.transform(9, (205+180)%360-180),  # Transform top-right corner
