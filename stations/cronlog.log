@@ -67963,3 +67963,574 @@ Generating Base Tiles:
 0...10...20...30...40...50...60...70...80...90...100 - done.
 Generating Overview Tiles:
 0...10...20...30...40...50...60...70...80...90...100 - done.
+warning: You ran 'git add' with neither '-A (--all)' or '--ignore-removal',
+whose behaviour will change in Git 2.0 with respect to paths you removed.
+Paths like 'stations/images/.ipynb_checkpoints/sst_mercator7-checkpoint.png' that are
+removed from your working tree are ignored with this version of Git.
+
+* 'git add --ignore-removal <pathspec>', which is the current default,
+  ignores paths you removed from your working tree.
+
+* 'git add --all <pathspec>' will let you also record the removals.
+
+Run 'git status' to check the paths you removed from your working tree.
+
+[temp-branch c2e693c] automated commit by cron job on Wed Nov 27 16:35:01 UTC 2024
+ 18 files changed, 6593 insertions(+), 1078 deletions(-)
+ rewrite stations/images/lbm1mosri_data.png (98%)
+ rewrite stations/images/lbm1mosri_header.png (98%)
+ rewrite stations/images/lbmwk1esi_data.png (98%)
+ rewrite stations/images/lbmwk1esi_header.png (99%)
+ rewrite stations/images/lbmwk1smp_data.png (99%)
+ rewrite stations/images/lbmwk1smp_header.png (99%)
+ rewrite stations/images/lbmwk1spi_data.png (99%)
+ rewrite stations/images/lbmwk1spi_header.png (98%)
+ create mode 100644 stations/images/station_data/.ipynb_checkpoints/gefswk1pcons-checkpoint.png
+ create mode 100644 stations/images/station_data/gefswk1pcons.png
+ create mode 100644 stations/images/station_data/gefswk1pcons.png.aux.xml
+remote: To git@github.com:katiemkowal/pac_isl_maps.git
+   0940475..c2e693c  temp-branch -> temp-branch
+sst.day.mean.1981.nc
+already downloaded
+sst.day.mean.1982.nc
+already downloaded
+sst.day.mean.1983.nc
+already downloaded
+sst.day.mean.1984.nc
+already downloaded
+sst.day.mean.1985.nc
+already downloaded
+sst.day.mean.1986.nc
+already downloaded
+sst.day.mean.1987.nc
+already downloaded
+sst.day.mean.1988.nc
+already downloaded
+sst.day.mean.1989.nc
+already downloaded
+sst.day.mean.1990.nc
+already downloaded
+sst.day.mean.1991.nc
+already downloaded
+sst.day.mean.1992.nc
+already downloaded
+sst.day.mean.1993.nc
+already downloaded
+sst.day.mean.1994.nc
+already downloaded
+sst.day.mean.1995.nc
+already downloaded
+sst.day.mean.1996.nc
+already downloaded
+sst.day.mean.1997.nc
+already downloaded
+sst.day.mean.1998.nc
+already downloaded
+sst.day.mean.1999.nc
+already downloaded
+sst.day.mean.2000.nc
+already downloaded
+sst.day.mean.2001.nc
+already downloaded
+sst.day.mean.2002.nc
+already downloaded
+sst.day.mean.2003.nc
+already downloaded
+sst.day.mean.2004.nc
+already downloaded
+sst.day.mean.2005.nc
+already downloaded
+sst.day.mean.2006.nc
+already downloaded
+sst.day.mean.2007.nc
+already downloaded
+sst.day.mean.2008.nc
+already downloaded
+sst.day.mean.2009.nc
+already downloaded
+sst.day.mean.2010.nc
+already downloaded
+sst.day.mean.2011.nc
+already downloaded
+sst.day.mean.2012.nc
+already downloaded
+sst.day.mean.2013.nc
+already downloaded
+sst.day.mean.2014.nc
+already downloaded
+sst.day.mean.2015.nc
+already downloaded
+sst.day.mean.2016.nc
+already downloaded
+sst.day.mean.2017.nc
+already downloaded
+sst.day.mean.2018.nc
+already downloaded
+sst.day.mean.2019.nc
+already downloaded
+sst.day.mean.2020.nc
+already downloaded
+sst.day.mean.2021.nc
+already downloaded
+sst.day.mean.2022.nc
+already downloaded
+sst.day.mean.2023.nc
+already downloaded
+sst.day.mean.2024.nc
+downloading:  https://downloads.psl.noaa.gov/Datasets/noaa.oisst.v2.highres/sst.day.mean.2024.nc
+OISST SST 7-Day Anomaly
+OISST SST 7-Day Anomaly Difference
+CMORPH 90 Day Precip Anomaly
+CMORPH 90 Day Precip Percent
+CMORPH 3-month SPI
+CMORPH 3-month SPEI
+CMORPH 30 Day Precip Anomaly
+CMORPH 30 Day Precip Percent
+CMORPH 1-month SPI
+CMORPH 1-month SPEI
+Leaky Bucket Model 1-month Surface Runoff Index
+CMORPH 7 Day Precip Total
+CMORPH 7 Day Precip Anomaly
+CMORPH 7 Day SPI
+CDAS 7 Day Tmax
+CDAS 7 Day Tmax Anomaly
+GEFS Week 1 Precip Total Forecast
+GEFS Week 1 Precip Anomaly Forecast
+GEFS Week 1 Precip Exceedance Prob (50 mm)
+GEFS Week 1 Precip Exceedance Prob (100 mm)
+GEFS Week 1 Raw Precip Tercile Prob
+GEFS Week 1 Consolidated Precip Tercile Prob
+GEFS Week 1 Temp Total Forecast
+GEFS Week 1 Temp Anomaly Forecast
+Leaky Bucket Model Evaporative Stress Index Week 1 Forecast
+Leaky Bucket Model Soil Moisture Percentile Week 1 Forecast
+Leaky Bucket Model SPI Week 1 Forecast
+GEFS Week 2 Precip Total
+GEFS Week 2 Precip Anomaly
+GEFS Week 2 Temp Total Forecast
+GEFS Week 2 Temp Anomaly Forecast
+GEFS Week 2 Precip Exceedance Prob (50 mm)
+GEFS Week 2 Precip Exceedance Prob (100 mm)
+GEFS Week 2 Raw Precip Tercile Prob
+GEFS Week 2 Consolidated Precip Tercile Prob
+NMME 1 Month Precip Anomaly Forecast
+NMME 1 Month SPI Forecast
+OISST SST 7-Day Anomaly
+OISST SST 7-Day Anomaly Difference
+CMORPH 90 Day Precip Anomaly
+CMORPH 90 Day Precip Percent
+CMORPH 3-month SPI
+CMORPH 3-month SPEI
+CMORPH 30 Day Precip Anomaly
+CMORPH 30 Day Precip Percent
+CMORPH 1-month SPI
+CMORPH 1-month SPEI
+Leaky Bucket Model 1-month Surface Runoff Index
+CMORPH 7 Day Precip Total
+CMORPH 7 Day Precip Anomaly
+CMORPH 7 Day SPI
+CDAS 7 Day Tmax
+CDAS 7 Day Tmax Anomaly
+GEFS Week 1 Precip Total Forecast
+GEFS Week 1 Precip Anomaly Forecast
+GEFS Week 1 Precip Exceedance Prob (50 mm)
+GEFS Week 1 Precip Exceedance Prob (100 mm)
+GEFS Week 1 Raw Precip Tercile Prob
+GEFS Week 1 Consolidated Precip Tercile Prob
+GEFS Week 1 Temp Total Forecast
+GEFS Week 1 Temp Anomaly Forecast
+Leaky Bucket Model Evaporative Stress Index Week 1 Forecast
+Leaky Bucket Model Soil Moisture Percentile Week 1 Forecast
+Leaky Bucket Model SPI Week 1 Forecast
+GEFS Week 2 Precip Total
+GEFS Week 2 Precip Anomaly
+GEFS Week 2 Temp Total Forecast
+GEFS Week 2 Temp Anomaly Forecast
+GEFS Week 2 Precip Exceedance Prob (50 mm)
+GEFS Week 2 Precip Exceedance Prob (100 mm)
+GEFS Week 2 Raw Precip Tercile Prob
+GEFS Week 2 Consolidated Precip Tercile Prob
+NMME 1 Month Precip Anomaly Forecast
+NMME 1 Month SPI Forecast
+GEFS Week 1 Precip Total Forecast
+GEFS Week 1 Precip Anomaly Forecast
+GEFS Week 1 Precip Exceedance Prob (50 mm)
+GEFS Week 1 Precip Exceedance Prob (100 mm)
+GEFS Week 1 Raw Precip Tercile Prob
+GEFS Week 1 Consolidated Precip Tercile Prob
+GEFS Week 1 Temp Total Forecast
+GEFS Week 1 Temp Anomaly Forecast
+Leaky Bucket Model Evaporative Stress Index Week 1 Forecast
+Leaky Bucket Model Soil Moisture Percentile Week 1 Forecast
+Leaky Bucket Model SPI Week 1 Forecast
+GEFS Week 2 Precip Total
+GEFS Week 2 Precip Anomaly
+GEFS Week 2 Temp Total Forecast
+GEFS Week 2 Temp Anomaly Forecast
+GEFS Week 2 Precip Exceedance Prob (50 mm)
+GEFS Week 2 Precip Exceedance Prob (100 mm)
+GEFS Week 2 Raw Precip Tercile Prob
+GEFS Week 2 Consolidated Precip Tercile Prob
+NMME 1 Month Precip Anomaly Forecast
+NMME 1 Month SPI Forecast
+OISST SST 7-Day Anomaly
+OISST SST 7-Day Anomaly Difference
+CMORPH 90 Day Precip Anomaly
+CMORPH 90 Day Precip Percent
+CMORPH 3-month SPI
+CMORPH 3-month SPEI
+CMORPH 30 Day Precip Anomaly
+CMORPH 30 Day Precip Percent
+CMORPH 1-month SPI
+CMORPH 1-month SPEI
+Leaky Bucket Model 1-month Surface Runoff Index
+CMORPH 7 Day Precip Total
+CMORPH 7 Day Precip Anomaly
+CMORPH 7 Day SPI
+CDAS 7 Day Tmax
+CDAS 7 Day Tmax Anomaly
+/cpc/home/kkowal/.conda/envs/map_env/lib/python3.9/site-packages/xarray/core/indexing.py:1374: PerformanceWarning: Slicing with an out-of-order index is generating 34 times more chunks
+  return self.array[key]
+sst.day.mean.1981.nc
+already downloaded
+sst.day.mean.1982.nc
+already downloaded
+sst.day.mean.1983.nc
+already downloaded
+sst.day.mean.1984.nc
+already downloaded
+sst.day.mean.1985.nc
+already downloaded
+sst.day.mean.1986.nc
+already downloaded
+sst.day.mean.1987.nc
+already downloaded
+sst.day.mean.1988.nc
+already downloaded
+sst.day.mean.1989.nc
+already downloaded
+sst.day.mean.1990.nc
+already downloaded
+sst.day.mean.1991.nc
+already downloaded
+sst.day.mean.1992.nc
+already downloaded
+sst.day.mean.1993.nc
+already downloaded
+sst.day.mean.1994.nc
+already downloaded
+sst.day.mean.1995.nc
+already downloaded
+sst.day.mean.1996.nc
+already downloaded
+sst.day.mean.1997.nc
+already downloaded
+sst.day.mean.1998.nc
+already downloaded
+sst.day.mean.1999.nc
+already downloaded
+sst.day.mean.2000.nc
+already downloaded
+sst.day.mean.2001.nc
+already downloaded
+sst.day.mean.2002.nc
+already downloaded
+sst.day.mean.2003.nc
+already downloaded
+sst.day.mean.2004.nc
+already downloaded
+sst.day.mean.2005.nc
+already downloaded
+sst.day.mean.2006.nc
+already downloaded
+sst.day.mean.2007.nc
+already downloaded
+sst.day.mean.2008.nc
+already downloaded
+sst.day.mean.2009.nc
+already downloaded
+sst.day.mean.2010.nc
+already downloaded
+sst.day.mean.2011.nc
+already downloaded
+sst.day.mean.2012.nc
+already downloaded
+sst.day.mean.2013.nc
+already downloaded
+sst.day.mean.2014.nc
+already downloaded
+sst.day.mean.2015.nc
+already downloaded
+sst.day.mean.2016.nc
+already downloaded
+sst.day.mean.2017.nc
+already downloaded
+sst.day.mean.2018.nc
+already downloaded
+sst.day.mean.2019.nc
+already downloaded
+sst.day.mean.2020.nc
+already downloaded
+sst.day.mean.2021.nc
+already downloaded
+sst.day.mean.2022.nc
+already downloaded
+sst.day.mean.2023.nc
+already downloaded
+sst.day.mean.2024.nc
+downloading:  https://downloads.psl.noaa.gov/Datasets/noaa.oisst.v2.highres/sst.day.mean.2024.nc
+OISST SST 7-Day Anomaly
+OISST SST 7-Day Anomaly Difference
+CMORPH 90 Day Precip Anomaly
+CMORPH 90 Day Precip Percent
+CMORPH 3-month SPI
+CMORPH 3-month SPEI
+CMORPH 30 Day Precip Anomaly
+CMORPH 30 Day Precip Percent
+CMORPH 1-month SPI
+CMORPH 1-month SPEI
+Leaky Bucket Model 1-month Surface Runoff Index
+CMORPH 7 Day Precip Total
+CMORPH 7 Day Precip Anomaly
+CMORPH 7 Day SPI
+CDAS 7 Day Tmax
+CDAS 7 Day Tmax Anomaly
+GEFS Week 1 Precip Total Forecast
+GEFS Week 1 Precip Anomaly Forecast
+GEFS Week 1 Precip Exceedance Prob (50 mm)
+GEFS Week 1 Precip Exceedance Prob (100 mm)
+GEFS Week 1 Raw Precip Tercile Prob
+GEFS Week 1 Consolidated Precip Tercile Prob
+GEFS Week 1 Temp Total Forecast
+GEFS Week 1 Temp Anomaly Forecast
+Leaky Bucket Model Evaporative Stress Index Week 1 Forecast
+Leaky Bucket Model Soil Moisture Percentile Week 1 Forecast
+Leaky Bucket Model SPI Week 1 Forecast
+GEFS Week 2 Precip Total
+GEFS Week 2 Precip Anomaly
+GEFS Week 2 Temp Total Forecast
+GEFS Week 2 Temp Anomaly Forecast
+GEFS Week 2 Precip Exceedance Prob (50 mm)
+GEFS Week 2 Precip Exceedance Prob (100 mm)
+GEFS Week 2 Raw Precip Tercile Prob
+GEFS Week 2 Consolidated Precip Tercile Prob
+NMME 1 Month Precip Anomaly Forecast
+NMME 1 Month SPI Forecast
+OISST SST 7-Day Anomaly
+OISST SST 7-Day Anomaly Difference
+CMORPH 90 Day Precip Anomaly
+CMORPH 90 Day Precip Percent
+CMORPH 3-month SPI
+CMORPH 3-month SPEI
+CMORPH 30 Day Precip Anomaly
+CMORPH 30 Day Precip Percent
+CMORPH 1-month SPI
+CMORPH 1-month SPEI
+Leaky Bucket Model 1-month Surface Runoff Index
+CMORPH 7 Day Precip Total
+CMORPH 7 Day Precip Anomaly
+CMORPH 7 Day SPI
+CDAS 7 Day Tmax
+CDAS 7 Day Tmax Anomaly
+GEFS Week 1 Precip Total Forecast
+GEFS Week 1 Precip Anomaly Forecast
+GEFS Week 1 Precip Exceedance Prob (50 mm)
+GEFS Week 1 Precip Exceedance Prob (100 mm)
+GEFS Week 1 Raw Precip Tercile Prob
+GEFS Week 1 Consolidated Precip Tercile Prob
+GEFS Week 1 Temp Total Forecast
+GEFS Week 1 Temp Anomaly Forecast
+Leaky Bucket Model Evaporative Stress Index Week 1 Forecast
+Leaky Bucket Model Soil Moisture Percentile Week 1 Forecast
+Leaky Bucket Model SPI Week 1 Forecast
+GEFS Week 2 Precip Total
+GEFS Week 2 Precip Anomaly
+GEFS Week 2 Temp Total Forecast
+GEFS Week 2 Temp Anomaly Forecast
+GEFS Week 2 Precip Exceedance Prob (50 mm)
+GEFS Week 2 Precip Exceedance Prob (100 mm)
+GEFS Week 2 Raw Precip Tercile Prob
+GEFS Week 2 Consolidated Precip Tercile Prob
+NMME 1 Month Precip Anomaly Forecast
+NMME 1 Month SPI Forecast
+GEFS Week 1 Precip Total Forecast
+GEFS Week 1 Precip Anomaly Forecast
+GEFS Week 1 Precip Exceedance Prob (50 mm)
+GEFS Week 1 Precip Exceedance Prob (100 mm)
+GEFS Week 1 Raw Precip Tercile Prob
+GEFS Week 1 Consolidated Precip Tercile Prob
+GEFS Week 1 Temp Total Forecast
+GEFS Week 1 Temp Anomaly Forecast
+Leaky Bucket Model Evaporative Stress Index Week 1 Forecast
+Leaky Bucket Model Soil Moisture Percentile Week 1 Forecast
+Leaky Bucket Model SPI Week 1 Forecast
+GEFS Week 2 Precip Total
+GEFS Week 2 Precip Anomaly
+GEFS Week 2 Temp Total Forecast
+GEFS Week 2 Temp Anomaly Forecast
+GEFS Week 2 Precip Exceedance Prob (50 mm)
+GEFS Week 2 Precip Exceedance Prob (100 mm)
+GEFS Week 2 Raw Precip Tercile Prob
+GEFS Week 2 Consolidated Precip Tercile Prob
+NMME 1 Month Precip Anomaly Forecast
+NMME 1 Month SPI Forecast
+OISST SST 7-Day Anomaly
+OISST SST 7-Day Anomaly Difference
+CMORPH 90 Day Precip Anomaly
+CMORPH 90 Day Precip Percent
+CMORPH 3-month SPI
+CMORPH 3-month SPEI
+CMORPH 30 Day Precip Anomaly
+CMORPH 30 Day Precip Percent
+CMORPH 1-month SPI
+CMORPH 1-month SPEI
+Leaky Bucket Model 1-month Surface Runoff Index
+CMORPH 7 Day Precip Total
+CMORPH 7 Day Precip Anomaly
+CMORPH 7 Day SPI
+CDAS 7 Day Tmax
+CDAS 7 Day Tmax Anomaly
+/cpc/home/kkowal/.conda/envs/map_env/lib/python3.9/site-packages/xarray/core/indexing.py:1374: PerformanceWarning: Slicing with an out-of-order index is generating 34 times more chunks
+  return self.array[key]
+Traceback (most recent call last):
+  File "/cpc/int_desk/pac_isl/stations/prep_gefs.py", line 83, in <module>
+    colormaps = {"Below-Normal": bn_cmap, "Near-Normal": nn_cmap, "Above-Normal": an_cmap}
+NameError: name 'bn_cmap' is not defined
+ERROR 6: EPSG PCS/GCS code 900913 not found in EPSG support files.  Is this a valid
+EPSG coordinate system?
+ERROR 6: No translation for an empty SRS to PROJ.4 format is known.
+ERROR 6: No translation for an empty SRS to PROJ.4 format is known.
+Generating Base Tiles:
+0...10...20...30...40...50...60...70...80...90..Traceback (most recent call last):
+  File "/cpc/int_desk/pac_isl/stations/prep_gefs.py", line 83, in <module>
+    colormaps = {"Below-Normal": bn_cmap, "Near-Normal": nn_cmap, "Above-Normal": an_cmap}
+NameError: name 'bn_cmap' is not defined
+ERROR 6: EPSG PCS/GCS code 900913 not found in EPSG support files.  Is this a valid
+EPSG coordinate system?
+ERROR 6: No translation for an empty SRS to PROJ.4 format is known.
+ERROR 6: No translation for an empty SRS to PROJ.4 format is known.
+Generating Base Tiles:
+0..100 - done.
+Generating Overview Tiles:
+0....10....2010....30....40....2050....60.....70...3080.....90....40100 - done.
+ERROR 6: EPSG PCS/GCS code 900913 not found in EPSG support files.  Is this a valid
+EPSG coordinate system?
+ERROR 6: No translation for an empty SRS to PROJ.4 format is known.
+ERROR 6: No translation for an empty SRS to PROJ.4 format is known.
+Generating Base Tiles:
+0......5010......60.20....70...30..80.....4090......100 - done.
+Generating Overview Tiles:
+050...10....20.....30..60.40....50.....60..70.70.....80....8090....100 - done.
+ERROR 6: EPSG PCS/GCS code 900913 not found in EPSG support files.  Is this a valid
+EPSG coordinate system?
+ERROR 6: No translation for an empty SRS to PROJ.4 format is known.
+ERROR 6: No translation for an empty SRS to PROJ.4 format is known.
+Generating Base Tiles:
+0....90..10....100 - done.
+Generating Overview Tiles:
+0....2010....20....30....3040....50.....60.40..70.....80....5090.....100 - done.
+ERROR 6: EPSG PCS/GCS code 900913 not found in EPSG support files.  Is this a valid
+EPSG coordinate system?
+ERROR 6: No translation for an empty SRS to PROJ.4 format is known.
+ERROR 6: No translation for an empty SRS to PROJ.4 format is known.
+Generating Base Tiles:
+0....1060....20.....30.70...40.....50.80...60.....70.90...80.....90.100 - done.
+Generating Overview Tiles:
+0.....10100 - done.
+Generating Overview Tiles:
+0.....10...20.20......30..30..40.....50.40...60....70....5080.....90...60..100 - done.
+ERROR 6: EPSG PCS/GCS code 900913 not found in EPSG support files.  Is this a valid
+EPSG coordinate system?
+ERROR 6: No translation for an empty SRS to PROJ.4 format is known.
+ERROR 6: No translation for an empty SRS to PROJ.4 format is known.
+.Generating Base Tiles:
+0..70.....8010.....90..20....100 - done.
+ERROR 6: EPSG PCS/GCS code 900913 not found in EPSG support files.  Is this a valid
+EPSG coordinate system?
+ERROR 6: No translation for an empty SRS to PROJ.4 format is known.
+ERROR 6: No translation for an empty SRS to PROJ.4 format is known.
+Generating Base Tiles:
+0...30..10....40..20.....5030......4060.....50..70....60..80...70....90..80.....100 - done.
+Generating Overview Tiles:
+090....10....20..100 - done.
+Generating Overview Tiles:
+0.....3010......20.40...30....50..40.....6050......7060......7080....80....90.90......100 - done.
+100 - done.
+ERROR 6: EPSG PCS/GCS code 900913 not found in EPSG support files.  Is this a valid
+EPSG coordinate system?
+ERROR 6: No translation for an empty SRS to PROJ.4 format is known.
+ERROR 6: No translation for an empty SRS to PROJ.4 format is known.
+Generating Base Tiles:
+0ERROR 6: EPSG PCS/GCS code 900913 not found in EPSG support files.  Is this a valid
+EPSG coordinate system?
+ERROR 6: No translation for an empty SRS to PROJ.4 format is known.
+ERROR 6: No translation for an empty SRS to PROJ.4 format is known.
+Generating Base Tiles:
+0......1010......2020.....30..30....40..40....50...50..60....60..70.....7080......9080.....100 - done.
+Generating Overview Tiles:
+0....9010....20.....30100 - done.
+Generating Overview Tiles:
+0......1040......2050......6030.....70...40..80....50..90.....60100 - done.
+ERROR 6: EPSG PCS/GCS code 900913 not found in EPSG support files.  Is this a valid
+EPSG coordinate system?
+ERROR 6: No translation for an empty SRS to PROJ.4 format is known.
+ERROR 6: No translation for an empty SRS to PROJ.4 format is known.
+Generating Base Tiles:
+0....70.....80.10...90....100 - done.
+.ERROR 6: EPSG PCS/GCS code 900913 not found in EPSG support files.  Is this a valid
+EPSG coordinate system?
+ERROR 6: No translation for an empty SRS to PROJ.4 format is known.
+ERROR 6: No translation for an empty SRS to PROJ.4 format is known.
+Generating Base Tiles:
+020......1030......2040......5030.....60..40...70....50..80.....6090......100 - done.
+Generating Overview Tiles:
+070...10.....20....30.80...40....50....9060....70.....80..100 - done.
+Generating Overview Tiles:
+0..90....10..100 - done.
+ERROR 6: EPSG PCS/GCS code 900913 not found in EPSG support files.  Is this a valid
+EPSG coordinate system?
+ERROR 6: No translation for an empty SRS to PROJ.4 format is known.
+ERROR 6: No translation for an empty SRS to PROJ.4 format is known.
+Generating Base Tiles:
+0...20.....3010.....40....2050....60.....70.30...80.....90.40...100 - done.
+ERROR 6: EPSG PCS/GCS code 900913 not found in EPSG support files.  Is this a valid
+EPSG coordinate system?
+ERROR 6: No translation for an empty SRS to PROJ.4 format is known.
+ERROR 6: No translation for an empty SRS to PROJ.4 format is known.
+Generating Base Tiles:
+0...50....10..60....20..70.....3080......9040......100 - done.
+Generating Overview Tiles:
+0...10.50..20.....30....40.60..50....60....70....8070...90.....100 - done.
+ERROR 6: EPSG PCS/GCS code 900913 not found in EPSG support files.  Is this a valid
+EPSG coordinate system?
+ERROR 6: No translation for an empty SRS to PROJ.4 format is known.
+ERROR 6: No translation for an empty SRS to PROJ.4 format is known.
+Generating Base Tiles:
+0..80...10....90..20....100 - done.
+Generating Overview Tiles:
+0....10.30..20.....30....4040.....50....6050...70......80.60...90.....100 - done.
+ERROR 6: EPSG PCS/GCS code 900913 not found in EPSG support files.  Is this a valid
+EPSG coordinate system?
+ERROR 6: No translation for an empty SRS to PROJ.4 format is known.
+ERROR 6: No translation for an empty SRS to PROJ.4 format is known.
+Generating Base Tiles:
+070......1080......9020.....100 - done.
+Generating Overview Tiles:
+0....10...3020....30....40....50.40..60....70....80....5090....100 - done.
+ERROR 6: EPSG PCS/GCS code 900913 not found in EPSG support files.  Is this a valid
+EPSG coordinate system?
+ERROR 6: No translation for an empty SRS to PROJ.4 format is known.
+ERROR 6: No translation for an empty SRS to PROJ.4 format is known.
+Generating Base Tiles:
+0....60.10......7020......3080.....40..90...50....100 - done.
+Generating Overview Tiles:
+0....10.60..20....30.....4070....50....60...80.70....80.....90.90...100 - done.
+ERROR 4: `/cpc/int_desk/pac_isl/stations/images/gefswk1pcons.tif' does not exist in the file system,
+and is not recognised as a supported dataset name.
+
+Usage: gdal2tiles.py [options] input_file(s) [output]
+
+gdal2tiles.py: error: It is not possible to open the input file '/cpc/int_desk/pac_isl/stations/images/gefswk1pcons.tif'.
+..100 - done.
+Generating Overview Tiles:
+0...10...20..

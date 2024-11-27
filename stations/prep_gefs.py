@@ -80,6 +80,12 @@ an_colors = [
 ]
 
 categories = ["Below Normal", "Near-Normal", "Above Normal"]
+# Create colormaps
+bn_cmap = LinearSegmentedColormap.from_list("browns", bn_colors)
+nn_cmap = LinearSegmentedColormap.from_list("grays", nn_colors)
+an_cmap = LinearSegmentedColormap.from_list("greens", an_colors)
+colormaps = {"Below-Normal": bn_cmap, "Near-Normal": nn_cmap, "Above-Normal": an_cmap}
+intervals = {"Below-Normal": bn_intervals, "Near-Normal": nn_intervals, "Above-Normal": an_intervals}
 
 #convert lat/lon coords to mercator projection for tiles
 def convert_to_mercator(ds, var):
@@ -88,6 +94,7 @@ def convert_to_mercator(ds, var):
     # ds_clip = ds_mercator.where(ds_mercator.notnull(), drop=True)
     return ds_mercator
 #convert the data array to RGB values for image export using defined colorschemes
+
 # Apply the colormap and norm to the data
 def apply_colormap(da, colormap, norm, value_intervals):
     """
@@ -126,20 +133,94 @@ def apply_colormap(da, colormap, norm, value_intervals):
 
     return da_rgba_xarray
 
+def process_gefs_probabilities(gefs_data, categories, colormaps, intervals, crs="EPSG:4326", time_index=0):
+    """
+    Process GEFS probability data to create a combined RGBA map.
 
-gefs_wk1raw_crs = gefs_wk1raw.rio.write_crs('EPSG:4326', inplace = True)
-gefs_wk1raw_clipped = gefs_wk1raw.sel(x=slice(0,359.5), y = slice(-50,50))
-gefs_wk1raw_mc = convert_to_mercator(gefs_wk1raw_clipped, 'precip')
-gefs_wk1rawnorm = np.clip(gefs_wk1raw_mc.precip, minptotal, maxptotal)
+    Parameters:
+        gefs_data: xarray.Dataset
+            The input dataset containing probabilities.
+        categories: list of str
+            List of category names (e.g., ["Below-Normal", "Near-Normal", "Above-Normal"]).
+        colormaps: dict
+            Dictionary mapping category names to their colormaps.
+        intervals: dict
+            Dictionary mapping category names to their interval boundaries.
+        crs: str, optional
+            Coordinate Reference System to assign to the dataset. Default is "EPSG:4326".
+        time_index: int, optional
+            The time index to select for processing. Default is 0.
 
-ptotal_cmap = ListedColormap(ptotal_colors)
-ptotal_norm = BoundaryNorm(boundaries=ptotal_intervals, ncolors=len(ptotal_colors))
-gefswk1tp_rgb = apply_colormap(gefs_wk1rawnorm.isel(time=0), ptotal_cmap, ptotal_norm, ptotal_intervals)
-gefswk1tp_rgb.rio.to_raster(os.path.join(figure_dir, 'gefswk1totalp.tif'), dtype="uint8")
+    Returns:
+        xarray.DataArray
+            Combined RGBA map as an xarray DataArray.
+    """
+    # Write CRS to the dataset
+    gefs_data_crs = gefs_data.rio.write_crs(crs, inplace=False)
+
+    # Select data for the given time step and scale probabilities
+    data = gefs_data_crs['prob'].isel(time=time_index) * 100
+
+    # Identify NaN mask
+    nan_mask = data.isnull().all(dim='e')
+    filled_data = data.where(~nan_mask, -1)
+
+    # Compute the maximum category index
+    max_cat_index = filled_data.argmax(dim="e")
+
+    # Extract max probabilities for each category
+    max_probs = {}
+    for i, category in enumerate(categories):
+        cat_prob = data.isel(e=i)  # Select probabilities for this category
+        max_prob = cat_prob.where(max_cat_index == i)  # Retain only max category
+        max_prob = max_prob.where(~nan_mask)  # Mask out all-NaN locations
+        max_probs[category] = max_prob
+
+    # Apply colormaps and combine RGBA maps
+    rgba_maps = []
+    for category in categories:
+        prob = max_probs[category]
+        cmap = colormaps[category]
+        interval = intervals[category]
+        norm = BoundaryNorm(interval, cmap.N, extend="both")
+
+        # Apply the colormap
+        rgba_map = apply_colormap(prob, cmap, norm, interval)
+        rgba_maps.append(rgba_map)
+
+    # Combine individual RGBA maps into a single map
+    combined_rgba = np.zeros_like(rgba_maps[0].values)  # Initialize combined map
+    for rgba_map in rgba_maps:
+        mask = rgba_map[3, :, :] > 0  # Use alpha channel to identify valid data
+        combined_rgba[:, mask] = rgba_map.values[:, mask]
+
+    #Convert combined RGBA to xarray
+    combined_rgba_xarray = xr.DataArray(
+        combined_rgba,
+        dims=("band", "y", "x"),
+        coords={
+            "band": [1, 2, 3, 4],
+            "y": rgba_maps[0].y,
+            "x": rgba_maps[0].x,
+        },
+    ).rio.write_crs(gefs_data_crs.rio.crs)
+
+    return combined_rgba_xarray
 
 
 gefs_wk1cons = xr.open_dataset(os.path.join(gefs_procdir, 'gefs_week_1_cons.nc'))
 gefs_wk1cons = gefs_wk1cons.rename({'lon':'x', 'lat':'y'})
+gefswk1_pcons_rgba = process_gefs_probabilities(gefs_wk1cons, categories, colormaps, intervals,
+                                               crs="EPSG:4326", time_index=0)
+gefswk1pcons_prep = gefswk1_pcons_rgba.to_dataset(name = 'color')
+gefswk1pcons_prep['x'] = (gefswk1pcons_prep.x + 180)%360 -180
+gefswk1_pcons_mc = convert_to_mercator(gefswk1pcons_prep, 'color')
+gefswk1_pcons_mc = gefswk1_pcons_mc.isel(y=slice(None,None,-1))
+gefswk1_pcons_mc = gefswk1_pcons_mc.isel(x=slice(None,None,-1))
+gefswk1_pcons_mc['color'].rio.to_raster(os.path.join(figure_dir, 'station_data', 'gefswk1pcons.tif'), dtype = 'uint8')
+
+
+## station time series prep
 
 cons_stations = []
 for station in stations:
@@ -147,12 +228,6 @@ for station in stations:
     cons_station['station'] = station['name']
     cons_stations.append(cons_station)
 cons_stations = xr.concat(cons_stations, dim = 'station')
-
-
-# Create colormaps
-bn_cmap = LinearSegmentedColormap.from_list("browns", bn_colors)
-nn_cmap = LinearSegmentedColormap.from_list("grays", nn_colors)
-an_cmap = LinearSegmentedColormap.from_list("greens", an_colors)
 
 for s, station in enumerate(stations):
     bar_data = []
