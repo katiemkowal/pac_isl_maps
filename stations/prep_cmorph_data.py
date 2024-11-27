@@ -173,7 +173,6 @@ def apply_colormap(da, colormap, norm, value_intervals):
 
     return da_rgba_xarray
 
-
 ########## MAIN SCRIPT
 # Get the current date
 current_date = datetime.now().date()

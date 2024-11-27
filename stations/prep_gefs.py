@@ -90,7 +90,7 @@ intervals = {"Below-Normal": bn_intervals, "Near-Normal": nn_intervals, "Above-N
 #convert lat/lon coords to mercator projection for tiles
 def convert_to_mercator(ds, var):
     # ds = ds.where(~np.isnan(ds[var]), drop=True)
-    ds_mercator = ds.rio.reproject("EPSG:3857")
+    ds_mercator = ds.rio.reproject("EPSG:3857")#, resolution = 10000)
     # ds_clip = ds_mercator.where(ds_mercator.notnull(), drop=True)
     return ds_mercator
 #convert the data array to RGB values for image export using defined colorschemes
@@ -221,10 +221,12 @@ gefs_wk1cons = gefs_wk1cons.rename({'lon':'x', 'lat':'y'})
 gefswk1_pcons_rgba = process_gefs_probabilities(gefs_wk1cons, categories, colormaps, intervals,
                                                crs="EPSG:4326", time_index=0)
 gefswk1pcons_prep = gefswk1_pcons_rgba.to_dataset(name = 'color')
+gefswk1pcons_prep = gefswk1pcons_prep.isel(y=slice(None,None,-1))
 gefswk1pcons_prep['x'] = (gefswk1pcons_prep.x + 180)%360 -180
+# gefswk1pcons_prep = gefswk1pcons_prep.isel(x=slice(None,None,-1))
 gefswk1_pcons_mc = convert_to_mercator(gefswk1pcons_prep, 'color')
-gefswk1_pcons_mc = gefswk1_pcons_mc.isel(y=slice(None,None,-1))
-gefswk1_pcons_mc = gefswk1_pcons_mc.isel(x=slice(None,None,-1))
+
+print(gefswk1_pcons_mc)
 gefswk1_pcons_mc['color'].rio.to_raster(os.path.join(figure_dir,'gefswk1pcons.tif'), dtype = 'uint8')
 
 
