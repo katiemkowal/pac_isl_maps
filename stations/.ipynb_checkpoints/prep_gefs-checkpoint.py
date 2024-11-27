@@ -221,7 +221,7 @@ gefs_wk1cons = gefs_wk1cons.rename({'lon':'x', 'lat':'y'})
 gefswk1_pcons_rgba = process_gefs_probabilities(gefs_wk1cons, categories, colormaps, intervals,
                                                crs="EPSG:4326", time_index=0)
 gefswk1pcons_prep = gefswk1_pcons_rgba.to_dataset(name = 'color')
-gefswk1pcons_prep = gefswk1pcons_prep.isel(y=slice(None,None,-1))
+# gefswk1pcons_prep = gefswk1pcons_prep.isel(y=slice(None,None,-1))
 gefswk1pcons_prep['x'] = (gefswk1pcons_prep.x + 180)%360 -180
 gefswk1pcons_prep = gefswk1pcons_prep.sortby('x', ascending = False)
 # gefswk1pcons_prep = gefswk1pcons_prep.isel(x=slice(None,None,-1))
