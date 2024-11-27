@@ -1,0 +1,96 @@
+import os
+from datetime import datetime,timedelta
+import numpy as np
+import xarray as xr
+import matplotlib.pyplot as plt
+from matplotlib.colors import TwoSlopeNorm, LinearSegmentedColormap
+from matplotlib.colors import BoundaryNorm, ListedColormap
+import matplotlib as mpl
+import rioxarray as rio
+from rasterio.warp import calculate_default_transform
+
+gefs_procdir = '/cpc/africawrf/ebekele/projects/PREPARE_pacific/notebooks/unmasked'
+gefs_rawdir = '/cpc/africawrf/ebekele/projects/PREPARE_pacific/subseason_unmasked'
+figure_dir = '/cpc/int_desk/pac_isl/stations/images'
+
+minptotal = 0
+maxptotal = 3500
+
+ptotal_intervals = [0, 2, 5, 10, 25, 50, 75, 100,
+                    150, 200, 300, 500, 750,1000,
+                    1500, 2500, 3500]
+
+ptotal_colors = [
+    (254/255, 254/255, 254/255), #off white
+    (198/255, 252/255, 188/255), #light green
+    (118/255, 241/255, 113/255), #bright green
+    (29/255, 178/255,  29/255), #dark green
+    (178/255, 238/255, 248/255), #light blue
+    (79/255, 163/255, 243/255), #med blue
+    (29/255, 108/255, 231/255), #darker blue
+    (236/255, 228/255, 238/255), #light purple
+    (158/255, 139/255, 253/255), #bright purple
+    (110/255,  94/255, 216/255), #dark purple
+    (253/255, 248/255, 168/255), #light yellow
+    (250/255, 156/255,   0/255), #orange
+    (223/255,  19/255,   0/255), #bright red
+    (163/255,   0/255,   0/255), #dark red
+    (227/255, 138/255, 138/255), #rose
+    (244/255, 232/255, 232/255) #light pink
+]
+
+#convert lat/lon coords to mercator projection for tiles
+def convert_to_mercator(ds, var):
+    # ds = ds.where(~np.isnan(ds[var]), drop=True)
+    ds_mercator = ds.rio.reproject("EPSG:3857")
+    # ds_clip = ds_mercator.where(ds_mercator.notnull(), drop=True)
+    return ds_mercator
+#convert the data array to RGB values for image export using defined colorschemes
+# Apply the colormap and norm to the data
+def apply_colormap(da, colormap, norm, value_intervals):
+    """
+    Apply a custom colormap to the data array based on specified boundaries.
+
+    Parameters:
+        da: xarray.DataArray
+            The data array to which the colormap will be applied.
+        colormap: matplotlib.colors.Colormap
+            The custom colormap to apply.
+        norm: matplotlib.colors.BoundaryNorm
+            The normalizer that defines the color intervals.
+
+    Returns:
+        xarray.DataArray
+            DataArray with RGBA values.
+    """
+    # Clip the data to the specified range (you could also use np.clip if needed)
+    da_clipped = np.clip(da, value_intervals[0], value_intervals[-1])
+
+    # Map the data values to the colormap using BoundaryNorm
+    colormap_values = colormap(norm(da_clipped))
+
+    # Scale to 0-255 for RGB and add an alpha channel
+    da_rgb = (colormap_values[:, :, :3] * 255).astype(np.uint8)
+    da_alpha = (~np.isnan(da_clipped)) * 255  # Transparency: 0 for NaN, 255 otherwise
+    da_rgba = np.dstack((da_rgb, da_alpha.astype(np.uint8)))  # Combine RGB + Alpha
+
+    # Convert to xarray for exporting with spatial coordinates
+    da_rgba_xarray = xr.DataArray(
+        da_rgba,
+        dims=("y", "x", "band"),
+        coords={"y": da.y, "x": da.x, "band": [1, 2, 3, 4]},
+    )
+    da_rgba_xarray = da_rgba_xarray.transpose("band", "y", "x").rio.write_crs(da.rio.crs)
+
+    return da_rgba_xarray
+
+
+gefs_wk1raw_crs = gefs_wk1raw.rio.write_crs('EPSG:4326', inplace = True)
+gefs_wk1raw_clipped = gefs_wk1raw.sel(x=slice(0,359.5), y = slice(-50,50))
+gefs_wk1raw_mc = convert_to_mercator(gefs_wk1raw_clipped, 'precip')
+gefs_wk1rawnorm = np.clip(gefs_wk1raw_mc.precip, minptotal, maxptotal)
+
+ptotal_cmap = ListedColormap(ptotal_colors)
+ptotal_norm = BoundaryNorm(boundaries=ptotal_intervals, ncolors=len(ptotal_colors))
+gefswk1tp_rgb = apply_colormap(gefs_wk1rawnorm.isel(time=0), ptotal_cmap, ptotal_norm, ptotal_intervals)
+gefswk1tp_rgb.rio.to_raster(os.path.join(figure_dir, 'gefswk1totalp.tif'), dtype="uint8")
