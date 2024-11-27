@@ -242,6 +242,7 @@
                 'NASA ESI': 'https://www.ncei.noaa.gov/pub/data/nidis/tile/nasa-esi-5km-4wk/{z}/{x}/{y}.png'
             },
             'Forecast Tools': {
+                'GEFS Forecast Points': 'https://github.com/katiemkowal/pac_isl_maps/tree/temp-branch/stations/images/station_data',
                 'GEFS Week 1 Precip Total Forecast':  'https://ftp.cpc.ncep.noaa.gov/International/PREPARE_Pacific/subseasonal/gefs_raw/gefs_week1_figures/gefs_week1_precipt.png',
                 'GEFS Week 1 Precip Anomaly Forecast': 'https://ftp.cpc.ncep.noaa.gov/International/PREPARE_Pacific/subseasonal/gefs_raw/gefs_week1_figures/gefs_week1_precip.png',
                 'GEFS Week 1 Precip Exceedance Prob (50 mm)': 'https://ftp.cpc.ncep.noaa.gov/International/PREPARE_Pacific/subseasonal/gefs_raw/gefs_week1_figures/gefs_week1_prob_50.png',
@@ -269,6 +270,7 @@
         str180day = 'https://www.cpc.ncep.noaa.gov/products/international/zz_CP_Islands/zz_CMORPH_ADJ_EOD/cmorph_180day_ptts_';
         str90day = 'https://www.cpc.ncep.noaa.gov/products/international/zz_CP_Islands/zz_CMORPH_ADJ_EOD/cmorph_90day_ptts_';
         str30day = 'https://www.cpc.ncep.noaa.gov/products/international/zz_CP_Islands/zz_CMORPH_ADJ_EOD/cmorph_30day_ptts_';
+        strgefs = 'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/station_data/';
             
         lyrsst7dayanom = L.tileLayer(layerlinks['SST Estimates']['OISST SST 7-Day Anomaly'], {opacity:0.5, tms:true});
         lyrsst7dayanomdiff = L.tileLayer(layerlinks['SST Estimates']['OISST SST 7-Day Anomaly Difference'],{opacity:0.5, tms:true});
@@ -310,7 +312,9 @@
         lyrfcst_gefswk1tcons = L.imageOverlay(layerlinks['Forecast Tools']['GEFS Week 1 Consolidated Precip Tercile Prob'], gefst_bounds, {opacity:0.5});
         lyrfcst_gefswk2tcons = L.imageOverlay(layerlinks['Forecast Tools']['GEFS Week 2 Consolidated Precip Tercile Prob'], gefst_bounds, {opacity:0.5});
             
-        stationsLayerGroup = L.layerGroup();
+        stationsLayercmorph = L.layerGroup();
+        stationsLayergefswk1p = L.layerGroup();
+            
         stations = [
             { name: 'Chuuk-Weno_FSM', lat: 7.45, lon: 151.85 },
             { name: 'Colonia-Yap_FSM', lat: 9.52, lon: 138.13 },
@@ -391,8 +395,8 @@
 
         // Loop through the stations and create markers with popups
         stations.forEach(station => {
-            marker = L.marker([station.lat, station.lon]);
-
+            markercmorph = L.marker([station.lat, station.lon]);
+            markergefswk1p = L.marker([station.lat, station.lon]);
             // Function to determine the popup max width based on zoom level
            function getPopupMaxWidth() {
                zoomLevel = map.getZoom();
@@ -407,7 +411,7 @@
            }
 
             // Generate HTML content for the popup with the station name and three clickable hyperlinks
-            popupContent = `
+            popupContentcmorph = `
                 <div>
                     <strong>${station.name}</strong><br>
                     <div class="label">CMORPH Precipitation Time Series</div><br>
@@ -419,14 +423,33 @@
                     <img class="gif-preview" src="${str30day + station.name + '.gif'}"><br>
                 </div>
             `;
+            
+            popupContentgefswk1p = `
+                <div>
+                    <strong>${station.name}</strong><br>
+                    <div class="label">GEFS Week 1 Precipitation Estimates</div><br>
+                    <strong>&bull; <a href="${strgefs + station.name + '_pconswk1bar.png?raw=true'}" target="_blank"> (GEFS Wk1 Cons)</a>
+                    <img class="gif-preview" src="${strgefs + station.name + '_pconswk1bar.png?raw=true'}"><br>
+                     <strong>&bull;<a href="${str90day + station.name + '.gif'}" target="_blank"> (90-day)</a>
+                    <img class="gif-preview" src="${str90day + station.name + '.gif'}"><br>
+                     <strong>&bull;<a href="${str30day + station.name + '.gif'}" target="_blank"> (30-day)</a>
+                    <img class="gif-preview" src="${str30day + station.name + '.gif'}"><br>
+                </div>
+            `;
 
             // Bind the popup to the marker
-            marker.bindPopup(popupContent, {
+            markercmorph.bindPopup(popupContentcmorph, {
                 maxWidth: getPopupMaxWidth(),
                 offset: L.point(0, -1) // Adjust the popup's vertical position
             });
             
-            stationsLayerGroup.addLayer(marker);
+             markergefswk1p.bindPopup(popupContentgefswk1p, {
+                maxWidth: getPopupMaxWidth(),
+                offset: L.point(0, -1) // Adjust the popup's vertical position
+            });
+            
+            stationsLayercmorph.addLayer(markercmorph);
+            stationsLayergefswk1p.addLayer(markergefswk1p);
         });
         // Adjust popup size dynamically when zoom changes
         map.on('zoomend', function() {
@@ -463,7 +486,7 @@
         };
 
         objOverlays_monitor = {
-            [`<a href="${htmllinks['Monitor Tools']['CMORPH Time Series Points']}" target="_blank">CMORPH Time Series Points</a>`] : stationsLayerGroup,
+            [`<a href="${htmllinks['Monitor Tools']['CMORPH Time Series Points']}" target="_blank">CMORPH Time Series Points</a>`] : stationsLayercmorph,
             [`<a href="${htmllinks['Monitor Tools']['CMORPH 90 Day Precip Anomaly']}" target="_blank">CMORPH 90 Day Precip Anomaly</a>`] : lyrprcpanom90,
             [`<a href="${htmllinks['Monitor Tools']['CMORPH 90 Day Precip Percent']}" target="_blank">CMORPH 90 Day Precip Percent</a>`] : lyrprcpper90,
             [`<a href="${htmllinks['Monitor Tools']['CMORPH 3-month SPI']}" target="_blank">CMORPH 3-month SPI</a>`] : lyrspi3mo,
@@ -483,6 +506,7 @@
         };
             
         objOverlays_fcst = {
+            [`<a href="${htmllinks['Forecast Tools']['GEFS Forecast Points']}" target="_blank">GEFS Forecast Points</a>`] : stationsLayergefswk1p,
             [`<a href="${htmllinks['Forecast Tools']['GEFS Week 1 Precip Total Forecast']}" target="_blank">GEFS Week 1 Precip Total Forecast</a>`]: lyrfcst_gefswk1ptotal,
             [`<a href="${htmllinks['Forecast Tools']['GEFS Week 1 Precip Anomaly Forecast']}" target="_blank">GEFS Week 1 Precip Anomaly Forecast</a>`]: lyrfcst_gefswk1panom,
             [`<a href="${htmllinks['Forecast Tools']['GEFS Week 1 Precip Exceedance Prob (50 mm)']}" target="_blank">GEFS Week 1 Precip Exceedance Prob (50 mm)</a>`]: lyrfcst_gefswk1poe50,

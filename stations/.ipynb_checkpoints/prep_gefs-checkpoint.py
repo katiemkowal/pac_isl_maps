@@ -11,7 +11,7 @@ from rasterio.warp import calculate_default_transform
 
 gefs_procdir = '/cpc/africawrf/ebekele/projects/PREPARE_pacific/notebooks/unmasked'
 gefs_rawdir = '/cpc/africawrf/ebekele/projects/PREPARE_pacific/subseason_unmasked'
-figure_dir = '/cpc/int_desk/pac_isl/stations/images'
+figure_dir = '/cpc/int_desk/pac_isl/stations/images/station_data'
 
 minptotal = 0
 maxptotal = 3500
@@ -38,6 +38,48 @@ ptotal_colors = [
     (227/255, 138/255, 138/255), #rose
     (244/255, 232/255, 232/255) #light pink
 ]
+
+# Define intervals and colors
+bn_intervals = [0, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85]
+bn_colors = [
+    (254/255, 254/255, 254/255),
+    (245/255, 230/255, 193/255),
+    (233/255, 212/255, 159/255),
+    (222/255, 192/255, 123/255),
+    (206/255, 160/255, 83/255),
+    (190/255, 128/255, 44/255),
+    (164/255, 104/255, 26/255),
+    (139/255, 81/255, 10/255),
+    (111/255, 63/255, 6/255),
+    (100/255, 55/255, 6/255),
+    (82/255, 48/255, 6/255),
+]
+
+nn_intervals = [0, 35, 40, 45, 50, 55]
+nn_colors = [
+    (254/255, 254/255, 254/255),
+    (238/255, 238/255, 233/255),
+    (194/255, 194/255, 194/255),
+    (176/255, 176/255, 176/255),
+    (144/255, 144/255, 144/255),
+]
+
+an_intervals = [0, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85]
+an_colors = [
+    (254/255, 254/255, 254/255),
+    (198/255, 233/255, 227/255),
+    (162/255, 218/255, 210/255),
+    (144/255, 211/255, 201/255),
+    (127/255, 203/255, 191/255),
+    (89/255, 176/255, 167/255),
+    (52/255, 150/255, 142/255),
+    (26/255, 125/255, 117/255),
+    (0/255, 101/255, 93/255),
+    (0/255, 80/255, 71/255),
+    (3/255, 56/255, 47/255),
+]
+
+categories = ["Below Normal", "Near-Normal", "Above Normal"]
 
 #convert lat/lon coords to mercator projection for tiles
 def convert_to_mercator(ds, var):
