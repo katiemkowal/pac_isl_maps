@@ -11,7 +11,7 @@ from rasterio.warp import calculate_default_transform
 
 gefs_procdir = '/cpc/africawrf/ebekele/projects/PREPARE_pacific/notebooks/unmasked'
 gefs_rawdir = '/cpc/africawrf/ebekele/projects/PREPARE_pacific/subseason_unmasked'
-figure_dir = '/cpc/int_desk/pac_isl/stations/images/station_data'
+figure_dir = '/cpc/int_desk/pac_isl/stations/images/'
 
 minptotal = 0
 maxptotal = 3500
@@ -334,6 +334,6 @@ for s, station in enumerate(stations):
     plt.title(station['name'] + ' GEFS Week 1 Consolidated Precip Probabilities')
     # Save the box plot as a PNG file with the station name
     plt.tight_layout()
-    plt.savefig(os.path.join(figure_dir, f"{station['name']}_pconswk1bar.png"))  # Save as PNG file
+    plt.savefig(os.path.join(figure_dir, 'station_data', f"{station['name']}_pconswk1bar.png"))  # Save as PNG file
     plt.close()  # Close the plot to avoid memory issues
 
