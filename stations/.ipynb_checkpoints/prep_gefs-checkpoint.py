@@ -223,6 +223,7 @@ gefswk1_pcons_rgba = process_gefs_probabilities(gefs_wk1cons, categories, colorm
 gefswk1pcons_prep = gefswk1_pcons_rgba.to_dataset(name = 'color')
 gefswk1pcons_prep = gefswk1pcons_prep.isel(y=slice(None,None,-1))
 gefswk1pcons_prep['x'] = (gefswk1pcons_prep.x + 180)%360 -180
+gefswk1pcons_prep = gefswk1pcons_prep.sortby('x', ascending = False)
 # gefswk1pcons_prep = gefswk1pcons_prep.isel(x=slice(None,None,-1))
 gefswk1_pcons_mc = convert_to_mercator(gefswk1pcons_prep, 'color')
 

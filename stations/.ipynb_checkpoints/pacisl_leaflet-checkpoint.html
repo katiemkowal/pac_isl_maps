@@ -309,7 +309,7 @@
         lyrfcst_gefswk2poe100 = L.imageOverlay(layerlinks['Forecast Tools']['GEFS Week 2 Precip Exceedance Prob (100 mm)'], gefs_bounds, {opacity:0.5});
         lyrfcst_gefswk1traw = L.imageOverlay(layerlinks['Forecast Tools']['GEFS Week 1 Raw Precip Tercile Prob'], gefst_bounds, {opacity:0.5});
         lyrfcst_gefswk2traw = L.imageOverlay(layerlinks['Forecast Tools']['GEFS Week 2 Raw Precip Tercile Prob'], gefst_bounds, {opacity:0.5});
-        lyrfcst_gefswk1tcons = L.tileLayerL(layerlinks['Forecast Tools']['GEFS Week 1 Consolidated Precip Tercile Prob'], {opacity:0.5, tms:true});//gefst_bounds
+        lyrfcst_gefswk1tcons = L.tileLayer(layerlinks['Forecast Tools']['GEFS Week 1 Consolidated Precip Tercile Prob'], {opacity:0.5, tms:true});//gefst_bounds
         lyrfcst_gefswk2tcons = L.imageOverlay(layerlinks['Forecast Tools']['GEFS Week 2 Consolidated Precip Tercile Prob'], gefst_bounds, {opacity:0.5});
             
         stationsLayercmorph = L.layerGroup();
