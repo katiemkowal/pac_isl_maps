@@ -313,7 +313,7 @@
         lyrfcst_gefswk2poe100 = L.imageOverlay(layerlinks['Forecast Tools']['GEFS Week 2 Precip Exceedance Prob (100 mm)'], gefs_bounds, {opacity:0.5});
         lyrfcst_gefswk1traw = L.imageOverlay(layerlinks['Forecast Tools']['GEFS Week 1 Raw Precip Tercile Prob'], gefst_bounds, {opacity:0.5});
         lyrfcst_gefswk2traw = L.imageOverlay(layerlinks['Forecast Tools']['GEFS Week 2 Raw Precip Tercile Prob'], gefst_bounds, {opacity:0.5});
-        lyrfcst_gefswk1tcons = L.tileLayer(layerlinks['Forecast Tools']['GEFS Week 1 Consolidated Precip Tercile Prob'], {crs: L.CRS.EPSG3857, opacity:0.5, tms:true});//gefst_bounds bounds: gefstile_bounds
+        lyrfcst_gefswk1tcons = L.tileLayer(layerlinks['Forecast Tools']['GEFS Week 1 Consolidated Precip Tercile Prob'], {opacity:0.5, tms:true});//gefst_bounds bounds: gefstile_bounds
         lyrfcst_gefswk2tcons = L.imageOverlay(layerlinks['Forecast Tools']['GEFS Week 2 Consolidated Precip Tercile Prob'], gefst_bounds, {opacity:0.5});
             
         stationsLayercmorph = L.layerGroup();
@@ -559,6 +559,7 @@
             'CDAS 7 Day Tmax Anomaly':  'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/cdas7tanom_header.png?raw=true',
             'VHI 1km': '',
             'NASA ESI': '',
+            'GEFS Forecast Points': '',
             'GEFS Week 1 Precip Total Forecast': 'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/gefswk1ptotal_header.png?raw=true',
             'GEFS Week 1 Precip Anomaly Forecast': 'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/gefswk1panom_header.png?raw=true',
             'GEFS Week 1 Precip Exceedance Prob (50 mm)': 'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/gefswk1poe50_header.png?raw=true',
@@ -602,6 +603,7 @@
             'CDAS 7 Day Tmax Anomaly':  'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/cdas7tanom_legend.png?raw=true',
             'VHI 1km': '',
             'NASA ESI': '',
+            'GEFS Forecast Points': '',
             'GEFS Week 1 Precip Total Forecast': 'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/gefswk1ptotal_legend.png?raw=true',
             'GEFS Week 1 Precip Anomaly Forecast': 'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/gefswk1panom_legend.png?raw=true',
             'GEFS Week 1 Precip Exceedance Prob (50 mm)': 'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/gefswk1poe50_legend.png?raw=true',
@@ -628,7 +630,8 @@
         layerToName = {
             [lyrsst7dayanom._leaflet_id]:'OISST SST 7-Day Anomaly',
             [lyrsst7dayanomdiff._leaflet_id]:'OISST SST 7-Day Anomaly Difference',
-            [stationsLayerGroup._leaflet_id]:'CMORPH Time Series Points',
+            [stationsLayercmorph._leaflet_id]:'CMORPH Time Series Points',
+            [stationsLayergefswk1p._leaflet_id]:'GEFS Forecast Points',
             [lyrprcpanom90._leaflet_id]:'CMORPH 90 Day Precip Anomaly',
             [lyrprcpper90._leaflet_id]:'CMORPH 90 Day Precip Percent',
             [lyrspi3mo._leaflet_id]:'CMORPH 3-month SPI',
