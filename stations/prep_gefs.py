@@ -44,7 +44,7 @@ ptotal_colors = [
 # Define intervals and colors
 bn_intervals = [0, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85,100]
 bn_colors = [
-    (250/255, 250/255, 250/255),#0-35
+    (245/255, 245/255, 245/255),#0-35
     (245/255, 230/255, 193/255),#40-45
     (233/255, 212/255, 159/255),
     (222/255, 192/255, 123/255),
@@ -59,7 +59,7 @@ bn_colors = [
 
 nn_intervals = [0, 35, 40, 45, 50, 55,100]
 nn_colors = [
-    (250/255, 250/255, 250/255),#0-35
+    (245/255, 245/255, 245/255),#0-35
     (238/255, 238/255, 233/255),#35-40
     (194/255, 194/255, 194/255),#40-45
     (176/255, 176/255, 176/255),
@@ -69,7 +69,7 @@ nn_colors = [
 
 an_intervals = [0, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85,100]
 an_colors = [
-    (254/255, 254/255, 254/255),#0-35
+    (245/255, 245/255, 245/255),#0-35
     (198/255, 233/255, 227/255),#35-40
     (162/255, 218/255, 210/255),#40-45
     (144/255, 211/255, 201/255),#45-50
@@ -230,12 +230,16 @@ gefs_wk1cons = gefs_wk1cons.rename({'lon':'x', 'lat':'y'})
 gefswk1_pcons_rgba = process_gefs_probabilities(gefs_wk1cons, categories, colormaps, intervals,
                                                crs="EPSG:4326", time_index=0)
 gefswk1pcons_prep = gefswk1_pcons_rgba.to_dataset(name = 'color')
-# gefswk1pcons_prep = gefswk1pcons_prep.isel(x=slice(132,205))
-# gefswk1pcons_prep = gefswk1pcons_prep.isel(y=slice(None,None,-1))
-#gefswk1pcons_prep['x'] = (gefswk1pcons_prep.x + 180)%360 -180
-#gefswk1pcons_prep = gefswk1pcons_prep.sortby('x', ascending = False)
 gefswk1_pcons_mc = convert_to_mercator(gefswk1pcons_prep, 'color')
 gefswk1_pcons_mc['color'].rio.to_raster(os.path.join(figure_dir,'gefswk1pcons.tif'), dtype = 'uint8')
+
+gefs_wk2cons = xr.open_dataset(os.path.join(gefs_procdir, 'gefs_week_2_cons.nc'))
+gefs_wk2cons = gefs_wk2cons.rename({'lon':'x', 'lat':'y'})
+gefswk2_pcons_rgba = process_gefs_probabilities(gefs_wk2cons, categories, colormaps, intervals,
+                                               crs="EPSG:4326", time_index=0)
+gefswk2pcons_prep = gefswk2_pcons_rgba.to_dataset(name = 'color')
+gefswk2_pcons_mc = convert_to_mercator(gefswk2pcons_prep, 'color')
+gefswk2_pcons_mc['color'].rio.to_raster(os.path.join(figure_dir,'gefswk2pcons.tif'), dtype = 'uint8')
 
 
 ## station time series prep
@@ -317,35 +321,57 @@ stations = [{'name': 'Chuuk-Weno_FSM','lat': 7.45, 'lon': 151.85 },
            ]
 
 
-cons_stations = []
+cons1_stations = []
+cons2_stations = []
 for station in stations:
-    cons_station = gefs_wk1cons.sel(x=station['lon'], y = station['lat'], method = 'nearest')
-    cons_station['station'] = station['name']
-    cons_stations.append(cons_station)
-cons_stations = xr.concat(cons_stations, dim = 'station')
-cons_stations['prob_colors'] = cons_stations['prob']
-cons_stations['prob'] = cons_stations['prob']*100
+    cons1_station = gefs_wk1cons.sel(x=station['lon'], y = station['lat'], method = 'nearest')
+    cons1_station['station'] = station['name']
+    cons1_stations.append(cons1_station)
+    
+    cons2_station = gefs_wk2cons.sel(x=station['lon'], y = station['lat'], method = 'nearest')
+    cons2_station['station'] = station['name']
+    cons2_stations.append(cons2_station)
+cons1_stations = xr.concat(cons1_stations, dim = 'station')
+cons2_stations = xr.concat(cons2_stations, dim = 'station')
+
+cons1_stations['prob_colors'] = cons1_stations['prob']
+cons1_stations['prob'] = cons1_stations['prob']*100
+cons2_stations['prob_colors'] = cons2_stations['prob']
+cons2_stations['prob'] = cons2_stations['prob']*100
 
 for s, station in enumerate(stations):
-    bar_data = []
-    bar_data_colors = []
+    bar1_data = []
+    bar1_data_colors = []
+    bar2_data = []
+    bar2_data_colors = []
 
     # Prepare the data for each category (bn, nn, an)
     for c, cat in enumerate(categories):
-        bar_data.append(cons_stations.isel(time=0,station=s,e=c).prob.values)
-        bar_data_colors.append(cons_stations.isel(time=0,station=s,e=c).prob_colors.values)
-
-    colors = [
-        bn_cmap(bar_data_colors[0]),
-        nn_cmap(bar_data_colors[1]),
-        an_cmap(bar_data_colors[2])
-        #get_color(bar_data[0], bn_intervals, bn_cmap),
-        #get_color(bar_data[1], nn_intervals, nn_cmap),
-        #get_color(bar_data[2], an_intervals, an_cmap),
-    ]
+        bar1_data.append(cons1_stations.isel(time=0,station=s,e=c).prob.values)
+        bar1_data_colors.append(cons1_stations.isel(time=0,station=s,e=c).prob_colors.values)
+        bar2_data.append(cons2_stations.isel(time=0,station=s,e=c).prob.values)
+        bar2_data_colors.append(cons2_stations.isel(time=0,station=s,e=c).prob_colors.values)
+        #normalize the intervals given colors/intervals defined above
+        bnnorm = BoundaryNorm(boundaries = bn_intervals, ncolors=bn_cmap.N+1)
+        nnnorm = BoundaryNorm(boundaries = nn_intervals, ncolors=nn_cmap.N+1)
+        annorm = BoundaryNorm(boundaries = an_intervals, ncolors=an_cmap.N+1)
     
+    colors1 = [
+        
+        bn_cmap(bnnorm(bar1_data_colors[0]*(bn_intervals[-1]-bn_intervals[0])+bn_intervals[0])),
+        nn_cmap(nnnorm(bar1_data_colors[1]*(nn_intervals[-1]-nn_intervals[0])+nn_intervals[0])),
+        an_cmap(annorm(bar1_data_colors[2]*(an_intervals[-1]-an_intervals[0])+an_intervals[0]))
+    ]
+
+    colors2 = [
+        
+        bn_cmap(bnnorm(bar2_data_colors[0]*(bn_intervals[-1]-bn_intervals[0])+bn_intervals[0])),
+        nn_cmap(nnnorm(bar2_data_colors[1]*(nn_intervals[-1]-nn_intervals[0])+nn_intervals[0])),
+        an_cmap(annorm(bar2_data_colors[2]*(an_intervals[-1]-an_intervals[0])+an_intervals[0]))
+    ]
+
     # Create the bar plot
-    plt.bar(categories, bar_data, color=colors)
+    plt.bar(categories, bar1_data, color=colors1)
     # Add labels and title
     plt.ylabel("Probability (%)")
     plt.ylim(0,85)
@@ -353,5 +379,15 @@ for s, station in enumerate(stations):
     # Save the box plot as a PNG file with the station name
     plt.tight_layout()
     plt.savefig(os.path.join(figure_dir, 'station_data', f"{station['name']}_pconswk1bar.png"))  # Save as PNG file
+    plt.close()  # Close the plot to avoid memory issues
+    
+    plt.bar(categories, bar2_data, color=colors2)
+    # Add labels and title
+    plt.ylabel("Probability (%)")
+    plt.ylim(0,85)
+    plt.title(station['name'] + ' GEFS Week 2 Consolidated Precip Probabilities')
+    # Save the box plot as a PNG file with the station name
+    plt.tight_layout()
+    plt.savefig(os.path.join(figure_dir, 'station_data', f"{station['name']}_pconswk2bar.png"))  # Save as PNG file
     plt.close()  # Close the plot to avoid memory issues
 
