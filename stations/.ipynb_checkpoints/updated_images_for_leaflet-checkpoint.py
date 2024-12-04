@@ -136,7 +136,7 @@ crop_monitor_header = [(148, 1, 1300, 120), (148, 1, 1700, 120),
                         (56, 1, 1014, 73), (56, 0, 1004,61), #cmorph 3mo spi, spei
                        (26, 0, 420, 37), #cmorph 30 anom
                         (42, 1, 971, 73), #cmorph 30 avg anom
-                       (26, 0, 420, 37), #cmorph 30 percent for avg% use (42, 1, 971, 73)
+                       (26, 0, 490, 37), #cmorph 30 percent for avg% use (42, 1, 971, 73)
                         (56, 1, 1014, 73), (56, 0, 1004, 61), #cmorph 1mo spi, spei
                         (43, 1, 878, 84),  #lbm sri,
                         (26, 0, 345, 37), #cmorph 7ptotal
