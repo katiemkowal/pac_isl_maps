@@ -31,9 +31,12 @@ maxtotal = 50
 
 # Define custom intervals for the colormap
 #anomaly color bar breaks
-anom_intervals = [-25, -20, -15, -10, -5, -3, -2, -1, 1, 2, 3, 5, 10, 15, 20, 25]
-percent_intervals = [0, 5, 10, 25, 50, 80, 120, 150, 200, 400, 600, 800]
-total_intervals = [0, 1, 2, 3, 4, 6, 8, 10, 15, 20, 30, 40, 50]
+anomavg_intervals = [-25, -20, -15, -10, -5, -3, -2, -1, 1, 2, 3, 5, 10, 15, 20, 25]
+percentavg_intervals = [0, 5, 10, 25, 50, 80, 120, 150, 200, 400, 600, 800]
+totalavg_intervals = [0, 1, 2, 3, 4, 6, 8, 10, 15, 20, 30, 40, 50]
+anom_intervals = [-600,-500, -300, -200, -100, -50, -25, -10, 10, 25, 50, 100, 200, 300, 500,600]
+percent_intervals = [0,1,5,25,50,80,120,150,200,400,600,800]
+total_intervals = [0,2,5,10,25,50,75,100,150,200,300,500,750,1000,1500,2500,3500]
 
 # Define colors for the colormap (corresponding to your value intervals)
 #these were found usuing find_dominant_colors function in prep_data.ipynb in this folder
@@ -69,7 +72,7 @@ percent_colors = [
     (40/255, 130/255, 240/255) #med blue
 ]
 
-total_colors = [
+totalavg_colors = [
     (254/255, 254/255, 254/255), #off white
     (201/255, 254/255, 192/255), #light green
     (124/255, 245/255, 119/255), #bright green
@@ -82,6 +85,25 @@ total_colors = [
     (225/255,  20/255,   0/255), #red
     (165/255,   0/255,   0/255), #dark red
     (229/255, 139/255, 139/255) #rose
+]
+
+total_colors = [
+    (254/255, 254/255, 254/255), #off white
+    (201/255, 254/255, 192/255), #light green
+    (124/255, 245/255, 119/255), #bright green
+    (30/255, 180/255,  29/255), #dark green
+    (153/255, 211/255, 250/255), #light blue
+    (40/255, 130/255, 240/255), #med blue
+    (39/255, 129/255, 240/255), #darker blue
+    (236/255, 228/255, 238/255), #light purple
+    (158/255, 139/255, 253/255), #bright purple
+    (110/255,  94/255, 216/255), #dark purple
+    (254/255, 249/255, 170/255), #light yellow
+    (254/255, 160/255,   1/255), #orange
+    (225/255,  20/255,   0/255), #red
+    (165/255,   0/255,   0/255), #dark red
+    (227/255, 138/255, 138/255), #rose
+    (244/255, 232/255, 232/255) #light pink
 ]
 
 ########## functions
@@ -118,9 +140,13 @@ def convert_to_mercator(ds, var):
 
 #calculate the average anomaly over past days, e.g. last 90, 30, 7, etc...
 #must give function a xarray dataset with last days and a dataset with climatology values
-def calc_anom_pastdays(ds, ds_var, ds_clim, ds_clim_var, days):
-    days_ds = ds.isel(time=slice(-days, None)).mean(dim='time')
-    days_clim = ds_clim.isel(time=slice(-days, None)).mean(dim = 'time')
+def calc_anom_pastdays(ds, ds_var, ds_clim, ds_clim_var, days, type):
+    if type == 'avg':
+        days_ds = ds.isel(time=slice(-days, None)).mean(dim='time')
+        days_clim = ds_clim.isel(time=slice(-days, None)).mean(dim = 'time')
+    elif type == 'total':
+        days_ds = ds.isel(time=slice(-days, None)).sum(dim='time')
+        days_clim = ds_clim.isel(time=slice(-days, None)).sum(dim = 'time')
     days_anom = (days_ds[ds_var] - days_clim[ds_clim_var]).to_dataset(name = 'anom')
     return days_anom
 
@@ -128,9 +154,17 @@ def calc_totalavg_pastdays(ds, ds_var, days):
     days_ds = ds.isel(time=slice(-days, None)).mean(dim='time')
     return days_ds
 
-def calc_percent_pastdays(ds, ds_var, ds_clim, ds_clim_var, days):
-    days_ds = ds.isel(time=slice(-days, None)).mean(dim='time')
-    days_clim = ds_clim.isel(time=slice(-days, None)).mean(dim = 'time')
+def calc_total_pastdays(ds, ds_var, days):
+    days_ds = ds.isel(time=slice(-days, None)).sum(dim='time')
+    return days_ds
+
+def calc_percent_pastdays(ds, ds_var, ds_clim, ds_clim_var, days, type):
+    if type == 'avg':
+        days_ds = ds.isel(time=slice(-days, None)).mean(dim='time')
+        days_clim = ds_clim.isel(time=slice(-days, None)).mean(dim = 'time')
+    elif type == 'total':
+        days_ds = ds.isel(time=slice(-days, None)).sum(dim='time')
+        days_clim = ds_clim.isel(time=slice(-days, None)).sum(dim = 'time')
     days_percent = ((days_ds[ds_var]/days_clim[ds_clim_var])*100).to_dataset(name = 'percent')
     return days_percent
 
@@ -204,38 +238,38 @@ allptotal = allptotal.rename({'lon':'x', 'lat':'y'})
 allptotalclim = allptotalclim.rename({'lon':'x', 'lat':'y'})
 
 #compute anomalies and convert to mercator for list of dates specified
-last90_anom = calc_anom_pastdays(allptotal, 'ptotal', allptotalclim, 'ptotalclim', 90) 
+last90_anom = calc_anom_pastdays(allptotal, 'ptotal', allptotalclim, 'ptotalclim', 90, 'total') 
 last90_anom_crs = last90_anom.rio.write_crs('EPSG:4326', inplace = True)
 last90_anom_clipped = last90_anom.sel(x=slice(0,359.999), y = slice(-59,59))
 last90_anom_mc = convert_to_mercator(last90_anom_clipped, 'anom')
 last90_anomnorm = np.clip(last90_anom_mc.anom, minanom, maxanom)
 
-last90_percent = calc_percent_pastdays(allptotal, 'ptotal', allptotalclim, 'ptotalclim', 90) 
+last90_percent = calc_percent_pastdays(allptotal, 'ptotal', allptotalclim, 'ptotalclim', 90, 'total') 
 last90_percent_crs = last90_percent.rio.write_crs('EPSG:4326', inplace = True)
 last90_percent_clipped = last90_percent.sel(x=slice(0,359.999), y = slice(-59,59))
 last90_percent_mc = convert_to_mercator(last90_percent_clipped, 'percent')
 last90_percentnorm = np.clip(last90_percent_mc.percent, minpercent, maxpercent)
 
-last30_anom = calc_anom_pastdays(allptotal, 'ptotal', allptotalclim, 'ptotalclim', 30) 
+last30_anom = calc_anom_pastdays(allptotal, 'ptotal', allptotalclim, 'ptotalclim', 30, 'total') 
 last30_anom_crs = last30_anom.rio.write_crs('EPSG:4326', inplace = True)
 last30_anom_clipped = last30_anom.sel(x=slice(0,359.999), y = slice(-59,59))
 last30_anom_mc = convert_to_mercator(last30_anom_clipped, 'anom')
 last30_anomnorm = np.clip(last30_anom_mc.anom, minanom, maxanom)
 
-last30_percent = calc_percent_pastdays(allptotal, 'ptotal', allptotalclim, 'ptotalclim', 30) 
+last30_percent = calc_percent_pastdays(allptotal, 'ptotal', allptotalclim, 'ptotalclim', 30, 'total') 
 last30_percent_crs = last30_percent.rio.write_crs('EPSG:4326', inplace = True)
 last30_percent_clipped = last30_percent.sel(x=slice(0,359.999), y = slice(-59,59))
 last30_percent_mc = convert_to_mercator(last30_percent_clipped, 'percent')
 last30_percentnorm = np.clip(last30_percent_mc.percent, minpercent, maxpercent)
 
-last7_anom = calc_anom_pastdays(allptotal, 'ptotal', allptotalclim, 'ptotalclim', 7) 
+last7_anom = calc_anom_pastdays(allptotal, 'ptotal', allptotalclim, 'ptotalclim', 7, 'total') 
 last7_anom_crs = last7_anom.rio.write_crs('EPSG:4326', inplace = True)
 last7_anom_clipped = last7_anom.sel(x=slice(0,359.999), y = slice(-59,59))
 last7_anom_mc = convert_to_mercator(last7_anom_clipped, 'anom')
 last7_anomnorm = np.clip(last7_anom_mc.anom, minanom, maxanom)
 
 
-last7_total = calc_totalavg_pastdays(allptotal, 'ptotal', 7) 
+last7_total = calc_total_pastdays(allptotal, 'ptotal', 7) 
 last7_total_crs = last7_total.rio.write_crs('EPSG:4326', inplace = True)
 last7_total_clipped = last7_total.sel(x=slice(0,359.999), y = slice(-59,59))
 last7_total_mc = convert_to_mercator(last7_total_clipped, 'ptotal')

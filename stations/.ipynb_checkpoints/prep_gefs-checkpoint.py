@@ -45,8 +45,6 @@ ptotal_colors = [
 bn_intervals = [0, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85,100]
 bn_colors = [
     (250/255, 250/255, 250/255),#0-35
-    (250/255, 250/255, 250/255),#0-35
-    (250/255, 250/255, 250/255),#0-35
     (245/255, 230/255, 193/255),#40-45
     (233/255, 212/255, 159/255),
     (222/255, 192/255, 123/255),
@@ -56,14 +54,11 @@ bn_colors = [
     (139/255, 81/255, 10/255),
     (111/255, 63/255, 6/255),
     (100/255, 55/255, 6/255),
-    (82/255, 48/255, 6/255),
     (82/255, 48/255, 6/255)
 ]
 
 nn_intervals = [0, 35, 40, 45, 50, 55,100]
 nn_colors = [
-    (250/255, 250/255, 250/255),#0-35
-    (250/255, 250/255, 250/255),#0-35
     (250/255, 250/255, 250/255),#0-35
     (238/255, 238/255, 233/255),#35-40
     (194/255, 194/255, 194/255),#40-45
@@ -74,9 +69,6 @@ nn_colors = [
 
 an_intervals = [0, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85,100]
 an_colors = [
-    #(254/255, 254/255, 254/255),#0-35
-    (254/255, 254/255, 254/255),#0-35
-    (254/255, 254/255, 254/255),#0-35
     (254/255, 254/255, 254/255),#0-35
     (198/255, 233/255, 227/255),#35-40
     (162/255, 218/255, 210/255),#40-45
@@ -87,15 +79,14 @@ an_colors = [
     (26/255, 125/255, 117/255),
     (0/255, 101/255, 93/255),
     (0/255, 80/255, 71/255),
-    (3/255, 56/255, 47/255),
     (3/255, 56/255, 47/255)
 ]
 
 categories = ["Below-Normal", "Near-Normal", "Above-Normal"]
 # Create colormaps
-bn_cmap = LinearSegmentedColormap.from_list("browns", bn_colors, N=len(bn_colors))
-nn_cmap = LinearSegmentedColormap.from_list("grays", nn_colors, N=len(nn_colors))
-an_cmap = LinearSegmentedColormap.from_list("greens", an_colors, N=len(an_colors))
+bn_cmap = ListedColormap(bn_colors, N=len(bn_colors))#LinearSegmentedColormap.from_list("browns", bn_colors, N=len(bn_colors))
+nn_cmap = ListedColormap(nn_colors, N=len(nn_colors))#LinearSegmentedColormap.from_list("grays", nn_colors, N=len(nn_colors))
+an_cmap = ListedColormap(an_colors, N=len(an_colors))#LinearSegmentedColormap.from_list("greens", an_colors, N=len(an_colors))
 colormaps = {"Below-Normal": bn_cmap, "Near-Normal": nn_cmap, "Above-Normal": an_cmap}
 intervals = {"Below-Normal": bn_intervals, "Near-Normal": nn_intervals, "Above-Normal": an_intervals}
 
@@ -209,8 +200,12 @@ def process_gefs_probabilities(gefs_data, categories, colormaps, intervals, crs=
         prob = max_probs[category]
         cmap = colormaps[category]
         interval = intervals[category]
-        norm = BoundaryNorm(interval, cmap.N, extend="both")
-        
+        print(interval)
+        print(cmap.N)
+        norm = BoundaryNorm(boundaries = interval, ncolors=cmap.N+1)#, extend="both")
+        print(interval)
+        print(norm)
+        print(cmap)
         # Apply the colormap
         rgba_map = apply_colormap(prob, cmap, norm, interval)
         rgba_maps.append(rgba_map)
