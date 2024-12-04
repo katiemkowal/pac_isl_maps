@@ -22,12 +22,16 @@ ymin = -59.875
 ymax = 60
 
 #anomaly max/mins on the cmorph anomaly figures for color bar
-minanom = -25
-maxanom = 25
+minanom = -600
+maxanom = 600
+minanomavg= -25
+maxanomavg = 25
 minpercent = 0
 maxpercent = 800
 mintotal = 0
-maxtotal = 50
+maxtotal = 3500
+mintotalavg = 0
+maxtotalavg = 50
 
 # Define custom intervals for the colormap
 #anomaly color bar breaks
