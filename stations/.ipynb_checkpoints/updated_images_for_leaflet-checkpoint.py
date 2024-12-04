@@ -16,16 +16,13 @@ from matplotlib.colors import ListedColormap
 from matplotlib.colorbar import ColorbarBase
 import matplotlib.colors as mcolors
 import image_functions as imagef
-# import plotting_functions as plotf
-# import helper_dicts as hdict
-# import helper_functions as helper
+
 figure_dir = '/cpc/int_desk/pac_isl/stations/images'
 
 layerlinks = {
             'Monitor Tools': {
                 'OISST SST 7-Day Anomaly': 'https://www.cpc.ncep.noaa.gov/products/international/oisst/oisst_7day_pac_anom.gif',
                 'OISST SST 7-Day Anomaly Difference': 'https://www.cpc.ncep.noaa.gov/products/international/oisst/oisst_7day_pac_diff.gif',
-                # 'CMORPH Time Series Points': 'https://www.cpc.ncep.noaa.gov/products/international/zz_CP_Islands/zz_CMORPH_BLD_2nd/CMORPH_BLD_Islands_180day.shtml',
                 'CMORPH 90 Day Precip Anomaly': 'https://ftp.cpc.ncep.noaa.gov/International/CP_Islands/CMORPH_ADJ_00Z/cmorph_90day_cpi_anom.png',
                 'CMORPH 90 Day Precip Avg Anomaly': 'https://www.cpc.ncep.noaa.gov/products/international/drought/precip/img/Anom_90day_PacificIslands.png',
                 'CMORPH 90 Day Precip Percent': 'https://www.cpc.ncep.noaa.gov/products/international/drought/precip/img/Perc_90day_PacificIslands.png',
@@ -98,7 +95,7 @@ legend_crop_fcsts = [(35, 360, 590, 400), (35, 360, 590, 400), (35, 360, 590, 40
                      (120, 820, 1760, 980),  (120, 820, 1760, 990), 
                     (90, 600, 920, 630), (90, 600, 920, 630)]#nmme fcsts
 
-crop_monitors = [(148, 250, 2247, 1300), (148, 250, 2247, 1300),#(148, 151, 2247,1377), (148, 151, 2247,1377), #oisst
+crop_monitors = [(148, 250, 2247, 1300), (148, 250, 2247, 1300),
                  (25, 40, 580, 320), #cmorph 90 anom       
                  (42, 76, 971, 535), #cmorph 90 avg anom
                  (42, 76, 971, 535), #cmorph 90
@@ -121,8 +118,8 @@ crop_fcsts = [(46, 63, 588, 339),  (46, 63, 588, 339), (46, 63, 588, 338), (46, 
                     (121, 62, 1745, 757),  (131, 75, 1755, 767), 
                    (41, 73, 970, 532), (41, 73, 970, 532)]#nmme fcsts
 
-crop_monitor_header = [(148, 1, 1300, 120), (148, 1, 1700, 120),#(148, 151, 2247,1377), (148, 151, 2247,1377), #oisst
-                       (26, 0, 355, 37), #cmorph 90 anom 
+crop_monitor_header = [(148, 1, 1300, 120), (148, 1, 1700, 120),
+                      (26, 0, 420, 37), #cmorph 90 anom 
                        (42, 1, 971, 73), #cmorph 90 avg anom 
                        (42, 1, 971, 73), #cmorph 90
                         (56, 1, 1014, 73), (56, 0, 1004,61), #cmorph 3mo spi, spei
