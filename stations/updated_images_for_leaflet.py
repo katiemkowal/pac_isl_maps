@@ -30,7 +30,8 @@ layerlinks = {
                 # #for percent in average per day use the following link: 'https://www.cpc.ncep.noaa.gov/products/international/drought/precip/img/Perc_90day_PacificIslands.png',
                 'CMORPH 3-month SPI': 'https://www.cpc.ncep.noaa.gov/products/international/dm/daily/Pacific_CMORPH_SPI_3mo.png',
                 'CMORPH 3-month SPEI': 'https://www.cpc.ncep.noaa.gov/products/international/dm/daily/Pacific_CMORPH_SPEI_3mo.png',
-                'CMORPH 30 Day Precip Anomaly': 'https://www.cpc.ncep.noaa.gov/products/international/drought/precip/img/Anom_30day_PacificIslands.png',
+                'CMORPH 30 Day Precip Anomaly':'https://ftp.cpc.ncep.noaa.gov/International/CP_Islands/CMORPH_ADJ_00Z/cmorph_30day_cpi_anom.png',
+                'CMORPH 30 Day Precip Avg Anomaly': 'https://www.cpc.ncep.noaa.gov/products/international/drought/precip/img/Anom_30day_PacificIslands.png',
                 'CMORPH 30 Day Precip Percent': 'https://www.cpc.ncep.noaa.gov/products/international/drought/precip/img/Perc_30day_PacificIslands.png',
                 'CMORPH 1-month SPI': 'https://www.cpc.ncep.noaa.gov/products/international/dm/daily/Pacific_CMORPH_SPI_1mo.png',
                 'CMORPH 1-month SPEI': 'https://www.cpc.ncep.noaa.gov/products/international/dm/daily/Pacific_CMORPH_SPEI_1mo.png',
@@ -69,7 +70,7 @@ layerlinks = {
             }
         }
 
-monitor_save = ['oisst', 'oisst_diff', 'cmorph90anom', 'cmorph90avganom', 'cmorph90percent', 'cmorph3mospi', 'cmorph3mospei', 'cmorph30panom', 'cmorph30ppercent',
+monitor_save = ['oisst', 'oisst_diff', 'cmorph90anom', 'cmorph90avgpanom', 'cmorph90percent', 'cmorph3mospi', 'cmorph3mospei', 'cmorph30panom', 'cmorph30avgpanom', 'cmorph30ppercent',
                 'cmorph1mospi', 'cmorph1mospei', 'lbm1mosri', 'cmorph7ptotal', 'cmorph7ptotalavg', 'cmorph7panom', 'cmorph7spi', 'cdas7tmax', 'cdas7tanom']
 fcst_save = ['gefswk1ptotal', 'gefswk1panom', 'gefswk1poe50', 'gefswk1poe100', 'gefswk1rawter', 'gefswk1conster', 
              'gefswk1ttotal', 'gefswk1tanom', 'lbmwk1esi', 'lbmwk1smp', 'lbmwk1spi', 'gefswk2ptotal', 'gefswk2panom', 'gefswk2ttotal', 'gefswk2tanom',
@@ -80,7 +81,9 @@ legend_crop_monitors = [(150, 1420, 2350,1475), (150, 1420, 2350,1475), #oisst
                         (90, 600, 920, 630), #cmorph 90 avg anom
                         (15, 342, 580, 375), #cmorph 90 percent #for avg% (90, 600, 920, 630)
                         (150, 650, 890, 695), (150, 650, 885, 683), #cmorph 3mo spi, spei
-                        (90, 600, 920, 630), (90, 600, 920, 630), #cmorph 30
+                        (15, 342, 580, 375), #cmorph 30 panom
+                        (90, 600, 920, 630), #cmorph 30 avg panom
+                        (90, 600, 920, 630), #cmorph 30 percent
                         (150, 650, 890, 695), (150, 650, 885, 683), #cmorph 1mo spi, spei
                         (55, 580, 885, 630),  #lbm sri,
                         (15, 342, 580, 375), #cmorph 7ptotal
@@ -102,7 +105,9 @@ crop_monitors = [(148, 250, 2247, 1300), (148, 250, 2247, 1300),
                  (42, 76, 971, 535), #cmorph 90 avg anom
                  (25, 40, 580, 320), #cmorph 90 percent for avg% use (42, 76, 971, 535)
                         (56, 76, 1014, 568), (56, 76, 1004, 554), #cmorph 3mo spi, spei
-                        (42, 76, 971, 535), (42, 76, 971, 535), #cmorph 30
+                 (25, 40, 580, 320), #cmorph 30 anom
+                        (42, 76, 971, 535), #cmorph 30 avg anom
+                 (42, 76, 971, 535), #cmorph 30
                         (56, 76, 1014, 568), (56, 76, 1004, 554), #cmorph 1mo spi, spei
                         (43, 89, 878, 502),  #lbm sri,
                         (25, 40, 580, 320), #cmorph 7ptotal
@@ -125,7 +130,9 @@ crop_monitor_header = [(148, 1, 1300, 120), (148, 1, 1700, 120),
                        (42, 1, 971, 73), #cmorph 90 avg anom 
                        (26, 0, 460, 37), #cmorph 90 %, for avg% use (42, 1, 971, 73)
                         (56, 1, 1014, 73), (56, 0, 1004,61), #cmorph 3mo spi, spei
-                        (42, 1, 971, 73), (42, 1, 971, 73), #cmorph 30
+                       (26, 0, 420, 37), #cmorph 30 anom
+                        (42, 1, 971, 73), #cmorph 30 avg anom
+                       (42, 1, 971, 73), #cmorph 30
                         (56, 1, 1014, 73), (56, 0, 1004, 61), #cmorph 1mo spi, spei
                         (43, 1, 878, 84),  #lbm sri,
                         (26, 0, 345, 37), #cmorph 7ptotal
