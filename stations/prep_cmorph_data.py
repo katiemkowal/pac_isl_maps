@@ -36,7 +36,7 @@ percentavg_intervals = [0, 5, 10, 25, 50, 80, 120, 150, 200, 400, 600, 800]
 totalavg_intervals = [0, 1, 2, 3, 4, 6, 8, 10, 15, 20, 30, 40, 50]
 anom_intervals = [-600,-500, -300, -200, -100, -50, -25, -10, 10, 25, 50, 100, 200, 300, 500,600]
 percent_intervals = [0,1,5,25,50,80,120,150,200,400,600,800]
-total_intervals = [0,2,5,10,25,50,75,100,150,200,300,500,750,1000,1500,2500,3500]
+total_intervals = [0,2,5,10,25,50,75,100,150,200,300,500,750,1000,1500,2500]
 
 # Define colors for the colormap (corresponding to your value intervals)
 #these were found usuing find_dominant_colors function in prep_data.ipynb in this folder
