@@ -25,7 +25,9 @@ layerlinks = {
                 'OISST SST 7-Day Anomaly Difference': 'https://www.cpc.ncep.noaa.gov/products/international/oisst/oisst_7day_pac_diff.gif',
                 'CMORPH 90 Day Precip Anomaly': 'https://ftp.cpc.ncep.noaa.gov/International/CP_Islands/CMORPH_ADJ_00Z/cmorph_90day_cpi_anom.png',
                 'CMORPH 90 Day Precip Avg Anomaly': 'https://www.cpc.ncep.noaa.gov/products/international/drought/precip/img/Anom_90day_PacificIslands.png',
-                'CMORPH 90 Day Precip Percent': 'https://www.cpc.ncep.noaa.gov/products/international/drought/precip/img/Perc_90day_PacificIslands.png',
+                'CMORPH 90 Day Precip Percent': 
+ 'https://ftp.cpc.ncep.noaa.gov/International/CP_Islands/CMORPH_ADJ_00Z/cmorph_90day_cpi_pnorm.png',   
+                # #for percent in average per day use the following link: 'https://www.cpc.ncep.noaa.gov/products/international/drought/precip/img/Perc_90day_PacificIslands.png',
                 'CMORPH 3-month SPI': 'https://www.cpc.ncep.noaa.gov/products/international/dm/daily/Pacific_CMORPH_SPI_3mo.png',
                 'CMORPH 3-month SPEI': 'https://www.cpc.ncep.noaa.gov/products/international/dm/daily/Pacific_CMORPH_SPEI_3mo.png',
                 'CMORPH 30 Day Precip Anomaly': 'https://www.cpc.ncep.noaa.gov/products/international/drought/precip/img/Anom_30day_PacificIslands.png',
@@ -76,7 +78,7 @@ fcst_save = ['gefswk1ptotal', 'gefswk1panom', 'gefswk1poe50', 'gefswk1poe100', '
 legend_crop_monitors = [(150, 1420, 2350,1475), (150, 1420, 2350,1475), #oisst
                         (15, 342, 580, 375), #cmorph 90 anom
                         (90, 600, 920, 630), #cmorph 90 avg anom
-                        (90, 600, 920, 630), #cmorph 90
+                        (15, 342, 580, 375), #cmorph 90 percent #for avg% (90, 600, 920, 630)
                         (150, 650, 890, 695), (150, 650, 885, 683), #cmorph 3mo spi, spei
                         (90, 600, 920, 630), (90, 600, 920, 630), #cmorph 30
                         (150, 650, 890, 695), (150, 650, 885, 683), #cmorph 1mo spi, spei
@@ -98,7 +100,7 @@ legend_crop_fcsts = [(35, 360, 590, 400), (35, 360, 590, 400), (35, 360, 590, 40
 crop_monitors = [(148, 250, 2247, 1300), (148, 250, 2247, 1300),
                  (25, 40, 580, 320), #cmorph 90 anom       
                  (42, 76, 971, 535), #cmorph 90 avg anom
-                 (42, 76, 971, 535), #cmorph 90
+                 (25, 40, 580, 320), #cmorph 90 percent for avg% use (42, 76, 971, 535)
                         (56, 76, 1014, 568), (56, 76, 1004, 554), #cmorph 3mo spi, spei
                         (42, 76, 971, 535), (42, 76, 971, 535), #cmorph 30
                         (56, 76, 1014, 568), (56, 76, 1004, 554), #cmorph 1mo spi, spei
@@ -121,7 +123,7 @@ crop_fcsts = [(46, 63, 588, 339),  (46, 63, 588, 339), (46, 63, 588, 338), (46, 
 crop_monitor_header = [(148, 1, 1300, 120), (148, 1, 1700, 120),
                       (26, 0, 420, 37), #cmorph 90 anom 
                        (42, 1, 971, 73), #cmorph 90 avg anom 
-                       (42, 1, 971, 73), #cmorph 90
+                       (26, 0, 460, 37), #cmorph 90 %, for avg% use (42, 1, 971, 73)
                         (56, 1, 1014, 73), (56, 0, 1004,61), #cmorph 3mo spi, spei
                         (42, 1, 971, 73), (42, 1, 971, 73), #cmorph 30
                         (56, 1, 1014, 73), (56, 0, 1004, 61), #cmorph 1mo spi, spei
