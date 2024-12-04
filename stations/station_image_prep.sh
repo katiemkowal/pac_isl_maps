@@ -36,7 +36,7 @@ main(){
     gdal2tiles.py -p mercator -z 0-5 /cpc/int_desk/pac_isl/stations/images/cmorph7total.tif /cpc/int_desk/pac_isl/stations/images/cmorph7total_tiles
     # gdal2tiles.py -p mercator -z 0-5 /cpc/int_desk/pac_isl/stations/images/gefswk1pcons.tif /cpc/int_desk/pac_isl/stations/images/gefswk1pcons_tiles
 
-    # current_branch=temp-branch
+    current_branch=temp-branch
     log "Current branch: $current_branch"
     git add .
     git commit -m "automated commit by cron job on $(date)"
