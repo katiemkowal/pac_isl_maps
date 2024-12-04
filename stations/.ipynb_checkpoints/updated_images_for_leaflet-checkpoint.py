@@ -70,7 +70,7 @@ layerlinks = {
             }
         }
 
-monitor_save = ['oisst', 'oisst_diff', 'cmorph90anom', 'cmorph90percent', 'cmorph3mospi', 'cmorph3mospei', 'cmorph30panom', 'cmorph30ppercent',
+monitor_save = ['oisst', 'oisst_diff', 'cmorph90anom', 'cmorph90avganom', 'cmorph90percent', 'cmorph3mospi', 'cmorph3mospei', 'cmorph30panom', 'cmorph30ppercent',
                 'cmorph1mospi', 'cmorph1mospei', 'lbm1mosri', 'cmorph7ptotal', 'cmorph7ptotalavg', 'cmorph7panom', 'cmorph7spi', 'cdas7tmax', 'cdas7tanom']
 fcst_save = ['gefswk1ptotal', 'gefswk1panom', 'gefswk1poe50', 'gefswk1poe100', 'gefswk1rawter', 'gefswk1conster', 
              'gefswk1ttotal', 'gefswk1tanom', 'lbmwk1esi', 'lbmwk1smp', 'lbmwk1spi', 'gefswk2ptotal', 'gefswk2panom', 'gefswk2ttotal', 'gefswk2tanom',
