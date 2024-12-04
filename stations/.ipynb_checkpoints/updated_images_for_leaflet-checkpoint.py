@@ -35,9 +35,8 @@ layerlinks = {
                 'CMORPH 1-month SPI': 'https://www.cpc.ncep.noaa.gov/products/international/dm/daily/Pacific_CMORPH_SPI_1mo.png',
                 'CMORPH 1-month SPEI': 'https://www.cpc.ncep.noaa.gov/products/international/dm/daily/Pacific_CMORPH_SPEI_1mo.png',
                 'Leaky Bucket Model 1-month Surface Runoff Index': 'https://www.cpc.ncep.noaa.gov/products/people/lxu/leaky/smp/SRI1_PacificIslands.png',
+                'CMORPH 7 Day Precip Total': 'https://ftp.cpc.ncep.noaa.gov/International/CP_Islands/CMORPH_ADJ_00Z/cmorph_7day_cpi_obs.png',
                 'CMORPH 7 Day Precip Total Avg': 'https://www.cpc.ncep.noaa.gov/products/international/drought/precip/img/Total_7day_PacificIslands.png',
-                'CMORPH 7 Day Precip Total':
-                'https://ftp.cpc.ncep.noaa.gov/International/CP_Islands/CMORPH_ADJ_00Z/cmorph_7day_cpi_obs.png',
                 'CMORPH 7 Day Precip Anomaly': 'https://www.cpc.ncep.noaa.gov/products/international/drought/precip/img/Anom_7day_PacificIslands.png',
                 'CMORPH 7 Day SPI': 'https://www.cpc.ncep.noaa.gov/products/international/dm/daily/Pacific_CMORPH_SPI_1wk.png',
                 'CDAS 7 Day Tmax':  'https://ftp.cpc.ncep.noaa.gov/rshukla/CDAS/CDAS_7dy_Tmax_Ave_CPI.png',
@@ -82,7 +81,7 @@ legend_crop_monitors = [(150, 1420, 2350,1475), (150, 1420, 2350,1475), #oisst
                         (90, 600, 920, 630), (90, 600, 920, 630), #cmorph 30
                         (150, 650, 890, 695), (150, 650, 885, 683), #cmorph 1mo spi, spei
                         (55, 580, 885, 630),  #lbm sri,
-                        (90, 600, 920, 630),  (90, 600, 920, 630), #cmorph 7ptotal
+                        (90, 600, 920, 630),   (20, 435, 755, 470), #cmorph 7ptotal
                         (90, 600, 920, 630), #cmorph 7ptotalavg
                         (150, 650, 890, 695), #cmorph 7day spi
                        (20, 435, 755, 470),  (20, 435, 755, 470)] #cdas 7
@@ -101,8 +100,8 @@ crop_monitors = [(148, 250, 2247, 1300), (148, 250, 2247, 1300),#(148, 151, 2247
                         (42, 76, 971, 535), (42, 76, 971, 535), #cmorph 30
                         (56, 76, 1014, 568), (56, 76, 1004, 554), #cmorph 1mo spi, spei
                         (43, 89, 878, 502),  #lbm sri,
-                        (42, 76, 971, 535),  (42, 76, 971, 535), #cmorph 7
-                 (42, 76, 971, 535),
+                        (42, 76, 971, 535),  (26, 43, 751, 409), #cmorph 7ptotal
+                 (42, 76, 971, 535),#cmorph 7ptotalavg
                         (56, 76, 1014, 568), #cmorph 7day spi
                        (26, 39, 751, 409),  (26, 43, 751, 409)] #cdas 7
 
@@ -121,7 +120,7 @@ crop_monitor_header = [(148, 1, 1300, 120), (148, 1, 1700, 120),#(148, 151, 2247
                         (42, 1, 971, 73), (42, 1, 971, 73), #cmorph 30
                         (56, 1, 1014, 73), (56, 0, 1004, 61), #cmorph 1mo spi, spei
                         (43, 1, 878, 84),  #lbm sri,
-                        (42, 1, 971, 73),  (42, 1, 971, 73), #cmorph 7
+                        (42, 1, 971, 73),  (150, 1, 600, 37), #cmorph 7ptotal
                        (42, 1, 971, 73), #cmorph 7 total avg
                         (270, 1, 1014,73), #cmorph 7day spi
                        (150, 1, 600, 37),  (150, 1, 600, 37)] #cdas 7
