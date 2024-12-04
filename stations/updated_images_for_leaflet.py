@@ -32,13 +32,15 @@ layerlinks = {
                 'CMORPH 3-month SPEI': 'https://www.cpc.ncep.noaa.gov/products/international/dm/daily/Pacific_CMORPH_SPEI_3mo.png',
                 'CMORPH 30 Day Precip Anomaly':'https://ftp.cpc.ncep.noaa.gov/International/CP_Islands/CMORPH_ADJ_00Z/cmorph_30day_cpi_anom.png',
                 'CMORPH 30 Day Precip Avg Anomaly': 'https://www.cpc.ncep.noaa.gov/products/international/drought/precip/img/Anom_30day_PacificIslands.png',
-                'CMORPH 30 Day Precip Percent': 'https://www.cpc.ncep.noaa.gov/products/international/drought/precip/img/Perc_30day_PacificIslands.png',
+                'CMORPH 30 Day Precip Percent': 'https://ftp.cpc.ncep.noaa.gov/International/CP_Islands/CMORPH_ADJ_00Z/cmorph_30day_cpi_pnorm.png',
+                # for percent in avg per day use the following link'https://www.cpc.ncep.noaa.gov/products/international/drought/precip/img/Perc_30day_PacificIslands.png',
                 'CMORPH 1-month SPI': 'https://www.cpc.ncep.noaa.gov/products/international/dm/daily/Pacific_CMORPH_SPI_1mo.png',
                 'CMORPH 1-month SPEI': 'https://www.cpc.ncep.noaa.gov/products/international/dm/daily/Pacific_CMORPH_SPEI_1mo.png',
                 'Leaky Bucket Model 1-month Surface Runoff Index': 'https://www.cpc.ncep.noaa.gov/products/people/lxu/leaky/smp/SRI1_PacificIslands.png',
                 'CMORPH 7 Day Precip Total': 'https://ftp.cpc.ncep.noaa.gov/International/CP_Islands/CMORPH_ADJ_00Z/cmorph_7day_cpi_obs.png',
                 'CMORPH 7 Day Precip Total Avg': 'https://www.cpc.ncep.noaa.gov/products/international/drought/precip/img/Total_7day_PacificIslands.png',
-                'CMORPH 7 Day Precip Anomaly': 'https://www.cpc.ncep.noaa.gov/products/international/drought/precip/img/Anom_7day_PacificIslands.png',
+                'CMORPH 7 Day Precip Anomaly': 'https://ftp.cpc.ncep.noaa.gov/International/CP_Islands/CMORPH_ADJ_00Z/cmorph_7day_cpi_anom.png',
+                'CMORPH 7 Day Precip Avg Anomaly': 'https://www.cpc.ncep.noaa.gov/products/international/drought/precip/img/Anom_7day_PacificIslands.png',
                 'CMORPH 7 Day SPI': 'https://www.cpc.ncep.noaa.gov/products/international/dm/daily/Pacific_CMORPH_SPI_1wk.png',
                 'CDAS 7 Day Tmax':  'https://ftp.cpc.ncep.noaa.gov/rshukla/CDAS/CDAS_7dy_Tmax_Ave_CPI.png',
                 'CDAS 7 Day Tmax Anomaly': 'https://ftp.cpc.ncep.noaa.gov/rshukla/CDAS/CDAS_7dy_Tmax_anom_CPI.png'
@@ -71,7 +73,7 @@ layerlinks = {
         }
 
 monitor_save = ['oisst', 'oisst_diff', 'cmorph90anom', 'cmorph90avgpanom', 'cmorph90percent', 'cmorph3mospi', 'cmorph3mospei', 'cmorph30panom', 'cmorph30avgpanom', 'cmorph30ppercent',
-                'cmorph1mospi', 'cmorph1mospei', 'lbm1mosri', 'cmorph7ptotal', 'cmorph7ptotalavg', 'cmorph7panom', 'cmorph7spi', 'cdas7tmax', 'cdas7tanom']
+                'cmorph1mospi', 'cmorph1mospei', 'lbm1mosri', 'cmorph7ptotal', 'cmorph7ptotalavg', 'cmorph7panom', 'cmorph7pavganom', 'cmorph7spi', 'cdas7tmax', 'cdas7tanom']
 fcst_save = ['gefswk1ptotal', 'gefswk1panom', 'gefswk1poe50', 'gefswk1poe100', 'gefswk1rawter', 'gefswk1conster', 
              'gefswk1ttotal', 'gefswk1tanom', 'lbmwk1esi', 'lbmwk1smp', 'lbmwk1spi', 'gefswk2ptotal', 'gefswk2panom', 'gefswk2ttotal', 'gefswk2tanom',
              'gefswk2poe50', 'gefswk2poe100', 'gefswk2rawter', 'gefswk2conster', 'nmme1mopanom', 'nmme1mospi']
@@ -83,12 +85,13 @@ legend_crop_monitors = [(150, 1420, 2350,1475), (150, 1420, 2350,1475), #oisst
                         (150, 650, 890, 695), (150, 650, 885, 683), #cmorph 3mo spi, spei
                         (15, 342, 580, 375), #cmorph 30 panom
                         (90, 600, 920, 630), #cmorph 30 avg panom
-                        (90, 600, 920, 630), #cmorph 30 percent
+                        (15, 342, 580, 375), #cmorph 30 percent for avg% (90, 600, 920, 630)
                         (150, 650, 890, 695), (150, 650, 885, 683), #cmorph 1mo spi, spei
                         (55, 580, 885, 630),  #lbm sri,
                         (15, 342, 580, 375), #cmorph 7ptotal
                         (90, 600, 920, 630), #cmorph 7ptotalavg
-                        (90, 600, 920, 630),   #cmorph 7panom
+                        (15, 342, 580, 375), #cmorph 7panom
+                        (90, 600, 920, 630),   #cmorph 7pavganom
                         (150, 650, 890, 695), #cmorph 7day spi
                        (20, 435, 755, 470),  (20, 435, 755, 470)] #cdas 7
 legend_crop_fcsts = [(35, 360, 590, 400), (35, 360, 590, 400), (35, 360, 590, 400), (35, 360, 590, 400), #wk1 panom, total, poes
@@ -107,12 +110,13 @@ crop_monitors = [(148, 250, 2247, 1300), (148, 250, 2247, 1300),
                         (56, 76, 1014, 568), (56, 76, 1004, 554), #cmorph 3mo spi, spei
                  (25, 40, 580, 320), #cmorph 30 anom
                         (42, 76, 971, 535), #cmorph 30 avg anom
-                 (42, 76, 971, 535), #cmorph 30
+                 (25, 40, 580, 320), #cmorph 30 percent for avg% use (42, 76, 971, 535)
                         (56, 76, 1014, 568), (56, 76, 1004, 554), #cmorph 1mo spi, spei
                         (43, 89, 878, 502),  #lbm sri,
                         (25, 40, 580, 320), #cmorph 7ptotal
                  (42, 76, 971, 535),#cmorph 7ptotalavg
-                 (42, 76, 971, 535),  #cmorph 7panom
+                 (25, 40, 580, 320), #cmorph 7panom
+                 (42, 76, 971, 535),  #cmorph 7pavganom
                         (56, 76, 1014, 568), #cmorph 7day spi
                        (26, 39, 751, 409),  (26, 43, 751, 409)] #cdas 7
 
@@ -132,12 +136,13 @@ crop_monitor_header = [(148, 1, 1300, 120), (148, 1, 1700, 120),
                         (56, 1, 1014, 73), (56, 0, 1004,61), #cmorph 3mo spi, spei
                        (26, 0, 420, 37), #cmorph 30 anom
                         (42, 1, 971, 73), #cmorph 30 avg anom
-                       (42, 1, 971, 73), #cmorph 30
+                       (26, 0, 420, 37), #cmorph 30 percent for avg% use (42, 1, 971, 73)
                         (56, 1, 1014, 73), (56, 0, 1004, 61), #cmorph 1mo spi, spei
                         (43, 1, 878, 84),  #lbm sri,
                         (26, 0, 345, 37), #cmorph 7ptotal
                        (42, 1, 971, 73), #cmorph 7 total avg
-                       (42, 1, 971, 73),  #cmorph 7panom
+                       (26, 0, 420, 37), #cmorph 7panom
+                       (42, 1, 971, 73),  #cmorph 7pavganom
                         (270, 1, 1014,73), #cmorph 7day spi
                        (150, 1, 600, 37),  (150, 1, 600, 37)] #cdas 7
 
