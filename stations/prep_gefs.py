@@ -42,10 +42,12 @@ ptotal_colors = [
 ]
 
 # Define intervals and colors
-bn_intervals = [0, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85]
+bn_intervals = [0, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85,100]
 bn_colors = [
-    (254/255, 254/255, 254/255),
-    (245/255, 230/255, 193/255),
+    (250/255, 250/255, 250/255),#0-35
+    (250/255, 250/255, 250/255),#0-35
+    (250/255, 250/255, 250/255),#0-35
+    (245/255, 230/255, 193/255),#40-45
     (233/255, 212/255, 159/255),
     (222/255, 192/255, 123/255),
     (206/255, 160/255, 83/255),
@@ -55,23 +57,30 @@ bn_colors = [
     (111/255, 63/255, 6/255),
     (100/255, 55/255, 6/255),
     (82/255, 48/255, 6/255),
+    (82/255, 48/255, 6/255)
 ]
 
-nn_intervals = [0, 35, 40, 45, 50, 55]
+nn_intervals = [0, 35, 40, 45, 50, 55,100]
 nn_colors = [
-    (254/255, 254/255, 254/255),
-    (238/255, 238/255, 233/255),
-    (194/255, 194/255, 194/255),
+    (250/255, 250/255, 250/255),#0-35
+    (250/255, 250/255, 250/255),#0-35
+    (250/255, 250/255, 250/255),#0-35
+    (238/255, 238/255, 233/255),#35-40
+    (194/255, 194/255, 194/255),#40-45
     (176/255, 176/255, 176/255),
     (144/255, 144/255, 144/255),
+    (144/255, 144/255, 144/255)
 ]
 
-an_intervals = [0, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85]
+an_intervals = [0, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85,100]
 an_colors = [
-    (254/255, 254/255, 254/255),
-    (198/255, 233/255, 227/255),
-    (162/255, 218/255, 210/255),
-    (144/255, 211/255, 201/255),
+    #(254/255, 254/255, 254/255),#0-35
+    (254/255, 254/255, 254/255),#0-35
+    (254/255, 254/255, 254/255),#0-35
+    (254/255, 254/255, 254/255),#0-35
+    (198/255, 233/255, 227/255),#35-40
+    (162/255, 218/255, 210/255),#40-45
+    (144/255, 211/255, 201/255),#45-50
     (127/255, 203/255, 191/255),
     (89/255, 176/255, 167/255),
     (52/255, 150/255, 142/255),
@@ -79,13 +88,14 @@ an_colors = [
     (0/255, 101/255, 93/255),
     (0/255, 80/255, 71/255),
     (3/255, 56/255, 47/255),
+    (3/255, 56/255, 47/255)
 ]
 
 categories = ["Below-Normal", "Near-Normal", "Above-Normal"]
 # Create colormaps
-bn_cmap = LinearSegmentedColormap.from_list("browns", bn_colors)
-nn_cmap = LinearSegmentedColormap.from_list("grays", nn_colors)
-an_cmap = LinearSegmentedColormap.from_list("greens", an_colors)
+bn_cmap = LinearSegmentedColormap.from_list("browns", bn_colors, N=len(bn_colors))
+nn_cmap = LinearSegmentedColormap.from_list("grays", nn_colors, N=len(nn_colors))
+an_cmap = LinearSegmentedColormap.from_list("greens", an_colors, N=len(an_colors))
 colormaps = {"Below-Normal": bn_cmap, "Near-Normal": nn_cmap, "Above-Normal": an_cmap}
 intervals = {"Below-Normal": bn_intervals, "Near-Normal": nn_intervals, "Above-Normal": an_intervals}
 
@@ -105,12 +115,12 @@ def convert_to_mercator(ds, var):
 #convert the data array to RGB values for image export using defined colorschemes
 
 # Helper function to map probability to color
-def get_color(prob, intervals, cmap):
-    norm_prob = (prob*100 - intervals[0]) / (intervals[-1] - intervals[0])  # Normalize to 0-1
-    norm_prob = min(max(norm_prob, 0), 1)  # Clamp to [0, 1]
-    color = cmap(norm_prob)
-    # print(f"Probability: {prob}, Normalized: {norm_prob}, Color: {color}")  # Debugging
-    return color
+# def get_color(prob, intervals, cmap):
+#     norm_prob = (prob - intervals[0]) / (intervals[-1] - intervals[0])  # Normalize to 0-1
+#     norm_prob = min(max(norm_prob, 0), 1)  # Clamp to [0, 1]
+#     color = cmap(norm_prob)
+#     print(f"Probability: {prob}, Normalized: {norm_prob}, Color: {color}")  # Debugging
+#     return color
 
 # Apply the colormap and norm to the data
 def apply_colormap(da, colormap, norm, value_intervals):
@@ -200,7 +210,7 @@ def process_gefs_probabilities(gefs_data, categories, colormaps, intervals, crs=
         cmap = colormaps[category]
         interval = intervals[category]
         norm = BoundaryNorm(interval, cmap.N, extend="both")
-
+        
         # Apply the colormap
         rgba_map = apply_colormap(prob, cmap, norm, interval)
         rgba_maps.append(rgba_map)
@@ -235,8 +245,6 @@ gefswk1pcons_prep = gefswk1_pcons_rgba.to_dataset(name = 'color')
 #gefswk1pcons_prep['x'] = (gefswk1pcons_prep.x + 180)%360 -180
 #gefswk1pcons_prep = gefswk1pcons_prep.sortby('x', ascending = False)
 gefswk1_pcons_mc = convert_to_mercator(gefswk1pcons_prep, 'color')
-
-print(gefswk1_pcons_mc)
 gefswk1_pcons_mc['color'].rio.to_raster(os.path.join(figure_dir,'gefswk1pcons.tif'), dtype = 'uint8')
 
 
@@ -325,24 +333,32 @@ for station in stations:
     cons_station['station'] = station['name']
     cons_stations.append(cons_station)
 cons_stations = xr.concat(cons_stations, dim = 'station')
+cons_stations['prob_colors'] = cons_stations['prob']
+cons_stations['prob'] = cons_stations['prob']*100
 
 for s, station in enumerate(stations):
     bar_data = []
+    bar_data_colors = []
 
     # Prepare the data for each category (bn, nn, an)
     for c, cat in enumerate(categories):
         bar_data.append(cons_stations.isel(time=0,station=s,e=c).prob.values)
+        bar_data_colors.append(cons_stations.isel(time=0,station=s,e=c).prob_colors.values)
 
     colors = [
-        get_color(bar_data[0], bn_intervals, bn_cmap),
-        get_color(bar_data[1], nn_intervals, nn_cmap),
-        get_color(bar_data[2], an_intervals, an_cmap),
+        bn_cmap(bar_data_colors[0]),
+        nn_cmap(bar_data_colors[1]),
+        an_cmap(bar_data_colors[2])
+        #get_color(bar_data[0], bn_intervals, bn_cmap),
+        #get_color(bar_data[1], nn_intervals, nn_cmap),
+        #get_color(bar_data[2], an_intervals, an_cmap),
     ]
     
     # Create the bar plot
     plt.bar(categories, bar_data, color=colors)
     # Add labels and title
     plt.ylabel("Probability (%)")
+    plt.ylim(0,85)
     plt.title(station['name'] + ' GEFS Week 1 Consolidated Precip Probabilities')
     # Save the box plot as a PNG file with the station name
     plt.tight_layout()
