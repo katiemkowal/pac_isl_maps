@@ -213,8 +213,9 @@
                 'GEFS Week 2 Temp Anomaly Forecast': 'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/gefswk2tanom_data.png?raw=true',
                 'GEFS Week 2 Precip Exceedance Prob (50 mm)': 'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/gefswk2poe50_data.png?raw=true',
                 'GEFS Week 2 Precip Exceedance Prob (100 mm)': 'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/gefswk2poe100_data.png?raw=true',
-                'GEFS Week 2 Raw Precip Tercile Prob': 'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/gefswk2rawter_data.png?raw=true',
-                'GEFS Week 2 Consolidated Precip Tercile Prob': 'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/gefswk2conster_data.png?raw=true',
+                'GEFS Week 2 Raw Precip Tercile Prob': 'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/gefswk2rawter_data.png?raw=true', 
+                'GEFS Week 2 Consolidated Precip Tercile Prob': 
+                'https:github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/gefswk2pcons_tiles/{z}/{x}/{y}.png?raw=true',//'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/gefswk2conster_data.png?raw=true',
                 'NMME 1 Month Precip Anomaly Forecast': 'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/nmme1mopanom_data.png?raw=true',
                 'NMME 1 Month SPI Forecast': 'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images//nmme1mospi_data.png?raw=true'
             }
@@ -246,7 +247,8 @@
                 'NASA ESI': 'https://www.ncei.noaa.gov/pub/data/nidis/tile/nasa-esi-5km-4wk/{z}/{x}/{y}.png'
             },
             'Forecast Tools': {
-                'GEFS Forecast Points': 'https://github.com/katiemkowal/pac_isl_maps/tree/temp-branch/stations/images/station_data',
+                'GEFS Week 1 Point Estimates': 'https://github.com/katiemkowal/pac_isl_maps/tree/temp-branch/stations/images/station_data',
+                'GEFS Week 2 Point Estimates': 'https://github.com/katiemkowal/pac_isl_maps/tree/temp-branch/stations/images/station_data',
                 'GEFS Week 1 Precip Total Forecast':  'https://ftp.cpc.ncep.noaa.gov/International/PREPARE_Pacific/subseasonal/gefs_raw/gefs_week1_figures/gefs_week1_precipt.png',
                 'GEFS Week 1 Precip Anomaly Forecast': 'https://ftp.cpc.ncep.noaa.gov/International/PREPARE_Pacific/subseasonal/gefs_raw/gefs_week1_figures/gefs_week1_precip.png',
                 'GEFS Week 1 Precip Exceedance Prob (50 mm)': 'https://ftp.cpc.ncep.noaa.gov/International/PREPARE_Pacific/subseasonal/gefs_raw/gefs_week1_figures/gefs_week1_prob_50.png',
@@ -314,10 +316,11 @@
         lyrfcst_gefswk1traw = L.imageOverlay(layerlinks['Forecast Tools']['GEFS Week 1 Raw Precip Tercile Prob'], gefst_bounds, {opacity:0.5});
         lyrfcst_gefswk2traw = L.imageOverlay(layerlinks['Forecast Tools']['GEFS Week 2 Raw Precip Tercile Prob'], gefst_bounds, {opacity:0.5});
         lyrfcst_gefswk1tcons = L.tileLayer(layerlinks['Forecast Tools']['GEFS Week 1 Consolidated Precip Tercile Prob'], {opacity:0.5, tms:true});//gefst_bounds bounds: gefstile_bounds
-        lyrfcst_gefswk2tcons = L.imageOverlay(layerlinks['Forecast Tools']['GEFS Week 2 Consolidated Precip Tercile Prob'], gefst_bounds, {opacity:0.5});
+        lyrfcst_gefswk2tcons = L.tileLayer(layerlinks['Forecast Tools']['GEFS Week 2 Consolidated Precip Tercile Prob'], {opacity:0.5, tms:true});//gefst_bounds,
             
         stationsLayercmorph = L.layerGroup();
         stationsLayergefswk1p = L.layerGroup();
+        stationsLayergefswk2p = L.layerGroup();
             
         stations = [
             { name: 'Chuuk-Weno_FSM', lat: 7.45, lon: 151.85 },
@@ -401,6 +404,7 @@
         stations.forEach(station => {
             markercmorph = L.marker([station.lat, station.lon]);
             markergefswk1p = L.marker([station.lat, station.lon]);
+            markergefswk2p = L.marker([station.lat, station.lon]);
             // Function to determine the popup max width based on zoom level
            function getPopupMaxWidth() {
                zoomLevel = map.getZoom();
@@ -440,6 +444,19 @@
                     <img class="gif-preview" src="${str30day + station.name + '.gif'}"><br>
                 </div>
             `;
+            
+            popupContentgefswk2p = `
+                <div>
+                    <strong>${station.name}</strong><br>
+                    <div class="label">GEFS Week 2 Precipitation Estimates</div><br>
+                    <strong>&bull; <a href="${strgefs + station.name + '_pconswk2bar.png?raw=true'}" target="_blank"> (GEFS Wk2 Cons)</a>
+                    <img class="gif-preview" src="${strgefs + station.name + '_pconswk2bar.png?raw=true'}"><br>
+                     <strong>&bull;<a href="${str90day + station.name + '.gif'}" target="_blank"> (90-day)</a>
+                    <img class="gif-preview" src="${str90day + station.name + '.gif'}"><br>
+                     <strong>&bull;<a href="${str30day + station.name + '.gif'}" target="_blank"> (30-day)</a>
+                    <img class="gif-preview" src="${str30day + station.name + '.gif'}"><br>
+                </div>
+            `;
 
             // Bind the popup to the marker
             markercmorph.bindPopup(popupContentcmorph, {
@@ -447,13 +464,19 @@
                 offset: L.point(0, -1) // Adjust the popup's vertical position
             });
             
-             markergefswk1p.bindPopup(popupContentgefswk1p, {
+            markergefswk1p.bindPopup(popupContentgefswk1p, {
+                maxWidth: getPopupMaxWidth(),
+                offset: L.point(0, -1) // Adjust the popup's vertical position
+            });
+            
+            markergefswk2p.bindPopup(popupContentgefswk2p, {
                 maxWidth: getPopupMaxWidth(),
                 offset: L.point(0, -1) // Adjust the popup's vertical position
             });
             
             stationsLayercmorph.addLayer(markercmorph);
             stationsLayergefswk1p.addLayer(markergefswk1p);
+            stationsLayergefswk2p.addLayer(markergefswk2p);
         });
         // Adjust popup size dynamically when zoom changes
         map.on('zoomend', function() {
@@ -510,7 +533,8 @@
         };
             
         objOverlays_fcst = {
-            [`<a href="${htmllinks['Forecast Tools']['GEFS Forecast Points']}" target="_blank">GEFS Forecast Points</a>`] : stationsLayergefswk1p,
+            [`<a href="${htmllinks['Forecast Tools']['GEFS Week 1 Point Estimates']}" target="_blank">GEFS Week 1 Point Estimates</a>`] : stationsLayergefswk1p,
+            [`<a href="${htmllinks['Forecast Tools']['GEFS Week 2 Point Estimates']}" target="_blank">GEFS Week 2 Point Estimates</a>`] : stationsLayergefswk2p,
             [`<a href="${htmllinks['Forecast Tools']['GEFS Week 1 Precip Total Forecast']}" target="_blank">GEFS Week 1 Precip Total Forecast</a>`]: lyrfcst_gefswk1ptotal,
             [`<a href="${htmllinks['Forecast Tools']['GEFS Week 1 Precip Anomaly Forecast']}" target="_blank">GEFS Week 1 Precip Anomaly Forecast</a>`]: lyrfcst_gefswk1panom,
             [`<a href="${htmllinks['Forecast Tools']['GEFS Week 1 Precip Exceedance Prob (50 mm)']}" target="_blank">GEFS Week 1 Precip Exceedance Prob (50 mm)</a>`]: lyrfcst_gefswk1poe50,
@@ -559,7 +583,8 @@
             'CDAS 7 Day Tmax Anomaly':  'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/cdas7tanom_header.png?raw=true',
             'VHI 1km': '',
             'NASA ESI': '',
-            'GEFS Forecast Points': '',
+            'GEFS Week 1 Point Estimates': '',
+            'GEFS Week 2 Point Estimates': '',
             'GEFS Week 1 Precip Total Forecast': 'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/gefswk1ptotal_header.png?raw=true',
             'GEFS Week 1 Precip Anomaly Forecast': 'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/gefswk1panom_header.png?raw=true',
             'GEFS Week 1 Precip Exceedance Prob (50 mm)': 'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/gefswk1poe50_header.png?raw=true',
@@ -603,7 +628,8 @@
             'CDAS 7 Day Tmax Anomaly':  'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/cdas7tanom_legend.png?raw=true',
             'VHI 1km': '',
             'NASA ESI': '',
-            'GEFS Forecast Points': '',
+            'GEFS Week 1 Point Estimates': '',
+            'GEFS Week 2 Point Estimates': '',
             'GEFS Week 1 Precip Total Forecast': 'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/gefswk1ptotal_legend.png?raw=true',
             'GEFS Week 1 Precip Anomaly Forecast': 'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/gefswk1panom_legend.png?raw=true',
             'GEFS Week 1 Precip Exceedance Prob (50 mm)': 'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/gefswk1poe50_legend.png?raw=true',
@@ -631,7 +657,8 @@
             [lyrsst7dayanom._leaflet_id]:'OISST SST 7-Day Anomaly',
             [lyrsst7dayanomdiff._leaflet_id]:'OISST SST 7-Day Anomaly Difference',
             [stationsLayercmorph._leaflet_id]:'CMORPH Time Series Points',
-            [stationsLayergefswk1p._leaflet_id]:'GEFS Forecast Points',
+            [stationsLayergefswk1p._leaflet_id]:'GEFS Week 1 Point Estimates',
+            [stationsLayergefswk2p._leaflet_id]:'GEFS Week 2 Point Estimates',
             [lyrprcpanom90._leaflet_id]:'CMORPH 90 Day Precip Anomaly',
             [lyrprcpper90._leaflet_id]:'CMORPH 90 Day Precip Percent',
             [lyrspi3mo._leaflet_id]:'CMORPH 3-month SPI',
