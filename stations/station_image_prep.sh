@@ -34,9 +34,9 @@ main(){
     # gdal2tiles.py -p mercator -z 0-5 /cpc/int_desk/pac_isl/stations/images/cmorph30percent.tif /cpc/int_desk/pac_isl/stations/images/cmorph30percent_tiles
     # gdal2tiles.py -p mercator -z 0-5 /cpc/int_desk/pac_isl/stations/images/cmorph7anom.tif /cpc/int_desk/pac_isl/stations/images/cmorph7anom_tiles
     # gdal2tiles.py -p mercator -z 0-5 /cpc/int_desk/pac_isl/stations/images/cmorph7total.tif /cpc/int_desk/pac_isl/stations/images/cmorph7total_tiles
-    # gdal2tiles.py -p mercator -z 0-5 /cpc/int_desk/pac_isl/stations/images/gefswk1pcons.tif /cpc/int_desk/pac_isl/stations/images/gefswk1pcons_tiles
+    gdal2tiles.py -p mercator -z 0-5 /cpc/int_desk/pac_isl/stations/images/gefswk1pcons.tif /cpc/int_desk/pac_isl/stations/images/gefswk1pcons_tiles
      # gdal2tiles.py -p mercator -z 0-5 /cpc/int_desk/pac_isl/stations/images/gefswk2pcons.tif /cpc/int_desk/pac_isl/stations/images/gefswk2pcons_tiles
-    gdal2tiles.py -p mercator -z 0-5 https://ftp.cpc.ncep.noaa.gov/fews/DroughtMonitor/gis/sri/20230205/sri1_glb.tif /cpc/int_desk/pac_isl/stations/images/gefswk1pcons_tiles
+    # gdal2tiles.py -p mercator -z 0-5 https://ftp.cpc.ncep.noaa.gov/fews/DroughtMonitor/gis/sri/20230205/sri1_glb.tif /cpc/int_desk/pac_isl/stations/images/gefswk1pcons_tiles
 
     current_branch=temp-branch
     log "Current branch: $current_branch"
@@ -55,4 +55,4 @@ main(){
 }
 
 main
-             
+             https://ftp.cpc.ncep.noaa.gov/fews/DroughtMonitor/gis/sri/20230205/sri1_glb.tif
