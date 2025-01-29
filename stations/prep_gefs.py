@@ -96,9 +96,11 @@ intervals = {"Below-Normal": bn_intervals, "Near-Normal": nn_intervals, "Above-N
 gefs_wk1cons = xr.open_dataset(os.path.join(gefs_procdir, 'gefs_week_1_cons.nc'))
 gefs_wk1cca =  xr.open_dataset(os.path.join(gefs_procdir, 'gefs_week1_cca.nc'))
 gefs_wk1elr = xr.open_dataset(os.path.join(gefs_procdir, 'gefs_week1_elr.nc'))
+gefs_wk2cca = xr.open_dataset(os.path.join(gefs_procdir, 'gefs_week2_cca.nc'))
 gefs_wk1cons = gefs_wk1cons.rename({'lon':'x', 'lat':'y'})
 gefs_wk1cca = gefs_wk1cca.rename({'lon':'x', 'lat':'y', 'M':'e'})
 gefs_wk1elr = gefs_wk1elr.rename({'lon':'x', 'lat':'y', 'M':'e'})
+gefs_wk2cca = gefs_wk2cca.rename({'lon':'x', 'lat':'y', 'M':'e'})
 gefswk1_pcons_rgba = colors.process_gefs_probabilities(gefs_wk1cons, categories, colormaps, intervals,
                                                crs="EPSG:4326", time_index=0)
 # gefswk1_pcca_rgba = colors.process_gefs_probabilities(gefs_wk1cca, categories, colormaps, intervals,
@@ -123,6 +125,7 @@ cons1_stations = []
 cca1_stations = []
 elr1_stations = []
 cons2_stations = []
+cca2_stations = []
 for station in sl.stations:
     cons1_station = gefs_wk1cons.sel(x=station['lon'], y = station['lat'], method = 'nearest')
     cons1_station['station'] = station['name']
@@ -136,12 +139,17 @@ for station in sl.stations:
     elr1_station['station'] = station['name']
     elr1_stations.append(elr1_station)
     
+    cca2_station = gefs_wk2cca.sel(x=station['lon'], y = station['lat'], method = 'nearest')
+    cca2_station['station'] = station['name']
+    cca2_stations.append(cca2_station)
+    
     # cons2_station = gefs_wk2cons.sel(x=station['lon'], y = station['lat'], method = 'nearest')
     # cons2_station['station'] = station['name']
     # cons2_stations.append(cons2_station)
 cons1_stations = xr.concat(cons1_stations, dim = 'station')
 cca1_stations = xr.concat(cca1_stations, dim = 'station')
 elr1_stations = xr.concat(elr1_stations, dim = 'station')
+cca2_stations = xr.concat(cca2_stations, dim = 'station')
 # cons2_stations = xr.concat(cons2_stations, dim = 'station')
 
 cons1_stations['prob_colors'] = cons1_stations['prob']
@@ -150,6 +158,8 @@ cca1_stations['prob_colors'] = cca1_stations['prob']
 cca1_stations['prob'] = cca1_stations['prob']*100
 elr1_stations['prob_colors'] = elr1_stations['prob']
 elr1_stations['prob'] = elr1_stations['prob']*100
+cca2_stations['prob_colors'] = cca2_stations['prob']
+cca2_stations['prob'] = cca2_stations['prob']*100
 # cons2_stations['prob_colors'] = cons2_stations['prob']
 # cons2_stations['prob'] = cons2_stations['prob']*100
 
@@ -162,6 +172,8 @@ for s, station in enumerate(sl.stations):
     bar1_elrdata_colors = []
     bar2_data = []
     bar2_data_colors = []
+    bar2_ccadata = []
+    bar2_ccadata_colors = []
 
     # Prepare the data for each category (bn, nn, an)
     for c, cat in enumerate(categories):
@@ -173,6 +185,8 @@ for s, station in enumerate(sl.stations):
         bar1_elrdata_colors.append(elr1_stations.isel(time=0,station=s,e=c).prob_colors.values)
         # bar2_data.append(cons2_stations.isel(time=0,station=s,e=c).prob.values)
         # bar2_data_colors.append(cons2_stations.isel(time=0,station=s,e=c).prob_colors.values)
+        bar2_ccadata.append(cca2_stations.isel(time=0,station=s,e=c).prob.values)
+        bar2_ccadata_colors.append(cca2_stations.isel(time=0,station=s,e=c).prob_colors.values)
         #normalize the intervals given colors/intervals defined above
         bnnorm = BoundaryNorm(boundaries = bn_intervals, ncolors=bn_cmap.N+1)
         nnnorm = BoundaryNorm(boundaries = nn_intervals, ncolors=nn_cmap.N+1)
@@ -202,6 +216,13 @@ for s, station in enumerate(sl.stations):
 #         nn_cmap(nnnorm(bar2_data_colors[1]*(nn_intervals[-1]-nn_intervals[0])+nn_intervals[0])),
 #         an_cmap(annorm(bar2_data_colors[2]*(an_intervals[-1]-an_intervals[0])+an_intervals[0]))
 #     ]
+
+    colors2cca = [
+        bn_cmap(bnnorm(bar2_ccadata_colors[0]*(bn_intervals[-1]-bn_intervals[0])+bn_intervals[0])),
+        nn_cmap(nnnorm(bar2_ccadata_colors[1]*(nn_intervals[-1]-nn_intervals[0])+nn_intervals[0])),
+        an_cmap(annorm(bar2_ccadata_colors[2]*(an_intervals[-1]-an_intervals[0])+an_intervals[0]))
+    ]
+    
 
     # Create the bar plot
     plt.bar(categories, bar1_consdata, color=colors1)
@@ -241,4 +262,13 @@ for s, station in enumerate(sl.stations):
     # plt.tight_layout()
     # plt.savefig(os.path.join(figure_dir, 'station_data', f"{station['name']}_pconswk2bar.png"))  # Save as PNG file
     # plt.close()  # Close the plot to avoid memory issues
+    
+    # CCA tercile bar plot WEEK 2
+    plt.bar(categories, bar2_ccadata, color=colors2cca)
+    plt.ylabel("Probability (%)")
+    plt.ylim(0,85)
+    plt.title(station['name'] + ' GEFS Week 2 CCA Precip Probabilities')
+    plt.tight_layout()
+    plt.savefig(os.path.join(figure_dir, 'station_data', f"{station['name']}_pccaswk2bar.png"))  # Save as PNG file
+    plt.close()  # Close the plot to avoid memory issues
 
