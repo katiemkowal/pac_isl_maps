@@ -169,7 +169,7 @@ for s, station in enumerate(sl.stations):
         bar1_consdata_colors.append(cons1_stations.isel(time=0,station=s,e=c).prob_colors.values)
         bar1_ccadata.append(cca1_stations.isel(time=0,station=s,e=c).prob.values)
         bar1_ccadata_colors.append(cca1_stations.isel(time=0,station=s,e=c).prob_colors.values)
-         bar1_elrdata.append(elr1_stations.isel(time=0,station=s,e=c).prob.values)
+        bar1_elrdata.append(elr1_stations.isel(time=0,station=s,e=c).prob.values)
         bar1_elrdata_colors.append(elr1_stations.isel(time=0,station=s,e=c).prob_colors.values)
         # bar2_data.append(cons2_stations.isel(time=0,station=s,e=c).prob.values)
         # bar2_data_colors.append(cons2_stations.isel(time=0,station=s,e=c).prob_colors.values)
