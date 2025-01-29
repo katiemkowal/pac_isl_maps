@@ -449,12 +449,12 @@
                 <div>
                     <strong>${station.name}</strong><br>
                     <div class="label">GEFS Week 2 Precipitation Estimates</div><br>
-                    <strong>&bull; <a href="${strgefs + station.name + '_pconswk2bar.png?raw=true'}" target="_blank"> (GEFS Wk2 Cons)</a>
+                    <strong>&bull; <a href="${strgefs + station.name + '_pconswk2bar.png?raw=true'}" target="_blank"> (GEFS Wk2 Consolidated)</a>
                     <img class="gif-preview" src="${strgefs + station.name + '_pconswk2bar.png?raw=true'}"><br>
-                     <strong>&bull;<a href="${str90day + station.name + '.gif'}" target="_blank"> (90-day)</a>
-                    <img class="gif-preview" src="${str90day + station.name + '.gif'}"><br>
-                     <strong>&bull;<a href="${str30day + station.name + '.gif'}" target="_blank"> (30-day)</a>
-                    <img class="gif-preview" src="${str30day + station.name + '.gif'}"><br>
+                     <strong>&bull;<a href="${strgefs + station.name + '_pccaswk2bar.png?raw=true'}" target="_blank"> (GEFS Wk2 CCA)</a>
+                    <img class="gif-preview" src="${strgefs + station.name + '_pccaswk2bar.png?raw=true'}"><br>
+                     <strong>&bull;<a href="${strgefs + station.name +'_pelrwk2bar.png?raw=true'}" target="_blank"> (GEFS Wk2 ELR)</a>
+                    <img class="gif-preview" src="${strgefs + station.name + '_pelrwk2bar.png?raw=true'}"><br>
                 </div>
             `;
 
@@ -513,7 +513,7 @@
         };
 
         objOverlays_monitor = {
-            [`<a href="${htmllinks['Monitor Tools']['CMORPH Time Series Points']}" target="_blank">CMORPH Time Series Points</a>`] : stationsLayercmorph,
+     //       [`<a href="${htmllinks['Monitor Tools']['CMORPH Time Series Points']}" target="_blank">CMORPH Time Series Points</a>`] : stationsLayercmorph,
             [`<a href="${htmllinks['Monitor Tools']['CMORPH 90 Day Precip Anomaly']}" target="_blank">CMORPH 90 Day Precip Anomaly</a>`] : lyrprcpanom90,
             [`<a href="${htmllinks['Monitor Tools']['CMORPH 90 Day Precip Percent']}" target="_blank">CMORPH 90 Day Precip Percent</a>`] : lyrprcpper90,
             [`<a href="${htmllinks['Monitor Tools']['CMORPH 3-month SPI']}" target="_blank">CMORPH 3-month SPI</a>`] : lyrspi3mo,
@@ -533,8 +533,8 @@
         };
             
         objOverlays_fcst = {
-            [`<a href="${htmllinks['Forecast Tools']['GEFS Week 1 Point Estimates']}" target="_blank">GEFS Week 1 Point Estimates</a>`] : stationsLayergefswk1p,
-            [`<a href="${htmllinks['Forecast Tools']['GEFS Week 2 Point Estimates']}" target="_blank">GEFS Week 2 Point Estimates</a>`] : stationsLayergefswk2p,
+    //        [`<a href="${htmllinks['Forecast Tools']['GEFS Week 1 Point Estimates']}" target="_blank">GEFS Week 1 Point Estimates</a>`] : stationsLayergefswk1p,
+        //    [`<a href="${htmllinks['Forecast Tools']['GEFS Week 2 Point Estimates']}" target="_blank">GEFS Week 2 Point Estimates</a>`] : stationsLayergefswk2p,
             [`<a href="${htmllinks['Forecast Tools']['GEFS Week 1 Precip Total Forecast']}" target="_blank">GEFS Week 1 Precip Total Forecast</a>`]: lyrfcst_gefswk1ptotal,
             [`<a href="${htmllinks['Forecast Tools']['GEFS Week 1 Precip Anomaly Forecast']}" target="_blank">GEFS Week 1 Precip Anomaly Forecast</a>`]: lyrfcst_gefswk1panom,
             [`<a href="${htmllinks['Forecast Tools']['GEFS Week 1 Precip Exceedance Prob (50 mm)']}" target="_blank">GEFS Week 1 Precip Exceedance Prob (50 mm)</a>`]: lyrfcst_gefswk1poe50,
@@ -583,8 +583,8 @@
             'CDAS 7 Day Tmax Anomaly':  'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/cdas7tanom_header.png?raw=true',
             'VHI 1km': '',
             'NASA ESI': '',
-            'GEFS Week 1 Point Estimates': '',
-            'GEFS Week 2 Point Estimates': '',
+         //   'GEFS Week 1 Point Estimates': '',
+         //   'GEFS Week 2 Point Estimates': '',
             'GEFS Week 1 Precip Total Forecast': 'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/gefswk1ptotal_header.png?raw=true',
             'GEFS Week 1 Precip Anomaly Forecast': 'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/gefswk1panom_header.png?raw=true',
             'GEFS Week 1 Precip Exceedance Prob (50 mm)': 'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/gefswk1poe50_header.png?raw=true',
@@ -611,7 +611,7 @@
         layerToLegend = {
             'OISST SST 7-Day Anomaly': 'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/oisst_legend.png?raw=true',
             'OISST SST 7-Day Anomaly Difference': 'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/oisst_diff_legend.png?raw=true',
-            'CMORPH Time Series Points': '',
+        //    'CMORPH Time Series Points': '',
             'CMORPH 90 Day Precip Anomaly':  'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/cmorph90anom_legend.png?raw=true',
             'CMORPH 90 Day Precip Percent':  'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/cmorph90percent_legend.png?raw=true',
             'CMORPH 3-month SPI':  'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/cmorph3mospi_legend.png?raw=true',
@@ -628,8 +628,8 @@
             'CDAS 7 Day Tmax Anomaly':  'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/cdas7tanom_legend.png?raw=true',
             'VHI 1km': '',
             'NASA ESI': '',
-            'GEFS Week 1 Point Estimates': '',
-            'GEFS Week 2 Point Estimates': '',
+           // 'GEFS Week 1 Point Estimates': '',
+          //  'GEFS Week 2 Point Estimates': '',
             'GEFS Week 1 Precip Total Forecast': 'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/gefswk1ptotal_legend.png?raw=true',
             'GEFS Week 1 Precip Anomaly Forecast': 'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/gefswk1panom_legend.png?raw=true',
             'GEFS Week 1 Precip Exceedance Prob (50 mm)': 'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/gefswk1poe50_legend.png?raw=true',
@@ -739,6 +739,20 @@
             if (layerToLegend[layerName]) {
                 updateLegend(layerToHeader[layerName], layerToLegend[layerName]); // Update the legend with the correct image
             }
+            
+            // Automatically add the stationsLayercmorph when the corresponding forecast layer is added
+            if (layerName === 'GEFS Week 1 Consolidated Precip Tercile Prob') {
+                stationsLayergefswk1p.addTo(map); 
+            }
+            if (layerName === 'GEFS Week 2 Consolidated Precip Tercile Prob') {
+                stationsLayergefswk2p.addTo(map); 
+            }
+            if (layerName === 'CMORPH 90 Day Precip Anomaly') {
+                stationsLayercmorph.addTo(map); 
+            }
+            if (layerName === 'CMORPH 30 Day Precip Anomaly') {
+                stationsLayercmorph.addTo(map); 
+            }
         });
 
         // Listen for when the overlay is removed from the map
@@ -748,6 +762,19 @@
             // Check if the layer was removed and clear the legend if it has a corresponding entry
             if (layerToLegend[layerName]) {
                 updateLegend(null, null); // Clear the legend when the layer is removed
+            }
+             // Automatically add the stationsLayercmorph when the corresponding forecast layer is added
+            if (layerName === 'GEFS Week 1 Consolidated Precip Tercile Prob') {
+                stationsLayergefswk1p.remove(); 
+            }
+            if (layerName === 'GEFS Week 2 Consolidated Precip Tercile Prob') {
+                stationsLayergefswk2p.remove(); 
+            }
+            if (layerName === 'CMORPH 90 Day Precip Anomaly') {
+                stationsLayercmorph.remove(); 
+            }
+            if (layerName === 'CMORPH 30 Day Precip Anomaly') {
+                stationsLayercmorph.remove(); 
             }
         });
     
