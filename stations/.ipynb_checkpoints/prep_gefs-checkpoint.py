@@ -8,8 +8,11 @@ from matplotlib.colors import BoundaryNorm, ListedColormap
 import matplotlib as mpl
 import rioxarray as rio
 from rasterio.warp import calculate_default_transform
-# from pyproj import CRS
-# from affine import Affine
+
+#local functions
+import src.file_conversion as fc
+import src.colors as colors
+import src.station_locations as sl
 
 gefs_procdir = '/cpc/africawrf/ebekele/projects/PREPARE_pacific/notebooks/unmasked'
 gefs_rawdir = '/cpc/africawrf/ebekele/projects/PREPARE_pacific/subseason_unmasked'
@@ -84,294 +87,104 @@ an_colors = [
 
 categories = ["Below-Normal", "Near-Normal", "Above-Normal"]
 # Create colormaps
-bn_cmap = ListedColormap(bn_colors, N=len(bn_colors))#LinearSegmentedColormap.from_list("browns", bn_colors, N=len(bn_colors))
-nn_cmap = ListedColormap(nn_colors, N=len(nn_colors))#LinearSegmentedColormap.from_list("grays", nn_colors, N=len(nn_colors))
-an_cmap = ListedColormap(an_colors, N=len(an_colors))#LinearSegmentedColormap.from_list("greens", an_colors, N=len(an_colors))
+bn_cmap = ListedColormap(bn_colors, N=len(bn_colors))
+nn_cmap = ListedColormap(nn_colors, N=len(nn_colors))
+an_cmap = ListedColormap(an_colors, N=len(an_colors))
 colormaps = {"Below-Normal": bn_cmap, "Near-Normal": nn_cmap, "Above-Normal": an_cmap}
 intervals = {"Below-Normal": bn_intervals, "Near-Normal": nn_intervals, "Above-Normal": an_intervals}
 
-#convert lat/lon coords to mercator projection for tiles
-def convert_to_mercator(ds, var):
-    # crs_mercator = CRS.from_epsg(3857)
-    # mercator_bbox = (
-    # *crs_mercator.transform(-22, (132+180)%360-180),  # Transform bottom-left corner
-    # *crs_mercator.transform(9, (205+180)%360-180),  # Transform top-right corner
-# )
-    ds_mercator = ds.rio.reproject("EPSG:3857")
-                                   # ,  transform=Affine.translation(mercator_bbox[0], mercator_bbox[1]),  # Adjust transform
-    # shape=(mercator_bbox[3] - mercator_bbox[1], mercator_bbox[2] - mercator_bbox[0]),
-    # resampling="bilinear")#, resolution = 10000)
-    # ds_clip = ds_mercator.where(ds_mercator.notnull(), drop=True)
-    return ds_mercator
-#convert the data array to RGB values for image export using defined colorschemes
-
-# Helper function to map probability to color
-# def get_color(prob, intervals, cmap):
-#     norm_prob = (prob - intervals[0]) / (intervals[-1] - intervals[0])  # Normalize to 0-1
-#     norm_prob = min(max(norm_prob, 0), 1)  # Clamp to [0, 1]
-#     color = cmap(norm_prob)
-#     print(f"Probability: {prob}, Normalized: {norm_prob}, Color: {color}")  # Debugging
-#     return color
-
-# Apply the colormap and norm to the data
-def apply_colormap(da, colormap, norm, value_intervals):
-    """
-    Apply a custom colormap to the data array based on specified boundaries.
-
-    Parameters:
-        da: xarray.DataArray
-            The data array to which the colormap will be applied.
-        colormap: matplotlib.colors.Colormap
-            The custom colormap to apply.
-        norm: matplotlib.colors.BoundaryNorm
-            The normalizer that defines the color intervals.
-
-    Returns:
-        xarray.DataArray
-            DataArray with RGBA values.
-    """
-    # Clip the data to the specified range (you could also use np.clip if needed)
-    da_clipped = np.clip(da, value_intervals[0], value_intervals[-1])
-
-    # Map the data values to the colormap using BoundaryNorm
-    colormap_values = colormap(norm(da_clipped))
-
-    # Scale to 0-255 for RGB and add an alpha channel
-    da_rgb = (colormap_values[:, :, :3] * 255).astype(np.uint8)
-    da_alpha = (~np.isnan(da_clipped)) * 255  # Transparency: 0 for NaN, 255 otherwise
-    da_rgba = np.dstack((da_rgb, da_alpha.astype(np.uint8)))  # Combine RGB + Alpha
-
-    # Convert to xarray for exporting with spatial coordinates
-    da_rgba_xarray = xr.DataArray(
-        da_rgba,
-        dims=("y", "x", "band"),
-        coords={"y": da.y, "x": da.x, "band": [1, 2, 3, 4]},
-    )
-    da_rgba_xarray = da_rgba_xarray.transpose("band", "y", "x").rio.write_crs(da.rio.crs)
-
-    return da_rgba_xarray
-
-def process_gefs_probabilities(gefs_data, categories, colormaps, intervals, crs="EPSG:4326", time_index=0):
-    """
-    Process GEFS probability data to create a combined RGBA map.
-
-    Parameters:
-        gefs_data: xarray.Dataset
-            The input dataset containing probabilities.
-        categories: list of str
-            List of category names (e.g., ["Below-Normal", "Near-Normal", "Above-Normal"]).
-        colormaps: dict
-            Dictionary mapping category names to their colormaps.
-        intervals: dict
-            Dictionary mapping category names to their interval boundaries.
-        crs: str, optional
-            Coordinate Reference System to assign to the dataset. Default is "EPSG:4326".
-        time_index: int, optional
-            The time index to select for processing. Default is 0.
-
-    Returns:
-        xarray.DataArray
-            Combined RGBA map as an xarray DataArray.
-    """
-    # Write CRS to the dataset
-    gefs_data_crs = gefs_data.rio.write_crs(crs, inplace=False)
-
-    # Select data for the given time step and scale probabilities
-    data = gefs_data_crs['prob'].isel(time=time_index) * 100
-
-    # Identify NaN mask
-    nan_mask = data.isnull().all(dim='e')
-    filled_data = data.where(~nan_mask, -1)
-
-    # Compute the maximum category index
-    max_cat_index = filled_data.argmax(dim="e")
-
-    # Extract max probabilities for each category
-    max_probs = {}
-    for i, category in enumerate(categories):
-        cat_prob = data.isel(e=i)  # Select probabilities for this category
-        max_prob = cat_prob.where(max_cat_index == i)  # Retain only max category
-        max_prob = max_prob.where(~nan_mask)  # Mask out all-NaN locations
-        max_probs[category] = max_prob
-
-    # Apply colormaps and combine RGBA maps
-    rgba_maps = []
-    for category in categories:
-        prob = max_probs[category]
-        cmap = colormaps[category]
-        interval = intervals[category]
-        norm = BoundaryNorm(boundaries = interval, ncolors=cmap.N+1)#, extend="both")
-        # Apply the colormap
-        rgba_map = apply_colormap(prob, cmap, norm, interval)
-        rgba_maps.append(rgba_map)
-
-    # Combine individual RGBA maps into a single map
-    combined_rgba = np.zeros_like(rgba_maps[0].values)  # Initialize combined map
-    for rgba_map in rgba_maps:
-        mask = rgba_map[3, :, :] > 0  # Use alpha channel to identify valid data
-        combined_rgba[:, mask] = rgba_map.values[:, mask]
-
-    #Convert combined RGBA to xarray
-    combined_rgba_xarray = xr.DataArray(
-        combined_rgba,
-        dims=("band", "y", "x"),
-        coords={
-            "band": [1, 2, 3, 4],
-            "y": rgba_maps[0].y,
-            "x": rgba_maps[0].x,
-        },
-    ).rio.write_crs(gefs_data_crs.rio.crs)
-
-    return combined_rgba_xarray
-
-
 gefs_wk1cons = xr.open_dataset(os.path.join(gefs_procdir, 'gefs_week_1_cons.nc'))
+gefs_wk1cca =  xr.open_dataset(os.path.join(gefs_procdir, 'gefs_week1_cca.nc'))
 gefs_wk1cons = gefs_wk1cons.rename({'lon':'x', 'lat':'y'})
-gefswk1_pcons_rgba = process_gefs_probabilities(gefs_wk1cons, categories, colormaps, intervals,
+gefs_wk1cca = gefs_wk1cca.rename({'lon':'x', 'lat':'y', 'M':'e'})
+gefswk1_pcons_rgba = colors.process_gefs_probabilities(gefs_wk1cons, categories, colormaps, intervals,
+                                               crs="EPSG:4326", time_index=0)
+gefswk1_pcca_rgba = colors.process_gefs_probabilities(gefs_wk1cca, categories, colormaps, intervals,
                                                crs="EPSG:4326", time_index=0)
 gefswk1pcons_prep = gefswk1_pcons_rgba.to_dataset(name = 'color')
-gefswk1_pcons_mc = convert_to_mercator(gefswk1pcons_prep, 'color')
+gefswk1pcca_prep = gefswk1_pcca_rgba.to_dataset(name = 'color')
+gefswk1_pcons_mc = fc.convert_to_mercator(gefswk1pcons_prep, 'color')
+gefswk1_pcca_mc = fc.convert_to_mercator(gefswk1pcca_prep, 'color')
 gefswk1_pcons_mc['color'].rio.to_raster(os.path.join(figure_dir,'gefswk1pcons.tif'), dtype = 'uint8')
+gefswk1_pcca_mc['color'].rio.to_raster(os.path.join(figure_dir,'gefswk1pcca.tif'), dtype = 'uint8')
 
-gefs_wk2cons = xr.open_dataset(os.path.join(gefs_procdir, 'gefs_week_2_cons.nc'))
-gefs_wk2cons = gefs_wk2cons.rename({'lon':'x', 'lat':'y'})
-gefswk2_pcons_rgba = process_gefs_probabilities(gefs_wk2cons, categories, colormaps, intervals,
-                                               crs="EPSG:4326", time_index=0)
-gefswk2pcons_prep = gefswk2_pcons_rgba.to_dataset(name = 'color')
-gefswk2_pcons_mc = convert_to_mercator(gefswk2pcons_prep, 'color')
-gefswk2_pcons_mc['color'].rio.to_raster(os.path.join(figure_dir,'gefswk2pcons.tif'), dtype = 'uint8')
-
-
-## station time series prep
-stations = [{'name': 'Chuuk-Weno_FSM','lat': 7.45, 'lon': 151.85 },
-            { 'name': 'Colonia-Yap_FSM', 'lat': 9.52, 'lon': 138.13 },
-            { 'name': 'Lukunor_FSM', 'lat': 5.502, 'lon': 153.817 },
-            { 'name': 'Kolonia-Pohnpei_FSM', 'lat': 6.984, 'lon': 158.207 },
-            { 'name': 'Kosrae_FSM', 'lat': 5.326, 'lon': 163.011 },
-            { 'name': 'Palikir-Pohnpei_FSM', 'lat': 6.923, 'lon': 158.159 },
-            { 'name': 'Abaiang_Kiribati', 'lat': 1.799, 'lon': 173.039 },
-            { 'name': 'Beru_Kiribati', 'lat': -1.337, 'lon': 175.996 },
-            { 'name': 'Butaritari_Kiribati', 'lat': 3.072, 'lon': 172.792 },
-            { 'name': 'Tarawa_Kiribati', 'lat': 1.382, 'lon': 173.147 }, 
-            { 'name': 'Fanning_Kiribati', 'lat': 3.898, 'lon': (-159.386 + 360) % 360 }, 
-            { 'name': 'Kirimati_Kiribati', 'lat': 1.986, 'lon': (-157.35 + 360) % 360 }, 
-            { 'name': 'Washington_Kiribati', 'lat': 4.692, 'lon': (-160.408 + 360) % 360 }, 
-            { 'name': 'Canton_Kiribati', 'lat': -2.769, 'lon': (-171.718 + 360) % 360 }, 
-            { 'name': 'Koror_Palau', 'lat': 7.342, 'lon': 134.476 },
-            { 'name': 'Ngerulmud_Palau', 'lat': 7.5, 'lon': 134.624 },
-            { 'name': 'Alotau_PNG', 'lat': -10.314, 'lon': 150.458 },
-            { 'name': 'Kavieng_PNG', 'lat': -2.581, 'lon': 150.806 },
-            { 'name': 'Lae_PNG', 'lat': -6.728, 'lon': 146.996 },
-            { 'name': 'Madang_PNG', 'lat': -5.225, 'lon': 145.792 },
-            { 'name': 'Mendi_PNG', 'lat': -6.145, 'lon': 143.657 },
-            { 'name': 'Mount-Hagen_PNG', 'lat': -5.859, 'lon': 144.235 },
-            { 'name': 'Popondetta_PNG', 'lat': -8.764, 'lon': 148.239 },
-            { 'name': 'Port Moresby_PNG', 'lat': -9.439, 'lon': 147.211 },
-            { 'name': 'Tari_PNG', 'lat': -5.851, 'lon': 142.95 },
-            { 'name': 'Wewak_PNG', 'lat': -3.584, 'lon': 143.669 },
-            { 'name': 'Goroka_PNG', 'lat': -6.075, 'lon': 145.392 },
-            { 'name': 'Vanimo_PNG', 'lat': -2.688, 'lon': 141.299 },
-            { 'name': 'Nadzab_PNG', 'lat': -6.566, 'lon': 146.73 },
-            { 'name': 'Tokua_PNG', 'lat': -4.343, 'lon': 152.377 },
-            { 'name': 'Apia_Samoa', 'lat': -13.846, 'lon': (-171.763 + 360) % 360 },
-            { 'name': 'Afega_Samoa', 'lat': -13.8, 'lon': (-171.853 + 360) % 360 },
-            { 'name': 'Safotu_Samoa', 'lat': -13.452, 'lon': (-172.408 + 360) % 360 },
-            { 'name': 'Leulumoega_Samoa', 'lat': -13.827, 'lon': (-171.961 + 360) % 360 },
-            { 'name': 'Asau_Samoa', 'lat': -13.528, 'lon': (-172.628 + 360) % 360 },
-            { 'name': 'Lufilufi_Samoa', 'lat': -13.874, 'lon': (-171.6 + 360) % 360 },
-            { 'name': 'Vailoa_Samoa', 'lat': -13.755, 'lon': (-172.307 + 360) % 360 },
-            { 'name': 'Saleaula_Samoa', 'lat': -13.449, 'lon': (-172.337 + 360) % 360 },
-            { 'name': 'Samamea_Samoa', 'lat': -13.934, 'lon': (-171.532 + 360) % 360 },
-            { 'name': 'Auki_Solomons', 'lat': -8.768, 'lon': 160.697 },
-            { 'name': 'Buala_Solomons', 'lat': -8.146, 'lon': 159.593 },
-            { 'name': 'Gizo_Solomons', 'lat': -8.105, 'lon': 156.846 },
-            { 'name': 'Honiara_Solomons', 'lat': -9.442, 'lon': 159.983 },
-            { 'name': 'Kirakira_Solomons', 'lat': -10.457, 'lon': 161.92 },
-            { 'name': 'Lata_Solomons', 'lat': -10.723, 'lon': 165.799 },
-            { 'name': 'Tigoa_Solomons', 'lat': -11.551, 'lon': 160.063 },
-            { 'name': 'Tulagi_Solomons', 'lat': -9.11, 'lon': 160.152 },
-            { 'name': 'Taro_Solomons', 'lat': -6.711, 'lon': 156.396 },
-            { 'name': 'Munda_Solomons', 'lat': -8.326, 'lon': 157.267 },
-            { 'name': 'Funafuti_Tuvalu', 'lat': -8.524, 'lon': 179.197 },
-            { 'name': 'Nui_Tuvalu', 'lat': -7.244, 'lon': 177.147 },
-            { 'name': 'Niulakita_Tuvalu', 'lat': -10.79, 'lon': 179.471 },
-            { 'name': 'Isangel_Vanuatu', 'lat': -19.541, 'lon': 169.281 },
-            { 'name': 'Lakatoro_Vanuatu', 'lat': -16.107, 'lon': 167.419 },
-            { 'name': 'Luganville_Vanuatu', 'lat': -15.505, 'lon': 167.22 },
-            { 'name': 'Port-Vila_Vanuatu', 'lat': -17.742, 'lon': 168.321 },
-            { 'name': 'Sola_Vanuatu', 'lat': -13.873, 'lon': 167.547 },
-            { 'name': 'Seratmata_Vanuatu', 'lat': -15.288, 'lon': 167.987 },
-            { 'name': 'Aneityum_Vanuatu', 'lat': -20.234, 'lon': 169.781 },
-            { 'name': 'Ba_Fiji', 'lat': -17.541, 'lon': 177.671 },
-            { 'name': 'Labasa_Fiji', 'lat': -16.432, 'lon': 179.38 },
-            { 'name': 'Lami_Fiji', 'lat': -18.112, 'lon': 178.415 },
-            { 'name': 'Lautoka_Fiji', 'lat': -17.615, 'lon': 177.454 },
-            { 'name': 'Nadi_Fiji', 'lat': -17.753, 'lon': 177.451 },
-            { 'name': 'Nakasi_Fiji', 'lat': -18.068, 'lon': 178.524 },
-            { 'name': 'Nausori_Fiji', 'lat': -18.03, 'lon': 178.531 },
-            { 'name': 'Sigatoka_Fiji', 'lat': -18.142, 'lon': 177.503 },
-            { 'name': 'Suva_Fiji', 'lat': -18.135, 'lon': 178.435 },
-            { 'name': 'Rotuma_Fiji', 'lat': -12.482, 'lon': 177.071 },
-            { 'name': 'Nabouwalu_Fiji', 'lat': -16.998, 'lon': 178.695 },
-            { 'name': 'Yasawa_Fiji', 'lat': -16.699, 'lon': 177.575 },
-            { 'name': 'Viwa_Fiji', 'lat': -17.149, 'lon': 176.913 },
-            { 'name': 'VanuaBalavu_Fiji', 'lat': -17.246, 'lon': (-178.956 + 360) % 360 },
-            { 'name': 'Tubou-Lakeba_Fiji', 'lat': -18.236 , 'lon': (-178.812 + 360) % 360 },
-            { 'name': 'Vunisea_Fiji', 'lat': -19.047, 'lon': 178.163 }
-           ]
+# gefs_wk2cons = xr.open_dataset(os.path.join(gefs_procdir, 'gefs_week_2_cons.nc'))
+# gefs_wk2cons = gefs_wk2cons.rename({'lon':'x', 'lat':'y'})
+# gefswk2_pcons_rgba = colors.process_gefs_probabilities(gefs_wk2cons, categories, colormaps, intervals,
+#                                                crs="EPSG:4326", time_index=0)
+# gefswk2pcons_prep = gefswk2_pcons_rgba.to_dataset(name = 'color')
+# gefswk2_pcons_mc = fc.convert_to_mercator(gefswk2pcons_prep, 'color')
+# gefswk2_pcons_mc['color'].rio.to_raster(os.path.join(figure_dir,'gefswk2pcons.tif'), dtype = 'uint8')
 
 
 cons1_stations = []
+cca1_stations = []
 cons2_stations = []
-for station in stations:
+for station in sl.stations:
     cons1_station = gefs_wk1cons.sel(x=station['lon'], y = station['lat'], method = 'nearest')
     cons1_station['station'] = station['name']
     cons1_stations.append(cons1_station)
     
-    cons2_station = gefs_wk2cons.sel(x=station['lon'], y = station['lat'], method = 'nearest')
-    cons2_station['station'] = station['name']
-    cons2_stations.append(cons2_station)
+    cca1_station = gefs_wk1cca.sel(x=station['lon'], y = station['lat'], method = 'nearest')
+    cca1_station['station'] = station['name']
+    cca1_stations.append(cca1_station)
+    
+    # cons2_station = gefs_wk2cons.sel(x=station['lon'], y = station['lat'], method = 'nearest')
+    # cons2_station['station'] = station['name']
+    # cons2_stations.append(cons2_station)
 cons1_stations = xr.concat(cons1_stations, dim = 'station')
-cons2_stations = xr.concat(cons2_stations, dim = 'station')
+cca1_stations = xr.concat(cca1_stations, dim = 'station')
+# cons2_stations = xr.concat(cons2_stations, dim = 'station')
 
 cons1_stations['prob_colors'] = cons1_stations['prob']
 cons1_stations['prob'] = cons1_stations['prob']*100
-cons2_stations['prob_colors'] = cons2_stations['prob']
-cons2_stations['prob'] = cons2_stations['prob']*100
+cca1_stations['prob_colors'] = cca1_stations['prob']
+cca1_stations['prob'] = cca1_stations['prob']*100
+# cons2_stations['prob_colors'] = cons2_stations['prob']
+# cons2_stations['prob'] = cons2_stations['prob']*100
 
-for s, station in enumerate(stations):
-    bar1_data = []
-    bar1_data_colors = []
+for s, station in enumerate(sl.stations):
+    bar1_consdata = []
+    bar1_consdata_colors = []
+    bar1_ccadata = []
+    bar1_ccadata_colors = []
     bar2_data = []
     bar2_data_colors = []
 
     # Prepare the data for each category (bn, nn, an)
     for c, cat in enumerate(categories):
-        bar1_data.append(cons1_stations.isel(time=0,station=s,e=c).prob.values)
-        bar1_data_colors.append(cons1_stations.isel(time=0,station=s,e=c).prob_colors.values)
-        bar2_data.append(cons2_stations.isel(time=0,station=s,e=c).prob.values)
-        bar2_data_colors.append(cons2_stations.isel(time=0,station=s,e=c).prob_colors.values)
+        bar1_consdata.append(cons1_stations.isel(time=0,station=s,e=c).prob.values)
+        bar1_consdata_colors.append(cons1_stations.isel(time=0,station=s,e=c).prob_colors.values)
+        bar1_ccadata.append(cca1_stations.isel(time=0,station=s,e=c).prob.values)
+        bar1_ccadata_colors.append(cca1_stations.isel(time=0,station=s,e=c).prob_colors.values)
+        # bar2_data.append(cons2_stations.isel(time=0,station=s,e=c).prob.values)
+        # bar2_data_colors.append(cons2_stations.isel(time=0,station=s,e=c).prob_colors.values)
         #normalize the intervals given colors/intervals defined above
         bnnorm = BoundaryNorm(boundaries = bn_intervals, ncolors=bn_cmap.N+1)
         nnnorm = BoundaryNorm(boundaries = nn_intervals, ncolors=nn_cmap.N+1)
         annorm = BoundaryNorm(boundaries = an_intervals, ncolors=an_cmap.N+1)
     
     colors1 = [
-        
-        bn_cmap(bnnorm(bar1_data_colors[0]*(bn_intervals[-1]-bn_intervals[0])+bn_intervals[0])),
-        nn_cmap(nnnorm(bar1_data_colors[1]*(nn_intervals[-1]-nn_intervals[0])+nn_intervals[0])),
-        an_cmap(annorm(bar1_data_colors[2]*(an_intervals[-1]-an_intervals[0])+an_intervals[0]))
+        bn_cmap(bnnorm(bar1_consdata_colors[0]*(bn_intervals[-1]-bn_intervals[0])+bn_intervals[0])),
+        nn_cmap(nnnorm(bar1_consdata_colors[1]*(nn_intervals[-1]-nn_intervals[0])+nn_intervals[0])),
+        an_cmap(annorm(bar1_consdata_colors[2]*(an_intervals[-1]-an_intervals[0])+an_intervals[0]))
+    ]
+    
+    colors1cca = [
+        bn_cmap(bnnorm(bar1_ccadata_colors[0]*(bn_intervals[-1]-bn_intervals[0])+bn_intervals[0])),
+        nn_cmap(nnnorm(bar1_ccadata_colors[1]*(nn_intervals[-1]-nn_intervals[0])+nn_intervals[0])),
+        an_cmap(annorm(bar1_ccadata_colors[2]*(an_intervals[-1]-an_intervals[0])+an_intervals[0]))
     ]
 
-    colors2 = [
+#     colors2 = [
         
-        bn_cmap(bnnorm(bar2_data_colors[0]*(bn_intervals[-1]-bn_intervals[0])+bn_intervals[0])),
-        nn_cmap(nnnorm(bar2_data_colors[1]*(nn_intervals[-1]-nn_intervals[0])+nn_intervals[0])),
-        an_cmap(annorm(bar2_data_colors[2]*(an_intervals[-1]-an_intervals[0])+an_intervals[0]))
-    ]
+#         bn_cmap(bnnorm(bar2_data_colors[0]*(bn_intervals[-1]-bn_intervals[0])+bn_intervals[0])),
+#         nn_cmap(nnnorm(bar2_data_colors[1]*(nn_intervals[-1]-nn_intervals[0])+nn_intervals[0])),
+#         an_cmap(annorm(bar2_data_colors[2]*(an_intervals[-1]-an_intervals[0])+an_intervals[0]))
+#     ]
 
     # Create the bar plot
-    plt.bar(categories, bar1_data, color=colors1)
+    plt.bar(categories, bar1_consdata, color=colors1)
     # Add labels and title
     plt.ylabel("Probability (%)")
     plt.ylim(0,85)
@@ -381,13 +194,24 @@ for s, station in enumerate(stations):
     plt.savefig(os.path.join(figure_dir, 'station_data', f"{station['name']}_pconswk1bar.png"))  # Save as PNG file
     plt.close()  # Close the plot to avoid memory issues
     
-    plt.bar(categories, bar2_data, color=colors2)
+     # Create the bar plot
+    plt.bar(categories, bar1_ccadata, color=colors1cca)
     # Add labels and title
     plt.ylabel("Probability (%)")
     plt.ylim(0,85)
-    plt.title(station['name'] + ' GEFS Week 2 Consolidated Precip Probabilities')
+    plt.title(station['name'] + ' GEFS Week 1 CCA Precip Probabilities')
     # Save the box plot as a PNG file with the station name
     plt.tight_layout()
-    plt.savefig(os.path.join(figure_dir, 'station_data', f"{station['name']}_pconswk2bar.png"))  # Save as PNG file
+    plt.savefig(os.path.join(figure_dir, 'station_data', f"{station['name']}_pccaswk1bar.png"))  # Save as PNG file
     plt.close()  # Close the plot to avoid memory issues
+    
+    # plt.bar(categories, bar2_data, color=colors2)
+    # # Add labels and title
+    # plt.ylabel("Probability (%)")
+    # plt.ylim(0,85)
+    # plt.title(station['name'] + ' GEFS Week 2 Consolidated Precip Probabilities')
+    # # Save the box plot as a PNG file with the station name
+    # plt.tight_layout()
+    # plt.savefig(os.path.join(figure_dir, 'station_data', f"{station['name']}_pconswk2bar.png"))  # Save as PNG file
+    # plt.close()  # Close the plot to avoid memory issues
 

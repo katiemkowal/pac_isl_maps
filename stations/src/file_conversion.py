@@ -1,3 +1,6 @@
+import os
+import numpy as np
+import xarray as xr
 
 #read in a binary file to xarray
 def read_in_binary(location, xdim, ydim, xmin, xmax, ymin, ymax):

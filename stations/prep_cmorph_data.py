@@ -195,11 +195,11 @@ percent_norm = BoundaryNorm(boundaries=percent_intervals, ncolors=len(percent_co
 total_norm = BoundaryNorm(boundaries=total_intervals, ncolors=len(total_colors))
 
 last90_rgb = colors.apply_colormap(last90_anomnorm, anom_cmap, anom_norm, anom_intervals)
-last90p_rgb =  colorsapply_colormap(last90_percentnorm, percent_cmap, percent_norm, percent_intervals)
-last30_rgb = apply_colormap(last30_anomnorm, anom_cmap, anom_norm, anom_intervals)
-last30p_rgb =  apply_colormap(last30_percentnorm, percent_cmap, percent_norm, percent_intervals)
-last7_rgb = apply_colormap(last7_anomnorm, anom_cmap, anom_norm, anom_intervals)
-last7t_rgb = apply_colormap(last7_totalnorm, total_cmap, total_norm, total_intervals) 
+last90p_rgb =  colors.apply_colormap(last90_percentnorm, percent_cmap, percent_norm, percent_intervals)
+last30_rgb = colors.apply_colormap(last30_anomnorm, anom_cmap, anom_norm, anom_intervals)
+last30p_rgb =  colors.apply_colormap(last30_percentnorm, percent_cmap, percent_norm, percent_intervals)
+last7_rgb = colors.apply_colormap(last7_anomnorm, anom_cmap, anom_norm, anom_intervals)
+last7t_rgb = colors.apply_colormap(last7_totalnorm, total_cmap, total_norm, total_intervals) 
 
 #write to raster
 last90_rgb.rio.to_raster(os.path.join(figure_dir, 'cmorph90anom.tif'), dtype="uint8")
