@@ -95,18 +95,20 @@ intervals = {"Below-Normal": bn_intervals, "Near-Normal": nn_intervals, "Above-N
 
 gefs_wk1cons = xr.open_dataset(os.path.join(gefs_procdir, 'gefs_week_1_cons.nc'))
 gefs_wk1cca =  xr.open_dataset(os.path.join(gefs_procdir, 'gefs_week1_cca.nc'))
+gefs_wk1elr = xr.open_dataset(os.path.join(gefs_procdir, 'gefs_week1_elr.nc'))
 gefs_wk1cons = gefs_wk1cons.rename({'lon':'x', 'lat':'y'})
 gefs_wk1cca = gefs_wk1cca.rename({'lon':'x', 'lat':'y', 'M':'e'})
+gefs_wk1elr = gefs_wk1elr.rename({'lon':'x', 'lat':'y', 'M':'e'})
 gefswk1_pcons_rgba = colors.process_gefs_probabilities(gefs_wk1cons, categories, colormaps, intervals,
                                                crs="EPSG:4326", time_index=0)
-gefswk1_pcca_rgba = colors.process_gefs_probabilities(gefs_wk1cca, categories, colormaps, intervals,
-                                               crs="EPSG:4326", time_index=0)
+# gefswk1_pcca_rgba = colors.process_gefs_probabilities(gefs_wk1cca, categories, colormaps, intervals,
+#                                                crs="EPSG:4326", time_index=0)
 gefswk1pcons_prep = gefswk1_pcons_rgba.to_dataset(name = 'color')
-gefswk1pcca_prep = gefswk1_pcca_rgba.to_dataset(name = 'color')
+# gefswk1pcca_prep = gefswk1_pcca_rgba.to_dataset(name = 'color')
 gefswk1_pcons_mc = fc.convert_to_mercator(gefswk1pcons_prep, 'color')
-gefswk1_pcca_mc = fc.convert_to_mercator(gefswk1pcca_prep, 'color')
+# gefswk1_pcca_mc = fc.convert_to_mercator(gefswk1pcca_prep, 'color')
 gefswk1_pcons_mc['color'].rio.to_raster(os.path.join(figure_dir,'gefswk1pcons.tif'), dtype = 'uint8')
-gefswk1_pcca_mc['color'].rio.to_raster(os.path.join(figure_dir,'gefswk1pcca.tif'), dtype = 'uint8')
+# gefswk1_pcca_mc['color'].rio.to_raster(os.path.join(figure_dir,'gefswk1pcca.tif'), dtype = 'uint8')
 
 # gefs_wk2cons = xr.open_dataset(os.path.join(gefs_procdir, 'gefs_week_2_cons.nc'))
 # gefs_wk2cons = gefs_wk2cons.rename({'lon':'x', 'lat':'y'})
@@ -119,6 +121,7 @@ gefswk1_pcca_mc['color'].rio.to_raster(os.path.join(figure_dir,'gefswk1pcca.tif'
 
 cons1_stations = []
 cca1_stations = []
+elr1_stations = []
 cons2_stations = []
 for station in sl.stations:
     cons1_station = gefs_wk1cons.sel(x=station['lon'], y = station['lat'], method = 'nearest')
@@ -129,17 +132,24 @@ for station in sl.stations:
     cca1_station['station'] = station['name']
     cca1_stations.append(cca1_station)
     
+    elr1_station = gefs_wk1elr.sel(x=station['lon'], y = station['lat'], method = 'nearest')
+    elr1_station['station'] = station['name']
+    elr1_stations.append(elr1_station)
+    
     # cons2_station = gefs_wk2cons.sel(x=station['lon'], y = station['lat'], method = 'nearest')
     # cons2_station['station'] = station['name']
     # cons2_stations.append(cons2_station)
 cons1_stations = xr.concat(cons1_stations, dim = 'station')
 cca1_stations = xr.concat(cca1_stations, dim = 'station')
+elr1_stations = xr.concat(elr1_stations, dim = 'station')
 # cons2_stations = xr.concat(cons2_stations, dim = 'station')
 
 cons1_stations['prob_colors'] = cons1_stations['prob']
 cons1_stations['prob'] = cons1_stations['prob']*100
 cca1_stations['prob_colors'] = cca1_stations['prob']
 cca1_stations['prob'] = cca1_stations['prob']*100
+elr1_stations['prob_colors'] = elr1_stations['prob']
+elr1_stations['prob'] = elr1_stations['prob']*100
 # cons2_stations['prob_colors'] = cons2_stations['prob']
 # cons2_stations['prob'] = cons2_stations['prob']*100
 
@@ -148,6 +158,8 @@ for s, station in enumerate(sl.stations):
     bar1_consdata_colors = []
     bar1_ccadata = []
     bar1_ccadata_colors = []
+    bar1_elrdata = []
+    bar1_elrdata_colors = []
     bar2_data = []
     bar2_data_colors = []
 
@@ -157,6 +169,8 @@ for s, station in enumerate(sl.stations):
         bar1_consdata_colors.append(cons1_stations.isel(time=0,station=s,e=c).prob_colors.values)
         bar1_ccadata.append(cca1_stations.isel(time=0,station=s,e=c).prob.values)
         bar1_ccadata_colors.append(cca1_stations.isel(time=0,station=s,e=c).prob_colors.values)
+         bar1_elrdata.append(elr1_stations.isel(time=0,station=s,e=c).prob.values)
+        bar1_elrdata_colors.append(elr1_stations.isel(time=0,station=s,e=c).prob_colors.values)
         # bar2_data.append(cons2_stations.isel(time=0,station=s,e=c).prob.values)
         # bar2_data_colors.append(cons2_stations.isel(time=0,station=s,e=c).prob_colors.values)
         #normalize the intervals given colors/intervals defined above
@@ -174,6 +188,12 @@ for s, station in enumerate(sl.stations):
         bn_cmap(bnnorm(bar1_ccadata_colors[0]*(bn_intervals[-1]-bn_intervals[0])+bn_intervals[0])),
         nn_cmap(nnnorm(bar1_ccadata_colors[1]*(nn_intervals[-1]-nn_intervals[0])+nn_intervals[0])),
         an_cmap(annorm(bar1_ccadata_colors[2]*(an_intervals[-1]-an_intervals[0])+an_intervals[0]))
+    ]
+    
+    colors1elr = [
+        bn_cmap(bnnorm(bar1_elrdata_colors[0]*(bn_intervals[-1]-bn_intervals[0])+bn_intervals[0])),
+        nn_cmap(nnnorm(bar1_elrdata_colors[1]*(nn_intervals[-1]-nn_intervals[0])+nn_intervals[0])),
+        an_cmap(annorm(bar1_elrdata_colors[2]*(an_intervals[-1]-an_intervals[0])+an_intervals[0]))
     ]
 
 #     colors2 = [
@@ -194,15 +214,22 @@ for s, station in enumerate(sl.stations):
     plt.savefig(os.path.join(figure_dir, 'station_data', f"{station['name']}_pconswk1bar.png"))  # Save as PNG file
     plt.close()  # Close the plot to avoid memory issues
     
-     # Create the bar plot
+    # CCA tercile bar plot
     plt.bar(categories, bar1_ccadata, color=colors1cca)
-    # Add labels and title
     plt.ylabel("Probability (%)")
     plt.ylim(0,85)
     plt.title(station['name'] + ' GEFS Week 1 CCA Precip Probabilities')
-    # Save the box plot as a PNG file with the station name
     plt.tight_layout()
     plt.savefig(os.path.join(figure_dir, 'station_data', f"{station['name']}_pccaswk1bar.png"))  # Save as PNG file
+    plt.close()  # Close the plot to avoid memory issues
+    
+    # ELR tercile bar plot
+    plt.bar(categories, bar1_elrdata, color=colors1elr)
+    plt.ylabel("Probability (%)")
+    plt.ylim(0,85)
+    plt.title(station['name'] + ' GEFS Week 1 ELR Precip Probabilities')
+    plt.tight_layout()
+    plt.savefig(os.path.join(figure_dir, 'station_data', f"{station['name']}_pelrwk1bar.png"))  # Save as PNG file
     plt.close()  # Close the plot to avoid memory issues
     
     # plt.bar(categories, bar2_data, color=colors2)
