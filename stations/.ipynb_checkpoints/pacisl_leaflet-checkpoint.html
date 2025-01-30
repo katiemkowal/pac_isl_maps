@@ -17,12 +17,14 @@
         
          /* Style for the image preview */
         .gif-preview {
-            max-width: 100px; /* Set a maximum width for the image preview */
-            width: 60%;      /* Make the image responsive */
-            max-height: 80px;
+            max-width: 150px; /* Set a maximum width for the image preview */
+            width: 100%;      /* Make the image responsive */
+            max-height: 70px;
            // height: auto;     /* Maintain aspect ratio */
-            margin-right: 5px;
+            margin-right: 0px;
             vertical-align:middle;
+            align-items: center;
+            display: block;
         }
         
         /* Style for the blue label */
@@ -36,15 +38,31 @@
         }
         /* Style for the layer control labels */
         .leaflet-control-label {
+            background-color: #66B3FF; /* Blue background */
             font-weight: bold;      /* Make the font bold */
             font-size: 16px;        /* Increase the font size */
             padding: 5px;
-            background: #f8f8f8;
+/*             background: #f8f8f8; */
             margin: 5px;
             display: block;
             text-align: center;
             border-radius: 3px;
         }
+        
+        /* Style for subheaders within the group */
+        .leaflet-control-subheader {
+            background-color: #e6f0ff;  /* Lighter background for subheaders */
+            color: #0056b3;              /* Blue color for subheader text */
+            font-size: 16px;             /* Slightly smaller font size */
+            font-weight: 600;            /* Medium weight */
+            padding: 8px 12px;           /* Padding for subheader */
+            margin-top: 6px;             /* Small space above subheader */
+            margin-bottom: 4px;          /* Small space below subheader */
+            display: block;              /* Block display */
+            border-radius: 4px;          /* Rounded corners */
+            cursor: pointer;            /* Pointer cursor on hover */
+        }
+
     </style>
 </head>
 <body>
@@ -61,8 +79,8 @@
     <div id="side-bar" class="col-nd-3">
         <h4> Figure Opacity: <span id='image-opacity'></span></h4>
         <input type ='range' id ='sldOpacity' min = '0' max = '1' step = '0.1' value='0.5'>
-        <h4> SST Opacity: <span id='sst-opacity'></span></h4>
-        <input type ='range' id ='sstOpacity' min = '0' max = '1' step = '0.1' value='0.5'>
+<!--         <h4> SST Opacity: <span id='sst-opacity'></span></h4>
+        <input type ='range' id ='sstOpacity' min = '0' max = '1' step = '0.1' value='0.5'> -->
     </div>
     
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
@@ -77,9 +95,9 @@
         var ctlLayers;
         var ctlPan;
         var ctlZoomslider;
-        var ctlMeasure;
-        var ctlSidebar;
-        var ctlEasybutton;
+        // var ctlMeasure;
+        // var ctlSidebar;
+        // var ctlEasybutton;
         var stations;
         var marker;
         var popupContent;
@@ -422,12 +440,12 @@
             popupContentcmorph = `
                 <div>
                     <strong>${station.name}</strong><br>
-                    <div class="label">CMORPH Precipitation Time Series</div><br>
-                    <strong>&bull; <a href="${str180day + station.name + '.gif'}" target="_blank"> (180-day)</a>
+                    <div class="label">CMORPH Time Series</div><br>
+                    <strong>&bull; <a href="${str180day + station.name + '.gif'}" target="_blank"> (180-day Estimates)</a>
                     <img class="gif-preview" src="${str180day + station.name + '.gif'}"><br>
-                     <strong>&bull;<a href="${str90day + station.name + '.gif'}" target="_blank"> (90-day)</a>
+                     <strong>&bull;<a href="${str90day + station.name + '.gif'}" target="_blank"> (90-day Estimates)</a>
                     <img class="gif-preview" src="${str90day + station.name + '.gif'}"><br>
-                     <strong>&bull;<a href="${str30day + station.name + '.gif'}" target="_blank"> (30-day)</a>
+                     <strong>&bull;<a href="${str30day + station.name + '.gif'}" target="_blank"> (30-day Estimates)</a>
                     <img class="gif-preview" src="${str30day + station.name + '.gif'}"><br>
                 </div>
             `;
@@ -435,7 +453,7 @@
             popupContentgefswk1p = `
                 <div>
                     <strong>${station.name}</strong><br>
-                    <div class="label">GEFS Week 1 Precipitation Estimates</div><br>
+                    <div class="label">GEFS Wk1 Precip Estimates</div><br>
                     <strong>&bull; <a href="${strgefs + station.name + '_pconswk1bar.png?raw=true'}" target="_blank"> (GEFS Wk1 Consolidated)</a>
                     <img class="gif-preview" src="${strgefs + station.name + '_pconswk1bar.png?raw=true'}"><br>
                      <strong>&bull;<a href="${strgefs + station.name + '_pccaswk1bar.png?raw=true'}" target="_blank"> (GEFS Wk1 CCA)</a>
@@ -448,7 +466,7 @@
             popupContentgefswk2p = `
                 <div>
                     <strong>${station.name}</strong><br>
-                    <div class="label">GEFS Week 2 Precipitation Estimates</div><br>
+                    <div class="label">GEFS Wk 2 Precip Estimates</div><br>
                     <strong>&bull; <a href="${strgefs + station.name + '_pconswk2bar.png?raw=true'}" target="_blank"> (GEFS Wk2 Consolidated)</a>
                     <img class="gif-preview" src="${strgefs + station.name + '_pconswk2bar.png?raw=true'}"><br>
                      <strong>&bull;<a href="${strgefs + station.name + '_pccaswk2bar.png?raw=true'}" target="_blank"> (GEFS Wk2 CCA)</a>
@@ -478,35 +496,7 @@
             stationsLayergefswk1p.addLayer(markergefswk1p);
             stationsLayergefswk2p.addLayer(markergefswk2p);
         });
-        // Adjust popup size dynamically when zoom changes
-        map.on('zoomend', function() {
-           $("#zoom-level").html(map.getZoom());
-        });
-        
-        map.on('moveend', function(e){
-            $("#map-center").html(LatLngToArrayString(map.getCenter()));
-        });
-        
-        map.on('mousemove', function(e){
-            $("#mouse-location").html(LatLngToArrayString(e.latlng));
-        });
 
-        map.on('keypress', function(e){
-            if (e.originalEvent.key=="l"){
-                map.locate();
-            }
-        });
-
-        map.on('locationfound', function(e){
-            console.log(e);
-            if(mrkCurrentlocation){
-                mrkCurrentlocation.remove();
-            }
-            mrkCurrentlocation = L.circle(e.latlng,
-                                         {radius:e.accuracy/2}).addTo(map);
-            map.setView(e.latlng,14);
-        });
-        
         obsOverlays_sstestimates = {
             [`<a href="${htmllinks['SST Estimates']['OISST SST 7-Day Anomaly']}" target="_blank">OISST SST 7-Day Anomaly</a>`] : lyrsst7dayanom,
             [`<a href="${htmllinks['SST Estimates']['OISST SST 7-Day Anomaly Difference']}" target="_blank">OISST SST 7-Day Anomaly Difference</a>`] : lyrsst7dayanomdiff
@@ -730,6 +720,7 @@
             }
         }
 
+        let activeLayer = null;
         // Listen for when the overlay is added to the map
         map.on('overlayadd', function(event) {
             var layerId= event.layer._leaflet_id;
@@ -792,7 +783,7 @@
        var sstLabel = document.createElement('div');
        sstLabel.className = 'leaflet-control-label';
        sstLabel.innerHTML = 'SST Monitors';
-       sstlayerList.insertBefore(sstLabel, sstlayerList.childNodes[0]); // Place it before the first overlay
+       sstlayerList.insertBefore(sstLabel, sstlayerList.firstChild); //sstlayerList.childNodes[0]); // Place it before the first overlay
 
        // Add section labels to the control (custom)
        var monitorContainer = ctlmonitors.getContainer();
@@ -848,32 +839,12 @@
             lyrfcst_gefswk1tanom.setOpacity(this.value);
             lyrfcst_gefswk2ttotal.setOpacity(this.value);
             lyrfcst_gefswk2tanom.setOpacity(this.value);
-        });
-            
-       $("#sstOpacity").on('change', function(){
-            $("#sst-opacity").html(this.value);
             lyrsst7dayanom.setOpacity(this.value);
             lyrsst7dayanomdiff.setOpacity(this.value);
         });
-                
-            
-        // Add click event to display the latitude and longitude
-        map.on('click', function(e) {
-            var lat = e.latlng.lat;
-            var lng = e.latlng.lng;
-            L.popup()
-                .setLatLng(e.latlng)
-                .setContent("Lat, Lon: " + lat + ", " + lng)
-                .openOn(map);
-        });
     });
-
-    function LatLngToArrayString(ll) {
-        console.log(ll);
-        return "["+ll.lat.toFixed(5)+", "+ll.lng.toFixed(5)+"]";
-    }  
         
-
     </script>
+
 </body>
 </html>
