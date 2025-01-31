@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pacific Islands Trial Map</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css">
-    <link rel="stylesheet" href="https://unpkg.com/leaflet-polyline-measure/src/leaflet.polylineMeasure.css">
+<!--     <table cellspacing="0" cellpadding="0" width="100%" border="0" backgrand="https://www.cpc.ncep.noaa.gov//nwscwi.topbanner.jpg"> -->
+<!--         <tbody> -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     
     <style>
@@ -48,79 +49,31 @@
             text-align: center;
             border-radius: 3px;
         }
-        
-        /* Style for subheaders within the group */
-        .leaflet-control-subheader {
-            background-color: #e6f0ff;  /* Lighter background for subheaders */
-            color: #0056b3;              /* Blue color for subheader text */
-            font-size: 16px;             /* Slightly smaller font size */
-            font-weight: 600;            /* Medium weight */
-            padding: 8px 12px;           /* Padding for subheader */
-            margin-top: 6px;             /* Small space above subheader */
-            margin-bottom: 4px;          /* Small space below subheader */
-            display: block;              /* Block display */
-            border-radius: 4px;          /* Rounded corners */
-            cursor: pointer;            /* Pointer cursor on hover */
-        }
 
     </style>
 </head>
 <body>
+<!-- <body> lefmargin="0" background = "https://www.cpc.ncep.noaa.gov//nwscwi/background-white.gif" topmargin="0" rightmargin="0" marginheight="0" marginwidth="0"> -->
 
-    <h1 class = 'w3-center'>Pacific Islands Hazard Generation Tools </h1>
-    <h2 class = 'w3-center'> CPC International Desk</h2>
+    <h2 class = 'w3-center'>Pacific Islands Hazard Generation Tools </h1>
+    <h4 class = 'w3-center'> CPC International Desk</h2>
     <div id="map" style="width: 95%; margin: auto; position: relative; outline: none;" class="leaflet-container leaflet-touch leaflet-fade-anom leaflet-grab leaflet-touch-drag leaflet-touch-zoom" tabindex="0"></div>
     <div class="leaflet-pane leaflet-map-pane" style='transform: translate3d(-262px, 546px, 0px);'></div>
-    <!-- Add a div below the map for the legend -->
-    
     <div id="header-container" style = "text_align: center; padding: 20px;"></div>
     <div id="legend-container" style="text_align: center; padding: 10px;"></div>
     <div 
     <div id="side-bar" class="col-nd-3">
-        <h4> Figure Opacity: <span id='image-opacity'></span></h4>
+        <h4> Layer Opacity: <span id='image-opacity'></span></h4>
         <input type ='range' id ='sldOpacity' min = '0' max = '1' step = '0.1' value='0.5'>
-<!--         <h4> SST Opacity: <span id='sst-opacity'></span></h4>
-        <input type ='range' id ='sstOpacity' min = '0' max = '1' step = '0.1' value='0.5'> -->
     </div>
     
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-    <script src="https://unpkg.com/leaflet-polyline-measure/src/leaflet.polylineMeasure.js"></script>
+
     <script>
-        // Initialize the map and set its view to the chosen geographical coordinates and zoom level
-        var map;
-        var lyrOSM;
-        var lyrCarto;
-        var objBasemaps;
-        var objOverlays;
-        var ctlLayers;
-        var ctlPan;
-        var ctlZoomslider;
-        // var ctlMeasure;
-        // var ctlSidebar;
-        // var ctlEasybutton;
-        var stations;
-        var marker;
-        var popupContent;
-        var southWest;
-        var northEast;
-        var bounds;
-        var str180day;
-        var str90day;
-        var str30day;
-        var prcpanom90;
-        var zoomlevel;
-        var popup;
-        var popupLatLng;
-        var popupHeight;
-        var topPosition;
-        var panAmount;
-        var stationsLayerGroup;
-        var layerlinks;
-        var legend;
-        var layerToLegend;
         
         $(document).ready(function(){
-        map = L.map('map').setView([-3, 170], 4); // Coordinates for Pacific Islands
+         // Initialize the map and set its view to the chosen geographical coordinates and zoom level
+        map = L.map('map').setView([-5, 175], 3); // Coordinates for Pacific Islands
 
         // Add a tile layer to the map
         lyrOSM = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -139,6 +92,14 @@
             'Open Street Maps': lyrOSM,
             'Carto Maps': lyrCarto
         };
+        
+        var yellowIcon = new L.icon({
+            iconUrl: 'https://raw.githubusercontent.com/pointhi/leadlet-color-markers/master/img/marker-icon-gold.png',
+            iconSize:[25,41],
+            iconAnchor:[12,41],
+            popupAnchor:[1,-34],
+            shadowSize:[41,41]
+        });
 
         // Define the bounds to limit the map's view
         southWest = L.latLng(-21.9,132);//L.latLng(-28.31, 128.69887210140638); // Bottom-left corner
@@ -430,9 +391,9 @@
                if (zoomLevel >= 10) {
                    return 400; // Wider popups for zoomed-in views
                } else if (zoomLevel >= 5) {
-                   return 300; // Moderate width for mid-range zoom
+                   return 200; // Moderate width for mid-range zoom
                } else {
-                   return 200; // Narrower popups for zoomed-out views
+                   return 100; // Narrower popups for zoomed-out views
                }
            }
 
@@ -441,11 +402,11 @@
                 <div>
                     <strong>${station.name}</strong><br>
                     <div class="label">CMORPH Time Series</div><br>
-                    <strong>&bull; <a href="${str180day + station.name + '.gif'}" target="_blank"> (180-day Estimates)</a>
+                    <strong>&bull; <a href="${str180day + station.name + '.gif'}" target="_blank"> (180-day)</a>
                     <img class="gif-preview" src="${str180day + station.name + '.gif'}"><br>
-                     <strong>&bull;<a href="${str90day + station.name + '.gif'}" target="_blank"> (90-day Estimates)</a>
+                     <strong>&bull;<a href="${str90day + station.name + '.gif'}" target="_blank"> (90-day)</a>
                     <img class="gif-preview" src="${str90day + station.name + '.gif'}"><br>
-                     <strong>&bull;<a href="${str30day + station.name + '.gif'}" target="_blank"> (30-day Estimates)</a>
+                     <strong>&bull;<a href="${str30day + station.name + '.gif'}" target="_blank"> (30-day)</a>
                     <img class="gif-preview" src="${str30day + station.name + '.gif'}"><br>
                 </div>
             `;
@@ -479,23 +440,65 @@
             // Bind the popup to the marker
             markercmorph.bindPopup(popupContentcmorph, {
                 maxWidth: getPopupMaxWidth(),
-                offset: L.point(0, -1) // Adjust the popup's vertical position
+                offset: L.point(0, -1.5) // Adjust the popup's vertical position compared to marker
             });
             
             markergefswk1p.bindPopup(popupContentgefswk1p, {
                 maxWidth: getPopupMaxWidth(),
-                offset: L.point(0, -1) // Adjust the popup's vertical position
+                offset: L.point(0, -1)
             });
             
             markergefswk2p.bindPopup(popupContentgefswk2p, {
                 maxWidth: getPopupMaxWidth(),
-                offset: L.point(0, -1) // Adjust the popup's vertical position
+                offset: L.point(0, -1)
             });
             
             stationsLayercmorph.addLayer(markercmorph);
             stationsLayergefswk1p.addLayer(markergefswk1p);
             stationsLayergefswk2p.addLayer(markergefswk2p);
         });
+        
+        markercmorph.on('click', function (e) {
+            markercmorph.openPopup();
+
+            setTimeout(() => {
+                let popupEl = document.querySelector('.leaflet-popup');
+                if (!popupEl) return;
+
+                let popupHeight = popupEl.offsetHeight;
+                let mapSize = map.getSize(); // Get current map viewport size
+
+                // Step 1: Center the map first to reset any previous offsets
+                map.setView(e.latlng, map.getZoom(), { animate: false });
+
+                setTimeout(() => {
+                    // Step 2: Get the marker's pixel position after resetting the view
+                    let markerPoint = map.latLngToContainerPoint(e.latlng);
+
+                    // Calculate how much to pan based on whether popup is out of bounds
+                    let topPadding = 20; // Margin from top
+                    let bottomPadding = 50; // Margin from bottom
+                    let popupBottom = markerPoint.y + popupHeight / 2;
+                    let popupTop = markerPoint.y - popupHeight / 2;
+
+                    let panOffset = 0;
+
+                    if (popupTop < topPadding) {
+                        // If popup is going out of the top of the screen
+                        panOffset = popupTop - topPadding;
+                    } else if (popupBottom > mapSize.y - bottomPadding) {
+                        // If popup is going out of the bottom of the screen
+                        panOffset = popupBottom - (mapSize.y - bottomPadding);
+                    }
+
+                    // Step 3: Pan the map accordingly
+                    if (panOffset !== 0) {
+                        map.panBy([0, -panOffset], { animate: true });
+                    }
+                }, 300); // Small delay to let the view update first
+            }, 300);
+        });
+           
 
         obsOverlays_sstestimates = {
             [`<a href="${htmllinks['SST Estimates']['OISST SST 7-Day Anomaly']}" target="_blank">OISST SST 7-Day Anomaly</a>`] : lyrsst7dayanom,
@@ -783,7 +786,7 @@
        var sstLabel = document.createElement('div');
        sstLabel.className = 'leaflet-control-label';
        sstLabel.innerHTML = 'SST Monitors';
-       sstlayerList.insertBefore(sstLabel, sstlayerList.firstChild); //sstlayerList.childNodes[0]); // Place it before the first overlay
+       sstlayerList.insertBefore(sstLabel, sstlayerList.childNodes[0]); // Place it before the first overlay
 
        // Add section labels to the control (custom)
        var monitorContainer = ctlmonitors.getContainer();
