@@ -38,7 +38,7 @@ ydimgef = 361
 xmingef= 0
 xmaxgef=360
 ymingef=-90
-ymaxgef=90
+ymaxgef=89.5
 zdimgef = 15
 
 minptotal = 0
@@ -115,13 +115,13 @@ gefs_totalp = gefs_raw.isel(var=1)
 gefs_totalp = gefs_totalp.to_dataset(name = 'tp')
 gefs_totalp = gefs_totalp.rename({'lon':'x', 'lat':'y'})
 gefs_total_crs = gefs_totalp.rio.write_crs('EPSG:4326', inplace = True)
-gefs_totalp = gefs_total_crs.sel(x=slice(0,359.999), y = slice(-90,90))
+gefs_totalp = gefs_total_crs.sel(x=slice(0,359.999), y=slice(-89,89))
 gefs_tp_mc = fc.convert_to_mercator(gefs_totalp, 'tp')
 gefs_tpnorm = np.clip(gefs_tp_mc.tp, minptotal, maxptotal)
 ptotal_cmap = ListedColormap(ptotal_colors, N=len(ptotal_colors))
 ptotal_norm = BoundaryNorm(boundaries=ptotal_intervals, ncolors=len(ptotal_colors))
 ptotal_rgb = colors.apply_colormap(gefs_tpnorm, ptotal_cmap, ptotal_norm, ptotal_intervals)
-ptotal_rgb.rio.to_raster(os.path.join(figure_dir, 'gefswk1ptotal.png'), dtype="uint8")
+ptotal_rgb.rio.to_raster(os.path.join(figure_dir, 'gefswk1ptotal.tif'), dtype="uint8")
 
 ## prep tercile forecasts
 categories = ["Below-Normal", "Near-Normal", "Above-Normal"]
