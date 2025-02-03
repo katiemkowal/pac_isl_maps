@@ -15,6 +15,7 @@ import src.file_conversion as fc
 import src.colors as colors
 import src.station_locations as sl
 
+print('prepping gefs files')
 gefs_procdir = '/cpc/africawrf/ebekele/projects/PREPARE_pacific/notebooks/unmasked'
 gefs_rawdir = '/cpc/africawrf/ebekele/projects/PREPARE_pacific/subseason_unmasked'
 figure_dir = '/cpc/int_desk/pac_isl/stations/images/'

@@ -14,6 +14,7 @@ import src.colors as colors
 import src.helper as helper
 import src.file_conversion as fc
 
+print('prepping cmorph files')
 cmorph_prd = '/cpc/fews/production/cmorph_cpcwork5/cmorph_RH6_BC_ADJ_EOD/output/bin/CMORPH_V1.0_ADJ_0.25deg-DLY_EOD_'
 cmorph_clim = '/cpc/fews/production/cmorph_cpcwork5/cmorph_RH6_BC_ADJ_EOD/output/bin/clim_dly/clim_dly.'
 figure_dir = '/cpc/int_desk/pac_isl/stations/images'
