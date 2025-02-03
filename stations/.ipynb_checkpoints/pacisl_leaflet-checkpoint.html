@@ -174,7 +174,7 @@
                 'NASA ESI': 'https://www.ncei.noaa.gov/pub/data/nidis/tile/nasa-esi-5km-4wk/{z}/{x}/{y}.png'
             },
             'Forecast Tools': {
-                'GEFS Week 1 Precip Total Forecast':  'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/gefswk1ptotal_data.png?raw=true',
+                'GEFS Week 1 Precip Total Forecast': 'https:github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/gefswk1ptotalraw_tiles/{z}/{x}/{y}.png?raw=true', //'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/gefswk1ptotal_data.png?raw=true',
                 'GEFS Week 1 Precip Anomaly Forecast': 'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/gefswk1panom_data.png?raw=true',
                 'GEFS Week 1 Precip Exceedance Prob (50 mm)': 'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/gefswk1poe50_data.png?raw=true',
                 'GEFS Week 1 Precip Exceedance Prob (100 mm)': 'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/gefswk1poe100_data.png?raw=true',
@@ -279,7 +279,7 @@
         lyresi = L.tileLayer(layerlinks['Monitor Tools']['NASA ESI'], {opacity:0.5});
         lyrfcst_NMME1mopanom = L.imageOverlay(layerlinks['Forecast Tools']['NMME 1 Month Precip Anomaly Forecast'], nmme_bounds, {opacity:0.5});
         lyrfcst_NMME1mospi = L.imageOverlay(layerlinks['Forecast Tools']['NMME 1 Month SPI Forecast'], nmme_bounds, {opacity:0.5});
-        lyrfcst_gefswk1ptotal = L.imageOverlay(layerlinks['Forecast Tools']['GEFS Week 1 Precip Total Forecast'], gefs_bounds, {opacity:0.5});
+        lyrfcst_gefswk1ptotal = L.tileLayer(layerlinks['Forecast Tools']['GEFS Week 1 Precip Total Forecast'],{opacity:0.5});//gefs_bounds, 
         lyrfcst_gefswk1panom = L.imageOverlay(layerlinks['Forecast Tools']['GEFS Week 1 Precip Anomaly Forecast'], gefs_bounds, {opacity:0.5});
         lyrfcst_gefswk1ttotal = L.imageOverlay(layerlinks['Forecast Tools']['GEFS Week 1 Temp Total Forecast'], gefs_bounds, {opacity:0.5});
         lyrfcst_gefswk1tanom = L.imageOverlay(layerlinks['Forecast Tools']['GEFS Week 1 Temp Anomaly Forecast'], gefs_bounds, {opacity:0.5});

@@ -37,7 +37,7 @@ ydimgef = 361
 xmingef= 0
 xmaxgef=360
 ymingef=-90
-ymaxgef=0.5
+ymaxgef=90
 zdimgef = 15
 
 minptotal = 0
