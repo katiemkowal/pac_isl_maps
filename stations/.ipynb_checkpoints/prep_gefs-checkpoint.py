@@ -1,4 +1,5 @@
 import os
+from pathlib import Path
 from datetime import datetime,timedelta
 import numpy as np
 import xarray as xr
@@ -17,6 +18,27 @@ import src.station_locations as sl
 gefs_procdir = '/cpc/africawrf/ebekele/projects/PREPARE_pacific/notebooks/unmasked'
 gefs_rawdir = '/cpc/africawrf/ebekele/projects/PREPARE_pacific/subseason_unmasked'
 figure_dir = '/cpc/int_desk/pac_isl/stations/images/'
+
+#get current date for raw gefs
+c_date = datetime.now().date()
+c_month = c_date.month
+c_day = c_date.day
+if c_month < 10:
+    c_month = '0' + str(c_month)
+else: c_month = str(c_month)
+if c_day < 10:
+    c_day = '0' + str(c_day)
+else: c_day = str(c_day)
+date_str = str(c_date.year) + c_month + c_day
+
+## gefs raw ctl file from endalk's script
+xdimgef = 720
+ydimgef = 361
+xmingef= 0
+xmaxgef=360
+ymingef=-90
+ymaxgef=0.5
+zdimgef = 15
 
 minptotal = 0
 maxptotal = 3500
@@ -85,6 +107,22 @@ an_colors = [
     (3/255, 56/255, 47/255)
 ]
 
+## read in raw gefs data
+gefs_raw = fc.read_in_binary_gefs(os.path.join(gefs_rawdir,'gefs_week1_precip_' + date_str + 'IC.dat'), xdimgef, ydimgef, zdimgef, xmingef, xmaxgef, ymingef, ymaxgef)
+
+gefs_totalp = gefs_raw.isel(var=1)
+gefs_totalp = gefs_totalp.to_dataset(name = 'tp')
+gefs_totalp = gefs_totalp.rename({'lon':'x', 'lat':'y'})
+gefs_total_crs = gefs_totalp.rio.write_crs('EPSG:4326', inplace = True)
+gefs_totalp = gefs_total_crs.sel(x=slice(0,359.999), y = slice(-59,59))
+gefs_tp_mc = fc.convert_to_mercator(gefs_totalp, 'tp')
+gefs_tpnorm = np.clip(gefs_tp_mc.tp, minptotal, maxptotal)
+ptotal_cmap = ListedColormap(ptotal_colors, N=len(ptotal_colors))
+ptotal_norm = BoundaryNorm(boundaries=ptotal_intervals, ncolors=len(ptotal_colors))
+ptotal_rgb = colors.apply_colormap(gefs_tpnorm, ptotal_cmap, ptotal_norm, ptotal_intervals)
+ptotal_rgb.rio.to_raster(os.path.join(figure_dir, 'gefswk1ptotal.png'), dtype="uint8")
+
+## prep tercile forecasts
 categories = ["Below-Normal", "Near-Normal", "Above-Normal"]
 # Create colormaps
 bn_cmap = ListedColormap(bn_colors, N=len(bn_colors))
@@ -96,9 +134,15 @@ intervals = {"Below-Normal": bn_intervals, "Near-Normal": nn_intervals, "Above-N
 gefs_wk1cons = xr.open_dataset(os.path.join(gefs_procdir, 'gefs_week_1_cons.nc'))
 gefs_wk1cca =  xr.open_dataset(os.path.join(gefs_procdir, 'gefs_week1_cca.nc'))
 gefs_wk1elr = xr.open_dataset(os.path.join(gefs_procdir, 'gefs_week1_elr.nc'))
-gefs_wk2cons = xr.open_dataset(os.path.join(gefs_procdir, 'gefs_week_2_cons.nc'))
-gefs_wk2cca = xr.open_dataset(os.path.join(gefs_procdir, 'gefs_week2_cca.nc'))
-gefs_wk2elr = xr.open_dataset(os.path.join(gefs_procdir, 'gefs_week2_elr.nc'))
+if Path(os.path.join(gefs_procdir, 'gefs_week_2_cons.nc')).is_file():
+    gefs_wk2cons = xr.open_dataset(os.path.join(gefs_procdir, 'gefs_week_2_cons.nc'))
+else: gefs_wk2cons = xr.open_dataset(os.path.join(gefs_procdir, 'gefs_week_1_cons.nc'))
+if Path(os.path.join(gefs_procdir, 'gefs_week2_cca.nc')).is_file():
+    gefs_wk2cca = xr.open_dataset(os.path.join(gefs_procdir, 'gefs_week2_cca.nc'))
+else: gefs_wk2cca = xr.open_dataset(os.path.join(gefs_procdir, 'gefs_week1_cca.nc'))
+if Path(os.path.join(gefs_procdir, 'gefs_week2_elr.nc')).is_file():
+    gefs_wk2elr = xr.open_dataset(os.path.join(gefs_procdir, 'gefs_week2_elr.nc'))
+else: gefs_wk2elr = xr.open_dataset(os.path.join(gefs_procdir, 'gefs_week1_elr.nc'))
 
 gefs_wk1cons = gefs_wk1cons.rename({'lon':'x', 'lat':'y'})
 gefs_wk1cca = gefs_wk1cca.rename({'lon':'x', 'lat':'y', 'M':'e'})
@@ -118,7 +162,8 @@ gefswk2_pcons_rgba = colors.process_gefs_probabilities(gefs_wk2cons, categories,
                                                crs="EPSG:4326", time_index=0)
 gefswk2pcons_prep = gefswk2_pcons_rgba.to_dataset(name = 'color')
 gefswk2_pcons_mc = fc.convert_to_mercator(gefswk2pcons_prep, 'color')
-gefswk2_pcons_mc['color'].rio.to_raster(os.path.join(figure_dir,'gefswk2pcons.tif'), dtype = 'uint8')
+if Path(os.path.join(gefs_procdir, 'gefs_week_2_cons.nc')).is_file():
+    gefswk2_pcons_mc['color'].rio.to_raster(os.path.join(figure_dir,'gefswk2pcons.tif'), dtype = 'uint8')
 
 
 cons1_stations = []
@@ -274,30 +319,33 @@ for s, station in enumerate(sl.stations):
     plt.close()  # Close the plot to avoid memory issues
     
     # Week 2 consolidated plot
-    plt.bar(categories, bar2_data, color=colors2)
-    # Add labels and title
-    plt.ylabel("Probability (%)")
-    plt.ylim(0,85)
-    plt.title(station['name'] + ' GEFS Week 2 Consolidated Precip Probabilities')
-    # Save the box plot as a PNG file with the station name
-    plt.tight_layout()
-    plt.savefig(os.path.join(figure_dir, 'station_data', f"{station['name']}_pconswk2bar.png"))  # Save as PNG file
-    plt.close()  # Close the plot to avoid memory issues
+    if Path(os.path.join(gefs_procdir, 'gefs_week2_cons.nc')).is_file():
+        plt.bar(categories, bar2_data, color=colors2)
+        # Add labels and title
+        plt.ylabel("Probability (%)")
+        plt.ylim(0,85)
+        plt.title(station['name'] + ' GEFS Week 2 Consolidated Precip Probabilities')
+        # Save the box plot as a PNG file with the station name
+        plt.tight_layout()
+        plt.savefig(os.path.join(figure_dir, 'station_data', f"{station['name']}_pconswk2bar.png"))  # Save as PNG file
+        plt.close()  # Close the plot to avoid memory issues
     
     # CCA tercile bar plot WEEK 2
-    plt.bar(categories, bar2_ccadata, color=colors2cca)
-    plt.ylabel("Probability (%)")
-    plt.ylim(0,85)
-    plt.title(station['name'] + ' GEFS Week 2 CCA Precip Probabilities')
-    plt.tight_layout()
-    plt.savefig(os.path.join(figure_dir, 'station_data', f"{station['name']}_pccaswk2bar.png"))  # Save as PNG file
-    plt.close()  # Close the plot to avoid memory issues
+    if Path(os.path.join(gefs_procdir, 'gefs_week2_cca.nc')).is_file():
+        plt.bar(categories, bar2_ccadata, color=colors2cca)
+        plt.ylabel("Probability (%)")
+        plt.ylim(0,85)
+        plt.title(station['name'] + ' GEFS Week 2 CCA Precip Probabilitish states')
+        plt.tight_layout()
+        plt.savefig(os.path.join(figure_dir, 'station_data', f"{station['name']}_pccaswk2bar.png"))  # Save as PNG file
+        plt.close()  # Close the plot to avoid memory issues
 
     # ELR tercile bar plot WEEK 2
-    plt.bar(categories, bar2_elrdata, color=colors2elr)
-    plt.ylabel("Probability (%)")
-    plt.ylim(0,85)
-    plt.title(station['name'] + ' GEFS Week 2 ELR Precip Probabilities')
-    plt.tight_layout()
-    plt.savefig(os.path.join(figure_dir, 'station_data', f"{station['name']}_pelrwk2bar.png"))  # Save as PNG file
-    plt.close()  # Close the plot to avoid memory issues
+    if Path(os.path.join(gefs_procdir, 'gefs_week2_elr.nc')).is_file():
+        plt.bar(categories, bar2_elrdata, color=colors2elr)
+        plt.ylabel("Probability (%)")
+        plt.ylim(0,85)
+        plt.title(station['name'] + ' GEFS Week 2 ELR Precip Probabilities')
+        plt.tight_layout()
+        plt.savefig(os.path.join(figure_dir, 'station_data', f"{station['name']}_pelrwk2bar.png"))  # Save as PNG file
+        plt.close()  # Close the plot to avoid memory issues
