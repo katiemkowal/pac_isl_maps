@@ -45,12 +45,18 @@ minptotal = 0
 maxptotal = 3500
 minpanom= -75
 maxpanom = 75
+minp50 = 0
+maxp50 = 100
+minp100 = 0
+maxp100 = 100
 
 ptotal_intervals = [0, 2, 5, 10, 25, 50, 75, 100,
                     150, 200, 300, 500, 750,1000,
                     1500, 2500, 3500]
 panom_intervals = [-75, -50, -40,-30,-20,-10,-5,
                     5,10,20,30,40,50,75]
+p50_intervals = [0,5,10,20,30,40,50,60,70,80,90,95,100]
+p100_intervals = [0,5,10,20,30,40,50,60,70,80,90,95,100]
 
 ptotal_colors = [
     (254/255, 254/255, 254/255), #off white
@@ -85,6 +91,9 @@ panom_colors = [
     (54/255, 207/255,  59/255), #med green
     (22/255, 167/255,  22/255), #dark green
     (14/255,  83/255,  15/255) #darkest green)
+]
+
+poe_colors = [
 ]
 
 # Define intervals and colors
@@ -134,7 +143,8 @@ gefs_raw = fc.read_in_binary_gefs(os.path.join(gefs_rawdir,'gefs_week1_precip_' 
 gefs_totalp = gefs_raw.isel(var=1).drop('var')
 gefs_totalclim = gefs_raw.isel(var=0).drop('var')
 gefs_panom = gefs_totalp - gefs_totalclim
-
+gefs_probs50 = gefs_raw.isel(var=6)
+gefs_probs100 = gefs_raw.isel(var=7)
 
 gefs_totalp = gefs_totalp.to_dataset(name = 'tp')
 gefs_totalp = gefs_totalp.rename({'lon':'x', 'lat':'y'})
@@ -157,6 +167,13 @@ panom_cmap = ListedColormap(panom_colors, N=len(panom_colors))
 panom_norm = BoundaryNorm(boundaries=panom_intervals, ncolors=len(panom_colors))
 panom_rgb = colors.apply_colormap(gefs_panom_norm, panom_cmap, panom_norm, panom_intervals)
 panom_rgb.rio.to_raster(os.path.join(figure_dir, 'gefswk1panom.tif'), dtype="uint8")
+
+gefs_probs50 = gefs_probs50.to_dataset(name='p50')
+gefs_probs50 = gefs_probs50.rename({'lon':'x', 'lat':'y'})
+gefs_probs50slice = gefs_probs50.sel(x=slice(0,359.999), y=slice(-80,80))
+gefs_probs50_crs = gefs_probs50slice.rio.write_crs('EPSG:4326', inplace = True)
+gefs_probs50_mc = fc.convert_to_mercator(gefs_probs50_crs, 'p50')
+gefs_probs50_norm = np.clip(gefs_probs50_mc.anom, minp50, maxp50)
 
 ## prep tercile forecasts
 categories = ["Below-Normal", "Near-Normal", "Above-Normal"]
