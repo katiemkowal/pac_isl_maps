@@ -36,7 +36,8 @@ main(){
     # gdal2tiles.py -p mercator -z 0-5 /cpc/int_desk/pac_isl/stations/images/cmorph7total.tif /cpc/int_desk/pac_isl/stations/images/cmorph7total_tiles
     # gdal2tiles.py -p mercator -z 0-5 /cpc/int_desk/pac_isl/stations/images/gefswk1pcons.tif /cpc/int_desk/pac_isl/stations/images/gefswk1pcons_tiles
     # gdal2tiles.py -p mercator -z 0-5 /cpc/int_desk/pac_isl/stations/images/gefswk2pcons.tif /cpc/int_desk/pac_isl/stations/images/gefswk2pcons_tiles
-    gdal2tiles.py -p mercator -z 0-5 /cpc/int_desk/pac_isl/stations/images/gefswk1ptotal.tif /cpc/int_desk/pac_isl/stations/images/gefswk1ptotalraw_tiles
+    # gdal2tiles.py -p mercator -z 0-5 /cpc/int_desk/pac_isl/stations/images/gefswk1ptotal.tif /cpc/int_desk/pac_isl/stations/images/gefswk1ptotalraw_tiles
+    gdal2tiles.py -p mercator -z 0-5 /cpc/int_desk/pac_isl/stations/images/gefswk1panom.tif /cpc/int_desk/pac_isl/stations/images/gefswk1panomraw_tiles
 
     current_branch=temp-branch
     log "Current branch: $current_branch"

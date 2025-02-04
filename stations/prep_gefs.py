@@ -43,10 +43,14 @@ zdimgef = 15
 
 minptotal = 0
 maxptotal = 3500
+minpanom= -75
+maxpanom = 75
 
 ptotal_intervals = [0, 2, 5, 10, 25, 50, 75, 100,
                     150, 200, 300, 500, 750,1000,
                     1500, 2500, 3500]
+panom_intervals = [-75, -50, -40,-30,-20,-10,-5,
+                    5,10,20,30,40,50,75]
 
 ptotal_colors = [
     (254/255, 254/255, 254/255), #off white
@@ -65,6 +69,23 @@ ptotal_colors = [
     (163/255,   0/255,   0/255), #dark red
     (227/255, 138/255, 138/255), #rose
     (244/255, 232/255, 232/255) #light pink
+]
+
+panom_colors = [
+    (96/255,  59/255,  49/255), #darkest brown
+    (113/255,  81/255,  73/255), #second darkest brown
+    (139/255,  99/255,  89/255), #med brown
+    (171/255, 142/255, 135/255), #med light brown
+    (243/255, 238/255, 232/255), #tan
+    (254/255, 254/255, 254/255), #white
+    (238/255, 253/255, 223/255), #off white green
+    (178/255, 247/255, 168/255), #light green
+    (119/255, 243/255, 114/255), #bright green
+    (54/255, 207/255,  59/255), #med green
+    (22/255, 167/255,  22/255), #dark green
+    (14/255,  83/255,  15/255), #darkest green)
+    (54/255, 207/255,  59/255), #med green
+    
 ]
 
 # Define intervals and colors
@@ -112,18 +133,31 @@ an_colors = [
 gefs_raw = fc.read_in_binary_gefs(os.path.join(gefs_rawdir,'gefs_week1_precip_' + date_str + 'IC.dat'), xdimgef, ydimgef, zdimgef, xmingef, xmaxgef, ymingef, ymaxgef)
 
 gefs_totalp = gefs_raw.isel(var=1).drop('var')
+gefs_totalclim = gefs_raw.isel(var=0).drop('var')
+gefs_panom = gefs_totalp - gefs_totalclim
+
 
 gefs_totalp = gefs_totalp.to_dataset(name = 'tp')
 gefs_totalp = gefs_totalp.rename({'lon':'x', 'lat':'y'})
 gefs_total_slice = gefs_totalp.sel(x=slice(0,359.999), y=slice(-80,80))
-gefs_total_crs = gefs_total_slice.rio.write_crs('EPSG:4326', inplace = False)
+gefs_total_crs = gefs_total_slice.rio.write_crs('EPSG:4326', inplace = True)
 gefs_tp_mc = fc.convert_to_mercator(gefs_total_crs, 'tp')
 gefs_tpnorm = np.clip(gefs_tp_mc.tp, minptotal, maxptotal)
 ptotal_cmap = ListedColormap(ptotal_colors, N=len(ptotal_colors))
 ptotal_norm = BoundaryNorm(boundaries=ptotal_intervals, ncolors=len(ptotal_colors))
-print(gefs_tpnorm)
 ptotal_rgb = colors.apply_colormap(gefs_tpnorm, ptotal_cmap, ptotal_norm, ptotal_intervals)
 ptotal_rgb.rio.to_raster(os.path.join(figure_dir, 'gefswk1ptotal.tif'), dtype="uint8")
+
+gefs_panom = gefs_panom.to_dataset(name='anom')
+gefs_panom = gefs_panom.rename({'lon':'x', 'lat':'y'})
+gefs_panomslice = gefs_panom.sel(x=slice(0,359.999), y=slice(-80,80))
+gefs_panom_crs = gefs_panomslice.rio.write_crs('EPSG:4326', inplace = True)
+gefs_panom_mc = fc.convert_to_mercator(gefs_panom_crs, 'anom')
+gefs_panom_norm = np.clip(gefs_panom_mc.anom, minpanom, maxpanom)
+panom_cmap = ListedColormap(panom_colors, N=len(panom_colors))
+panom_norm = BoundaryNorm(boundaries=panom_intervals, ncolors=len(panom_colors))
+panom_rgb = colors.apply_colormap(gefs_panom_norm, panom_cmap, panom_norm, panom_intervals)
+panom_rgb.rio.to_raster(os.path.join(figure_dir, 'gefswk1panom.tif'), dtype="uint8")
 
 ## prep tercile forecasts
 categories = ["Below-Normal", "Near-Normal", "Above-Normal"]

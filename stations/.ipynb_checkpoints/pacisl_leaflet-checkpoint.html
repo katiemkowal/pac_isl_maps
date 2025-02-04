@@ -279,7 +279,7 @@
         lyresi = L.tileLayer(layerlinks['Monitor Tools']['NASA ESI'], {opacity:0.5});
         lyrfcst_NMME1mopanom = L.imageOverlay(layerlinks['Forecast Tools']['NMME 1 Month Precip Anomaly Forecast'], nmme_bounds, {opacity:0.5});
         lyrfcst_NMME1mospi = L.imageOverlay(layerlinks['Forecast Tools']['NMME 1 Month SPI Forecast'], nmme_bounds, {opacity:0.5});
-        lyrfcst_gefswk1ptotal = L.tileLayer(layerlinks['Forecast Tools']['GEFS Week 1 Precip Total Forecast'],{opacity:0.5});//gefs_bounds, 
+        lyrfcst_gefswk1ptotal = L.tileLayer(layerlinks['Forecast Tools']['GEFS Week 1 Precip Total Forecast'],{opacity:0.5, tms:true});//gefs_bounds, 
         lyrfcst_gefswk1panom = L.imageOverlay(layerlinks['Forecast Tools']['GEFS Week 1 Precip Anomaly Forecast'], gefs_bounds, {opacity:0.5});
         lyrfcst_gefswk1ttotal = L.imageOverlay(layerlinks['Forecast Tools']['GEFS Week 1 Temp Total Forecast'], gefs_bounds, {opacity:0.5});
         lyrfcst_gefswk1tanom = L.imageOverlay(layerlinks['Forecast Tools']['GEFS Week 1 Temp Anomaly Forecast'], gefs_bounds, {opacity:0.5});
