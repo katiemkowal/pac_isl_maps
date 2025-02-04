@@ -93,6 +93,21 @@ panom_colors = [
     (14/255,  83/255,  15/255) #darkest green)
 ]
 
+poe_colors = [
+    (254/255, 254/255, 254/255), #off white
+    (230/255, 252/255, 226/255), #lightest green
+    (177/255, 247/255, 168/255), #light green
+    (118/255, 241/255, 113/255), #bright green
+    (54/255, 207/255,  59/255), #med green
+    (118/255, 241/255, 113/255), #dark med green
+    (148/255, 208/255, 247/255), #sky blue
+    (190/255, 178/255, 252/255), #light purple
+    (126/255, 110/255, 232/255), #med purple
+    (71/255,  60/255, 197/255), #violet
+    (44/255,  30/255, 162/255), #dark purple
+    (29/255, 108/255, 231/255) #royal blue 
+]
+
 # Define intervals and colors
 bn_intervals = [0, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85,100]
 bn_colors = [
@@ -171,6 +186,21 @@ gefs_probs50slice = gefs_probs50.sel(x=slice(0,359.999), y=slice(-80,80))
 gefs_probs50_crs = gefs_probs50slice.rio.write_crs('EPSG:4326', inplace = True)
 gefs_probs50_mc = fc.convert_to_mercator(gefs_probs50_crs, 'p50')
 gefs_probs50_norm = np.clip(gefs_probs50_mc.anom, minp50, maxp50)
+poe50_cmap = ListedColormap(poe50_colors, N=len(poe50_colors))
+poe50_norm = BoundaryNorm(boundaries=poe50_intervals, ncolors=len(poe50_colors))
+poe50_rgb = colors.apply_colormap(gefs_probs50_norm, poe50_cmap, poe50_norm, poe50_intervals)
+poe50_rgb.rio.to_raster(os.path.join(figure_dir, 'gefswk1poe50.tif'), dtype="uint8")
+
+gefs_probs100 = gefs_probs100.to_dataset(name='p50')
+gefs_probs100 = gefs_probs100.rename({'lon':'x', 'lat':'y'})
+gefs_probs100slice = gefs_probs100.sel(x=slice(0,359.999), y=slice(-80,80))
+gefs_probs100_crs = gefs_probs100slice.rio.write_crs('EPSG:4326', inplace = True)
+gefs_probs100_mc = fc.convert_to_mercator(gefs_probs100_crs, 'p50')
+gefs_probs100_norm = np.clip(gefs_probs100_mc.anom, minp100, maxp100)
+poe100_cmap = ListedColormap(poe50_colors, N=len(poe50_colors))
+poe100_norm = BoundaryNorm(boundaries=poe50_intervals, ncolors=len(poe50_colors))
+poe100_rgb = colors.apply_colormap(gefs_probs100_norm, poe100_cmap, poe100_norm, poe50_intervals)
+poe100_rgb.rio.to_raster(os.path.join(figure_dir, 'gefswk1poe100.tif'), dtype="uint8")
 
 ## prep tercile forecasts
 categories = ["Below-Normal", "Near-Normal", "Above-Normal"]
