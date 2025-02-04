@@ -284,7 +284,7 @@
         lyrfcst_gefswk1ttotal = L.imageOverlay(layerlinks['Forecast Tools']['GEFS Week 1 Temp Total Forecast'], gefs_bounds, {opacity:0.5});
         lyrfcst_gefswk1tanom = L.imageOverlay(layerlinks['Forecast Tools']['GEFS Week 1 Temp Anomaly Forecast'], gefs_bounds, {opacity:0.5});
         lyrfcst_gefswk1poe50 = L.tileLayer(layerlinks['Forecast Tools']['GEFS Week 1 Precip Exceedance Prob (50 mm)'], {opacity:0.5, tms:true});//gefs_bounds
-        lyrfcst_gefswk1poe100 = L.imageOverlay(layerlinks['Forecast Tools']['GEFS Week 1 Precip Exceedance Prob (100 mm)'], gefs_bounds, {opacity:0.5});
+        lyrfcst_gefswk1poe100 = L.tileLayer(layerlinks['Forecast Tools']['GEFS Week 1 Precip Exceedance Prob (100 mm)'], {opacity:0.5, tms:true});//gefs_bounds, {opacity:0.5});
         lyrfcst_gefswk2ptotal = L.imageOverlay(layerlinks['Forecast Tools']['GEFS Week 2 Precip Total'], gefs_bounds, {opacity:0.5});
         lyrfcst_gefswk2panom = L.imageOverlay(layerlinks['Forecast Tools']['GEFS Week 2 Precip Anomaly'], gefs_bounds, {opacity:0.5});
         lyrfcst_gefswk2ttotal = L.imageOverlay(layerlinks['Forecast Tools']['GEFS Week 2 Temp Total Forecast'], gefs_bounds, {opacity:0.5});
