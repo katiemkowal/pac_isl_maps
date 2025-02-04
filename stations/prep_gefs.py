@@ -111,17 +111,17 @@ an_colors = [
 ## read in raw gefs data
 gefs_raw = fc.read_in_binary_gefs(os.path.join(gefs_rawdir,'gefs_week1_precip_' + date_str + 'IC.dat'), xdimgef, ydimgef, zdimgef, xmingef, xmaxgef, ymingef, ymaxgef)
 
-gefs_totalp = gefs_raw.isel(var=1)
+gefs_totalp = gefs_raw.isel(var=1).drop('var')
 
 gefs_totalp = gefs_totalp.to_dataset(name = 'tp')
 gefs_totalp = gefs_totalp.rename({'lon':'x', 'lat':'y'})
 gefs_total_slice = gefs_totalp.sel(x=slice(0,359.999), y=slice(-80,80))
 gefs_total_crs = gefs_total_slice.rio.write_crs('EPSG:4326', inplace = False)
 gefs_tp_mc = fc.convert_to_mercator(gefs_total_crs, 'tp')
-gefs_tp_mc = gefs_tp_mc.expand_dims({'time':[0]})
-gefs_tpnorm = np.clip(gefs_tp_mc.tp, minptotal, maxptotal)
+gefs_tpnorm = np.clip(gefs_tp_mc.tp, minptotal, maxptotal).transpose('x', 'y')
 ptotal_cmap = ListedColormap(ptotal_colors, N=len(ptotal_colors))
 ptotal_norm = BoundaryNorm(boundaries=ptotal_intervals, ncolors=len(ptotal_colors))
+print(gefs_tpnorm)
 ptotal_rgb = colors.apply_colormap(gefs_tpnorm, ptotal_cmap, ptotal_norm, ptotal_intervals)
 ptotal_rgb.rio.to_raster(os.path.join(figure_dir, 'gefswk1ptotal.tif'), dtype="uint8")
 
@@ -154,7 +154,6 @@ gefs_wk2cons = gefs_wk2cons.rename({'lon':'x', 'lat':'y'})
 gefs_wk2cca = gefs_wk2cca.rename({'lon':'x', 'lat':'y', 'M':'e'})
 gefs_wk2elr = gefs_wk2elr.rename({'lon':'x', 'lat':'y', 'M':'e'})
 
-print(gefs_wk1cons)
 gefswk1_pcons_rgba = colors.process_gefs_probabilities(gefs_wk1cons, categories, colormaps, intervals,
                                                crs="EPSG:4326", time_index=0)
 

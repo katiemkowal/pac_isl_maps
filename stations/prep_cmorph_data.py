@@ -195,6 +195,7 @@ anom_norm = BoundaryNorm(boundaries=anom_intervals, ncolors=len(anom_colors))
 percent_norm = BoundaryNorm(boundaries=percent_intervals, ncolors=len(percent_colors))
 total_norm = BoundaryNorm(boundaries=total_intervals, ncolors=len(total_colors))
 
+print(last90_anomnorm)
 last90_rgb = colors.apply_colormap(last90_anomnorm, anom_cmap, anom_norm, anom_intervals)
 last90p_rgb =  colors.apply_colormap(last90_percentnorm, percent_cmap, percent_norm, percent_intervals)
 last30_rgb = colors.apply_colormap(last30_anomnorm, anom_cmap, anom_norm, anom_intervals)
