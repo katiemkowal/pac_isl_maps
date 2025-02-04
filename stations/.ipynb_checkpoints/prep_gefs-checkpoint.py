@@ -76,6 +76,7 @@ panom_colors = [
     (113/255,  81/255,  73/255), #second darkest brown
     (139/255,  99/255,  89/255), #med brown
     (171/255, 142/255, 135/255), #med light brown
+    (216/255, 187/255, 178,255), #light brown
     (243/255, 238/255, 232/255), #tan
     (254/255, 254/255, 254/255), #white
     (238/255, 253/255, 223/255), #off white green
@@ -83,9 +84,7 @@ panom_colors = [
     (119/255, 243/255, 114/255), #bright green
     (54/255, 207/255,  59/255), #med green
     (22/255, 167/255,  22/255), #dark green
-    (14/255,  83/255,  15/255), #darkest green)
-    (54/255, 207/255,  59/255), #med green
-    
+    (14/255,  83/255,  15/255) #darkest green)
 ]
 
 # Define intervals and colors
