@@ -55,8 +55,7 @@ ptotal_intervals = [0, 2, 5, 10, 25, 50, 75, 100,
                     1500, 2500, 3500]
 panom_intervals = [-75, -50, -40,-30,-20,-10,-5,
                     5,10,20,30,40,50,75]
-p50_intervals = [0,5,10,20,30,40,50,60,70,80,90,95,100]
-p100_intervals = [0,5,10,20,30,40,50,60,70,80,90,95,100]
+poe_intervals = [0,5,10,20,30,40,50,60,70,80,90,95,100]
 
 ptotal_colors = [
     (254/255, 254/255, 254/255), #off white
@@ -186,9 +185,9 @@ gefs_probs50slice = gefs_probs50.sel(x=slice(0,359.999), y=slice(-80,80))
 gefs_probs50_crs = gefs_probs50slice.rio.write_crs('EPSG:4326', inplace = True)
 gefs_probs50_mc = fc.convert_to_mercator(gefs_probs50_crs, 'p50')
 gefs_probs50_norm = np.clip(gefs_probs50_mc.p50, minp50, maxp50)
-poe50_cmap = ListedColormap(poe50_colors, N=len(poe50_colors))
-poe50_norm = BoundaryNorm(boundaries=poe50_intervals, ncolors=len(poe50_colors))
-poe50_rgb = colors.apply_colormap(gefs_probs50_norm, poe50_cmap, poe50_norm, poe50_intervals)
+poe_cmap = ListedColormap(poe_colors, N=len(poe_colors))
+poe_norm = BoundaryNorm(boundaries=poe_intervals, ncolors=len(poe_colors))
+poe50_rgb = colors.apply_colormap(gefs_probs50_norm, poe_cmap, poe_norm, poe_intervals)
 poe50_rgb.rio.to_raster(os.path.join(figure_dir, 'gefswk1poe50.tif'), dtype="uint8")
 
 gefs_probs100 = gefs_probs100.to_dataset(name='p100')
@@ -197,9 +196,7 @@ gefs_probs100slice = gefs_probs100.sel(x=slice(0,359.999), y=slice(-80,80))
 gefs_probs100_crs = gefs_probs100slice.rio.write_crs('EPSG:4326', inplace = True)
 gefs_probs100_mc = fc.convert_to_mercator(gefs_probs100_crs, 'p100')
 gefs_probs100_norm = np.clip(gefs_probs100_mc.p100, minp100, maxp100)
-poe100_cmap = ListedColormap(poe50_colors, N=len(poe50_colors))
-poe100_norm = BoundaryNorm(boundaries=poe50_intervals, ncolors=len(poe50_colors))
-poe100_rgb = colors.apply_colormap(gefs_probs100_norm, poe100_cmap, poe100_norm, poe50_intervals)
+poe100_rgb = colors.apply_colormap(gefs_probs100_norm, poe_cmap, poe_norm, poe_intervals)
 poe100_rgb.rio.to_raster(os.path.join(figure_dir, 'gefswk1poe100.tif'), dtype="uint8")
 
 ## prep tercile forecasts

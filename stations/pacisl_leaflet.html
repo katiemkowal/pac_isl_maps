@@ -176,8 +176,8 @@
             'Forecast Tools': {
                 'GEFS Week 1 Precip Total Forecast': 'https:github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/gefswk1ptotalraw_tiles/{z}/{x}/{y}.png?raw=true', //'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/gefswk1ptotal_data.png?raw=true',
                 'GEFS Week 1 Precip Anomaly Forecast':  'https:github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/gefswk1panomraw_tiles/{z}/{x}/{y}.png?raw=true', //'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/gefswk1panom_data.png?raw=true',
-                'GEFS Week 1 Precip Exceedance Prob (50 mm)': 'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/gefswk1poe50_data.png?raw=true',
-                'GEFS Week 1 Precip Exceedance Prob (100 mm)': 'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/gefswk1poe100_data.png?raw=true',
+                'GEFS Week 1 Precip Exceedance Prob (50 mm)': 'https:github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/gefswk1poe50raw_tiles/{z}/{x}/{y}.png?raw=true',//'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/gefswk1poe50_data.png?raw=true',
+                'GEFS Week 1 Precip Exceedance Prob (100 mm)': 'https:github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/gefswk1poe100raw_tiles/{z}/{x}/{y}.png?raw=true',//'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/gefswk1poe100_data.png?raw=true',
                 'GEFS Week 1 Raw Precip Tercile Prob': 'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/gefswk1rawter_data.png?raw=true',
                 'GEFS Week 1 Consolidated Precip Tercile Prob': 'https:github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/gefswk1pcons_tiles/{z}/{x}/{y}.png?raw=true',// 'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/gefswk1conster_data.png?raw=true',
                 'GEFS Week 1 Temp Total Forecast': 'https://github.com/katiemkowal/pac_isl_maps/blob/temp-branch/stations/images/gefswk1ttotal_data.png?raw=true',
@@ -283,7 +283,7 @@
         lyrfcst_gefswk1panom = L.tileLayer(layerlinks['Forecast Tools']['GEFS Week 1 Precip Anomaly Forecast'],{opacity:0.5, tms:true});// gefs_bounds, 
         lyrfcst_gefswk1ttotal = L.imageOverlay(layerlinks['Forecast Tools']['GEFS Week 1 Temp Total Forecast'], gefs_bounds, {opacity:0.5});
         lyrfcst_gefswk1tanom = L.imageOverlay(layerlinks['Forecast Tools']['GEFS Week 1 Temp Anomaly Forecast'], gefs_bounds, {opacity:0.5});
-        lyrfcst_gefswk1poe50 = L.imageOverlay(layerlinks['Forecast Tools']['GEFS Week 1 Precip Exceedance Prob (50 mm)'], gefs_bounds, {opacity:0.5});
+        lyrfcst_gefswk1poe50 = L.tileLayer(layerlinks['Forecast Tools']['GEFS Week 1 Precip Exceedance Prob (50 mm)'], {opacity:0.5, tms:true});//gefs_bounds
         lyrfcst_gefswk1poe100 = L.imageOverlay(layerlinks['Forecast Tools']['GEFS Week 1 Precip Exceedance Prob (100 mm)'], gefs_bounds, {opacity:0.5});
         lyrfcst_gefswk2ptotal = L.imageOverlay(layerlinks['Forecast Tools']['GEFS Week 2 Precip Total'], gefs_bounds, {opacity:0.5});
         lyrfcst_gefswk2panom = L.imageOverlay(layerlinks['Forecast Tools']['GEFS Week 2 Precip Anomaly'], gefs_bounds, {opacity:0.5});
