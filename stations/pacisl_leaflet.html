@@ -285,12 +285,12 @@
         lyrfcst_gefswk1tanom = L.imageOverlay(layerlinks['Forecast Tools']['GEFS Week 1 Temp Anomaly Forecast'], gefs_bounds, {opacity:0.5});
         lyrfcst_gefswk1poe50 = L.tileLayer(layerlinks['Forecast Tools']['GEFS Week 1 Precip Exceedance Prob (50 mm)'], {opacity:0.5, tms:true});//gefs_bounds
         lyrfcst_gefswk1poe100 = L.tileLayer(layerlinks['Forecast Tools']['GEFS Week 1 Precip Exceedance Prob (100 mm)'], {opacity:0.5, tms:true});//gefs_bounds, {opacity:0.5});
-        lyrfcst_gefswk2ptotal = L.imageOverlay(layerlinks['Forecast Tools']['GEFS Week 2 Precip Total'], gefs_bounds, {opacity:0.5});
-        lyrfcst_gefswk2panom = L.imageOverlay(layerlinks['Forecast Tools']['GEFS Week 2 Precip Anomaly'], gefs_bounds, {opacity:0.5});
+        lyrfcst_gefswk2ptotal = L.tileLayer(layerlinks['Forecast Tools']['GEFS Week 2 Precip Total'], {opacity:0.5, tms:true});//gefs_bounds, 
+        lyrfcst_gefswk2panom = L.tileLayer(layerlinks['Forecast Tools']['GEFS Week 2 Precip Anomaly'], {opacity:0.5, tms:true}); //gefs_bounds, 
         lyrfcst_gefswk2ttotal = L.imageOverlay(layerlinks['Forecast Tools']['GEFS Week 2 Temp Total Forecast'], gefs_bounds, {opacity:0.5});
         lyrfcst_gefswk2tanom = L.imageOverlay(layerlinks['Forecast Tools']['GEFS Week 2 Temp Anomaly Forecast'], gefs_bounds, {opacity:0.5});
-        lyrfcst_gefswk2poe50 = L.imageOverlay(layerlinks['Forecast Tools']['GEFS Week 2 Precip Exceedance Prob (50 mm)'], gefs_bounds, {opacity:0.5});
-        lyrfcst_gefswk2poe100 = L.imageOverlay(layerlinks['Forecast Tools']['GEFS Week 2 Precip Exceedance Prob (100 mm)'], gefs_bounds, {opacity:0.5});
+        lyrfcst_gefswk2poe50 = L.tileLayer(layerlinks['Forecast Tools']['GEFS Week 2 Precip Exceedance Prob (50 mm)'], {opacity:0.5, tms:true});//gefs_bounds, 
+        lyrfcst_gefswk2poe100 = L.tileLayer(layerlinks['Forecast Tools']['GEFS Week 2 Precip Exceedance Prob (100 mm)'], {opacity:0.5, tms:true});//gefs_bounds, 
         lyrfcst_gefswk1traw = L.imageOverlay(layerlinks['Forecast Tools']['GEFS Week 1 Raw Precip Tercile Prob'], gefst_bounds, {opacity:0.5});
         lyrfcst_gefswk2traw = L.imageOverlay(layerlinks['Forecast Tools']['GEFS Week 2 Raw Precip Tercile Prob'], gefst_bounds, {opacity:0.5});
         lyrfcst_gefswk1tcons = L.tileLayer(layerlinks['Forecast Tools']['GEFS Week 1 Consolidated Precip Tercile Prob'], {opacity:0.5, tms:true});//gefst_bounds bounds: gefstile_bounds
