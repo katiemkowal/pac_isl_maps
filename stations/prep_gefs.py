@@ -151,12 +151,14 @@ an_colors = [
 ## read in raw gefs data
 gefs_raw = fc.read_in_binary_gefs(os.path.join(gefs_rawdir,'gefs_week1_precip_' + date_str + 'IC.dat'), xdimgef, ydimgef, zdimgef, xmingef, xmaxgef, ymingef, ymaxgef)
 
+#variables based on endalk's documentation
 gefs_totalp = gefs_raw.isel(var=1).drop('var')
 gefs_totalclim = gefs_raw.isel(var=0).drop('var')
 gefs_panom = gefs_totalp - gefs_totalclim
 gefs_probs50 = gefs_raw.isel(var=6)
 gefs_probs100 = gefs_raw.isel(var=7)
 
+#gefs wk 1 raw total precip
 gefs_totalp = gefs_totalp.to_dataset(name = 'tp')
 gefs_totalp = gefs_totalp.rename({'lon':'x', 'lat':'y'})
 gefs_total_slice = gefs_totalp.sel(x=slice(0,359.999), y=slice(-80,80))
@@ -168,6 +170,7 @@ ptotal_norm = BoundaryNorm(boundaries=ptotal_intervals, ncolors=len(ptotal_color
 ptotal_rgb = colors.apply_colormap(gefs_tpnorm, ptotal_cmap, ptotal_norm, ptotal_intervals)
 ptotal_rgb.rio.to_raster(os.path.join(figure_dir, 'gefswk1ptotal.tif'), dtype="uint8")
 
+#gefs wk 1 raw precip anomaly
 gefs_panom = gefs_panom.to_dataset(name='anom')
 gefs_panom = gefs_panom.rename({'lon':'x', 'lat':'y'})
 gefs_panomslice = gefs_panom.sel(x=slice(0,359.999), y=slice(-80,80))
@@ -179,6 +182,7 @@ panom_norm = BoundaryNorm(boundaries=panom_intervals, ncolors=len(panom_colors))
 panom_rgb = colors.apply_colormap(gefs_panom_norm, panom_cmap, panom_norm, panom_intervals)
 panom_rgb.rio.to_raster(os.path.join(figure_dir, 'gefswk1panom.tif'), dtype="uint8")
 
+#gefs wk1 raw poe50
 gefs_probs50 = gefs_probs50.to_dataset(name='p50')
 gefs_probs50 = gefs_probs50.rename({'lon':'x', 'lat':'y'})
 gefs_probs50slice = gefs_probs50.sel(x=slice(0,359.999), y=slice(-80,80))
@@ -191,6 +195,7 @@ poe_norm = BoundaryNorm(boundaries=poe_intervals, ncolors=len(poe_colors))
 poe50_rgb = colors.apply_colormap(gefs_probs50_norm, poe_cmap, poe_norm, poe_intervals)
 poe50_rgb.rio.to_raster(os.path.join(figure_dir, 'gefswk1poe50.tif'), dtype="uint8")
 
+#gefs wk1 raw poe100
 gefs_probs100 = gefs_probs100.to_dataset(name='p100')
 gefs_probs100 = gefs_probs100.rename({'lon':'x', 'lat':'y'})
 gefs_probs100slice = gefs_probs100.sel(x=slice(0,359.999), y=slice(-80,80))
