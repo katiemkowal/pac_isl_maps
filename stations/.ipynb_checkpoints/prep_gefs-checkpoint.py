@@ -40,6 +40,7 @@ xmaxgef=360
 ymingef=-90
 ymaxgef=89.5
 zdimgef = 15
+zdimgeft = 5
 
 minptotal = 0
 maxptotal = 3500
@@ -49,6 +50,10 @@ minp50 = 0
 maxp50 = 100
 minp100 = 0
 maxp100 = 100
+minttotal = 24
+maxttotal = 35
+mintanom = -4
+maxtanom = 4
 
 ptotal_intervals = [0, 2, 5, 10, 25, 50, 75, 100,
                     150, 200, 300, 500, 750,1000,
@@ -56,6 +61,8 @@ ptotal_intervals = [0, 2, 5, 10, 25, 50, 75, 100,
 panom_intervals = [-75, -50, -40,-30,-20,-10,-5,
                     5,10,20,30,40,50,75]
 poe_intervals = [0,5,10,20,30,40,50,60,70,80,90,95,100]
+ttotal_intervals = [24,25,26,27,28,29,30,31,32,33,34,35]
+tanom_intervals = [-4, -3, -2, -1.5, -1, -0.5, 0.5, 1, 1.5, 2, 3, 4]
 
 ptotal_colors = [
     (254/255, 254/255, 254/255), #off white
@@ -107,6 +114,34 @@ poe_colors = [
     (29/255, 108/255, 231/255) #royal blue 
 ]
 
+ttotal_colors = [
+    (148/255, 239/255, 138/255), #lightmed green
+    (180/255, 247/255, 170/255), #light green
+    (200/255, 254/255, 190/255), #light light green
+    (252/255, 247/255, 168/255), #light yellow
+    (251/255, 189/255,  59/255), #light orange
+    (252/255,  94/255,   0/255), #med orange
+    (222/255,  19/255,   0/255), #bright red
+    (162/255,   0/255,   0/255), #dark red
+    (226/255, 110/255, 110/255), #darker rose
+    (226/255, 138/255, 138/255), #med rose
+    (248/255, 160/255, 160/255) #light rose
+]
+
+tanom_colors = [
+    (19/255,  98/255, 206/255), #dark blue
+    (39/255, 128/255, 237/255), #med blue
+    (79/255, 163/255, 24/255), #lightmed blue
+    (148/255, 207/255, 247/255), #skyblue
+    (224/255, 254/255, 255/255), #lightest blue
+    (254/255, 254/255, 254/255), #white
+    (252/255, 247/255, 168/255), #light yellow
+    (251/255, 189/255,  59/255), #light orange
+    (251/255,  94/255,   0/255), #bright orange
+    (222/255,  19/255,   0/255), #bright red
+    (162/255,   0/255,   0/255) #dark red
+]
+
 # Define intervals and colors
 bn_intervals = [0, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85,100]
 bn_colors = [
@@ -151,6 +186,8 @@ an_colors = [
 ## read in raw gefs data
 gefs_raw1 = fc.read_in_binary_gefs(os.path.join(gefs_rawdir,'gefs_week1_precip_' + date_str + 'IC.dat'), xdimgef, ydimgef, zdimgef, xmingef, xmaxgef, ymingef, ymaxgef)
 gefs_raw2 = fc.read_in_binary_gefs(os.path.join(gefs_rawdir,'gefs_week2_precip_' + date_str + 'IC.dat'), xdimgef, ydimgef, zdimgef, xmingef, xmaxgef, ymingef, ymaxgef)
+gefs_t2mraw1 = fc.read_in_binary_gefs(os.path.join(gefs_rawdir,'gefs_week1_t2m_' + date_str + 'IC.dat'), xdimgef, ydimgef, zdimgeft, xmingef, xmaxgef, ymingef, ymaxgef)
+gefs_t2mraw2 = fc.read_in_binary_gefs(os.path.join(gefs_rawdir,'gefs_week2_t2m_' + date_str + 'IC.dat'), xdimgef, ydimgef, zdimgeft, xmingef, xmaxgef, ymingef, ymaxgef)
 #variables based on endalk's documentation
 gefs1_totalp = gefs_raw1.isel(var=1).drop('var')
 gefs1_totalclim = gefs_raw1.isel(var=0).drop('var')
@@ -163,6 +200,14 @@ gefs2_totalclim = gefs_raw2.isel(var=0).drop('var')
 gefs2_panom = gefs2_totalp - gefs2_totalclim
 gefs2_probs50 = gefs_raw2.isel(var=6)
 gefs2_probs100 = gefs_raw2.isel(var=7)
+
+gefs1_totalt = gefs_t2mraw1.isel(var=1).drop('var')
+gefs1_totaltclim = gefs_t2mraw1.isel(var=0).drop('var')
+gefs1_tanom = gefs1_totalt - gefs1_totaltclim
+
+gefs2_totalt = gefs_t2mraw2.isel(var=1).drop('var')
+gefs2_totaltclim = gefs_t2mraw2.isel(var=0).drop('var')
+gefs2_tanom = gefs2_totalt - gefs2_totaltclim
 
 #gefs wk 1 raw total precip
 gefs1_totalp = gefs1_totalp.to_dataset(name = 'tp')
@@ -182,10 +227,29 @@ gefs2_total_slice = gefs2_totalp.sel(x=slice(0,359.999), y=slice(-80,80))
 gefs2_total_crs = gefs2_total_slice.rio.write_crs('EPSG:4326', inplace = True)
 gefs2_tp_mc = fc.convert_to_mercator(gefs2_total_crs, 'tp')
 gefs2_tpnorm = np.clip(gefs2_tp_mc.tp, minptotal, maxptotal)
-ptotal_cmap = ListedColormap(ptotal_colors, N=len(ptotal_colors))
-ptotal_norm = BoundaryNorm(boundaries=ptotal_intervals, ncolors=len(ptotal_colors))
 ptotal2_rgb = colors.apply_colormap(gefs2_tpnorm, ptotal_cmap, ptotal_norm, ptotal_intervals)
 ptotal2_rgb.rio.to_raster(os.path.join(figure_dir, 'gefswk2ptotal.tif'), dtype="uint8")
+
+#gefs wk1/2 raw total t2m
+gefs1_totalt = gefs1_totalt.to_dataset(name = 't2m')
+gefs1_totalt = gefs1_totalt.rename({'lon':'x', 'lat':'y'})
+gefs1_total_tslice = gefs1_totalt.sel(x=slice(0,359.999), y=slice(-80,80))
+gefs1_totalt_crs = gefs1_total_tslice.rio.write_crs('EPSG:4326', inplace = True)
+gefs1_t2m_mc = fc.convert_to_mercator(gefs1_totalt_crs, 't2m')
+gefs1_t2mnorm = np.clip(gefs1_t2m_mc.t2m, minttotal, maxttotal)
+ttotal_cmap = ListedColormap(ttotal_colors, N=len(ttotal_colors))
+ttotal_norm = BoundaryNorm(boundaries=ttotal_intervals, ncolors=len(ttotal_colors))
+ttotal1_rgb = colors.apply_colormap(gefs1_t2mnorm, ttotal_cmap, ttotal_norm, ttotal_intervals)
+ttotal1_rgb.rio.to_raster(os.path.join(figure_dir, 'gefswk1ttotal.tif'), dtype="uint8")
+
+gefs2_totalt = gefs2_totalt.to_dataset(name = 't2m')
+gefs2_totalt = gefs2_totalt.rename({'lon':'x', 'lat':'y'})
+gefs2_total_tslice = gefs2_totalt.sel(x=slice(0,359.999), y=slice(-80,80))
+gefs2_totalt_crs = gefs2_total_tslice.rio.write_crs('EPSG:4326', inplace = True)
+gefs2_t2m_mc = fc.convert_to_mercator(gefs2_totalt_crs, 't2m')
+gefs2_t2mnorm = np.clip(gefs2_t2m_mc.t2m, minttotal, maxttotal)
+ttotal2_rgb = colors.apply_colormap(gefs2_t2mnorm, ttotal_cmap, ttotal_norm, ttotal_intervals)
+ttotal2_rgb.rio.to_raster(os.path.join(figure_dir, 'gefswk2ttotal.tif'), dtype="uint8")
 
 #gefs wk 1 raw precip anomaly
 gefs1_panom = gefs1_panom.to_dataset(name='anom')
@@ -209,6 +273,27 @@ panom_cmap = ListedColormap(panom_colors, N=len(panom_colors))
 panom_norm = BoundaryNorm(boundaries=panom_intervals, ncolors=len(panom_colors))
 panom2_rgb = colors.apply_colormap(gefs2_panom_norm, panom_cmap, panom_norm, panom_intervals)
 panom2_rgb.rio.to_raster(os.path.join(figure_dir, 'gefswk2panom.tif'), dtype="uint8")
+
+#gefs wk1/wk2 raw t2m anomaly
+gefs1_tanom = gefs1_tanom.to_dataset(name='anom')
+gefs1_tanom = gefs1_tanom.rename({'lon':'x', 'lat':'y'})
+gefs1_tanomslice = gefs1_tanom.sel(x=slice(0,359.999), y=slice(-80,80))
+gefs1_tanom_crs = gefs1_tanomslice.rio.write_crs('EPSG:4326', inplace = True)
+gefs1_tanom_mc = fc.convert_to_mercator(gefs1_tanom_crs, 'anom')
+gefs1_tanom_norm = np.clip(gefs1_tanom_mc.anom, mintanom, maxtanom)
+tanom_cmap = ListedColormap(tanom_colors, N=len(tanom_colors))
+tanom_norm = BoundaryNorm(boundaries=tanom_intervals, ncolors=len(tanom_colors))
+tanom1_rgb = colors.apply_colormap(gefs1_tanom_norm, tanom_cmap, tanom_norm, tanom_intervals)
+tanom1_rgb.rio.to_raster(os.path.join(figure_dir, 'gefswk1tanom.tif'), dtype="uint8")
+
+gefs2_tanom = gefs2_tanom.to_dataset(name='anom')
+gefs2_tanom = gefs2_tanom.rename({'lon':'x', 'lat':'y'})
+gefs2_tanomslice = gefs2_tanom.sel(x=slice(0,359.999), y=slice(-80,80))
+gefs2_tanom_crs = gefs2_tanomslice.rio.write_crs('EPSG:4326', inplace = True)
+gefs2_tanom_mc = fc.convert_to_mercator(gefs2_tanom_crs, 'anom')
+gefs2_tanom_norm = np.clip(gefs2_tanom_mc.anom, mintanom, maxtanom)
+tanom2_rgb = colors.apply_colormap(gefs2_tanom_norm, tanom_cmap, tanom_norm, tanom_intervals)
+tanom2_rgb.rio.to_raster(os.path.join(figure_dir, 'gefswk2tanom.tif'), dtype="uint8")
 
 #gefs wk1 raw poe50
 gefs1_probs50 = gefs1_probs50.to_dataset(name='p50')
