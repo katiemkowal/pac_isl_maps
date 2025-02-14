@@ -49,9 +49,9 @@ main(){
 #     gdal2tiles.py -p mercator -z 0-5 /cpc/int_desk/pac_isl/stations/images/gefswk2poe50.tif /cpc/int_desk/pac_isl/stations/images/gefswk2poe50raw_tiles
 #     gdal2tiles.py -p mercator -z 0-5 /cpc/int_desk/pac_isl/stations/images/gefswk2poe100.tif /cpc/int_desk/pac_isl/stations/images/gefswk2poe100raw_tiles
     #li xu tiles
-    gdal_translate -ot Byte -scale /cpc/int_desk/LiXu/geotiff/SPI3.tif /cpc/int_desk/pac_isl/stations/images/SPI3mo_8bit.tif
-    gdalwarp -s_srs EPSG:4326 -t_srs EPSG:3857 /cpc/int_desk/pac_isl/stations/images/SPI3mo_8bit.tif /cpc/int_desk/pac_isl/stations/images/SPI3mo_mc.tif
-    gdal2tiles.py -p mercator -z 0-5 /cpc/int_desk/pac_isl/stations/images/SPI3mo_8bit.tif /cpc/int_desk/pac_isl/stations/images/SPI3mo_tiles
+    # gdal_translate -ot Byte -scale /cpc/int_desk/LiXu/geotiff/SPI3.tif /cpc/int_desk/pac_isl/stations/images/SPI3mo_8bit.tif
+    # gdalwarp -s_srs EPSG:4326 -t_srs EPSG:3857 /cpc/int_desk/pac_isl/stations/images/SPI3mo_8bit.tif /cpc/int_desk/pac_isl/stations/images/SPI3mo_mc.tif
+    gdal2tiles.py -p mercator -z 0-5 /cpc/int_desk/pac_isl/stations/images/output_mercator.tif /cpc/int_desk/pac_isl/stations/images/SPI3mo_tiles
 
     current_branch=temp-branch
     log "Current branch: $current_branch"
