@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
     <TileMap version="1.0.0" tilemapservice="http://tms.osgeo.org/1.0.0">
-      <Title>output_mercator.tif</Title>
+      <Title>SPI3mo_mc.tif</Title>
       <Abstract></Abstract>
       <SRS>EPSG:3857</SRS>
       <BoundingBox minx="-179.99993424353855" miny="-81.97013946313884" maxx="179.99205153914960" maxy="81.96920136363639"/>
