@@ -20,19 +20,19 @@ log() {
 main(){
     log "starting cron task"
     #runs the download script for OISSTv2 to get latest day available
-#     /cpc/home/kkowal/.conda/envs/xcast_env/bin/python /cpc/int_desk/data/oisstv2/download_oisstv2.py
+    /cpc/home/kkowal/.conda/envs/xcast_env/bin/python /cpc/int_desk/data/oisstv2/download_oisstv2.py
     
-#     #pulls and crops the updated png files for the leaflet html file - legends, titles, etc...
-#     /cpc/home/kkowal/.conda/envs/map_env/bin/python /cpc/int_desk/pac_isl/stations/updated_images_for_leaflet.py
+    #pulls and crops the updated png files for the leaflet html file - legends, titles, etc...
+    /cpc/home/kkowal/.conda/envs/map_env/bin/python /cpc/int_desk/pac_isl/stations/updated_images_for_leaflet.py
     
-#     #prepares the oisst sst data, calculates anomalies for tile generation
-#     /cpc/home/kkowal/.conda/envs/map_env/bin/python /cpc/int_desk/pac_isl/stations/prep_sst_data.py
+    #prepares the oisst sst data, calculates anomalies for tile generation
+    /cpc/home/kkowal/.conda/envs/map_env/bin/python /cpc/int_desk/pac_isl/stations/prep_sst_data.py
     
-#     #prepares the cmorph data, calculates anomalies for tiles generation
-#     /cpc/home/kkowal/.conda/envs/map_env/bin/python /cpc/int_desk/pac_isl/stations/prep_cmorph_data.py
+    #prepares the cmorph data, calculates anomalies for tiles generation
+    /cpc/home/kkowal/.conda/envs/map_env/bin/python /cpc/int_desk/pac_isl/stations/prep_cmorph_data.py
     
-#     #prepares the gefs data, calcualtes anomaleis for tile generation
-#     /cpc/home/kkowal/.conda/envs/map_env/bin/python /cpc/int_desk/pac_isl/stations/prep_gefs.py
+    #prepares the gefs data, calcualtes anomaleis for tile generation
+    /cpc/home/kkowal/.conda/envs/map_env/bin/python /cpc/int_desk/pac_isl/stations/prep_gefs.py
     
     cd /cpc/int_desk/pac_isl/stations/
     #tile generation codes - take a tif and convert to tiles in mercator projection
