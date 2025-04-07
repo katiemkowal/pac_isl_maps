@@ -19,13 +19,23 @@ log() {
 #main function
 main(){
     log "starting cron task"
-    /cpc/home/kkowal/.conda/envs/xcast_env/bin/python /cpc/int_desk/data/oisstv2/download_oisstv2.py
-    /cpc/home/kkowal/.conda/envs/map_env/bin/python /cpc/int_desk/pac_isl/stations/updated_images_for_leaflet.py
-    /cpc/home/kkowal/.conda/envs/map_env/bin/python /cpc/int_desk/pac_isl/stations/prep_sst_data.py
-    /cpc/home/kkowal/.conda/envs/map_env/bin/python /cpc/int_desk/pac_isl/stations/prep_cmorph_data.py
-    /cpc/home/kkowal/.conda/envs/map_env/bin/python /cpc/int_desk/pac_isl/stations/prep_gefs.py
+    #runs the download script for OISSTv2 to get latest day available
+#     /cpc/home/kkowal/.conda/envs/xcast_env/bin/python /cpc/int_desk/data/oisstv2/download_oisstv2.py
+    
+#     #pulls and crops the updated png files for the leaflet html file - legends, titles, etc...
+#     /cpc/home/kkowal/.conda/envs/map_env/bin/python /cpc/int_desk/pac_isl/stations/updated_images_for_leaflet.py
+    
+#     #prepares the oisst sst data, calculates anomalies for tile generation
+#     /cpc/home/kkowal/.conda/envs/map_env/bin/python /cpc/int_desk/pac_isl/stations/prep_sst_data.py
+    
+#     #prepares the cmorph data, calculates anomalies for tiles generation
+#     /cpc/home/kkowal/.conda/envs/map_env/bin/python /cpc/int_desk/pac_isl/stations/prep_cmorph_data.py
+    
+#     #prepares the gefs data, calcualtes anomaleis for tile generation
+#     /cpc/home/kkowal/.conda/envs/map_env/bin/python /cpc/int_desk/pac_isl/stations/prep_gefs.py
     
     cd /cpc/int_desk/pac_isl/stations/
+    #tile generation codes - take a tif and convert to tiles in mercator projection
     gdal2tiles.py -p mercator -z 0-5 /cpc/int_desk/pac_isl/stations/images/sst_mercator7.tif /cpc/int_desk/pac_isl/stations/images/sst_anom7_tiles
     gdal2tiles.py -p mercator -z 0-5 /cpc/int_desk/pac_isl/stations/images/sst_mercator7diff.tif /cpc/int_desk/pac_isl/stations/images/sst_anom7diff_tiles
     gdal2tiles.py -p mercator -z 0-5 /cpc/int_desk/pac_isl/stations/images/cmorph90anom.tif /cpc/int_desk/pac_isl/stations/images/cmorph90anom_tiles
@@ -34,6 +44,13 @@ main(){
     gdal2tiles.py -p mercator -z 0-5 /cpc/int_desk/pac_isl/stations/images/cmorph30percent.tif /cpc/int_desk/pac_isl/stations/images/cmorph30percent_tiles
     gdal2tiles.py -p mercator -z 0-5 /cpc/int_desk/pac_isl/stations/images/cmorph7anom.tif /cpc/int_desk/pac_isl/stations/images/cmorph7anom_tiles
     gdal2tiles.py -p mercator -z 0-5 /cpc/int_desk/pac_isl/stations/images/cmorph7total.tif /cpc/int_desk/pac_isl/stations/images/cmorph7total_tiles
+    
+    current_branch=temp-branch
+    log "Current branch: $current_branch"
+    git add .
+    git commit -m "automated commit by cron job on $(date)"
+    git push origin "$current_branch"
+    
     gdal2tiles.py -p mercator -z 0-5 /cpc/int_desk/pac_isl/stations/images/gefswk1pcons.tif /cpc/int_desk/pac_isl/stations/images/gefswk1pcons_tiles
     gdal2tiles.py -p mercator -z 0-5 /cpc/int_desk/pac_isl/stations/images/gefswk2pcons.tif /cpc/int_desk/pac_isl/stations/images/gefswk2pcons_tiles
     gdal2tiles.py -p mercator -z 0-5 /cpc/int_desk/pac_isl/stations/images/gefswk1ptotal.tif /cpc/int_desk/pac_isl/stations/images/gefswk1ptotalraw_tiles
@@ -48,9 +65,13 @@ main(){
     gdal2tiles.py -p mercator -z 0-5 /cpc/int_desk/pac_isl/stations/images/gefswk1poe100.tif /cpc/int_desk/pac_isl/stations/images/gefswk1poe100raw_tiles
     gdal2tiles.py -p mercator -z 0-5 /cpc/int_desk/pac_isl/stations/images/gefswk2poe50.tif /cpc/int_desk/pac_isl/stations/images/gefswk2poe50raw_tiles
     gdal2tiles.py -p mercator -z 0-5 /cpc/int_desk/pac_isl/stations/images/gefswk2poe100.tif /cpc/int_desk/pac_isl/stations/images/gefswk2poe100raw_tiles
-    #li xu tiles
+    
+    
+    #li xu tiles -- uncomment when color becomes available
     # gdal_translate -ot Byte -scale /cpc/int_desk/LiXu/geotiff/SPI3.tif /cpc/int_desk/pac_isl/stations/images/SPI3mo_8bit.tif
     # gdalwarp -s_srs EPSG:4326 -t_srs EPSG:3857 /cpc/int_desk/pac_isl/stations/images/SPI3mo_8bit.tif /cpc/int_desk/pac_isl/stations/images/SPI3mo_mc.tif
+    
+    ## trial one out
     gdal2tiles.py -p mercator -z 0-5 /cpc/int_desk/pac_isl/stations/images/SPI3mo_mc.tif /cpc/int_desk/pac_isl/stations/images/SPI3mo_tiles
 
     current_branch=temp-branch

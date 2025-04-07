@@ -183,164 +183,181 @@ an_colors = [
     (3/255, 56/255, 47/255)
 ]
 
-## read in raw gefs data
-gefs_raw1 = fc.read_in_binary_gefs(os.path.join(gefs_rawdir,'gefs_week1_precip_' + date_str + 'IC.dat'), xdimgef, ydimgef, zdimgef, xmingef, xmaxgef, ymingef, ymaxgef)
-gefs_raw2 = fc.read_in_binary_gefs(os.path.join(gefs_rawdir,'gefs_week2_precip_' + date_str + 'IC.dat'), xdimgef, ydimgef, zdimgef, xmingef, xmaxgef, ymingef, ymaxgef)
-gefs_t2mraw1 = fc.read_in_binary_gefs(os.path.join(gefs_rawdir,'gefs_week1_t2m_' + date_str + 'IC.dat'), xdimgef, ydimgef, zdimgeft, xmingef, xmaxgef, ymingef, ymaxgef)
-gefs_t2mraw2 = fc.read_in_binary_gefs(os.path.join(gefs_rawdir,'gefs_week2_t2m_' + date_str + 'IC.dat'), xdimgef, ydimgef, zdimgeft, xmingef, xmaxgef, ymingef, ymaxgef)
+## read in raw gefs datacon
 #variables based on endalk's documentation
-gefs1_totalp = gefs_raw1.isel(var=1).drop('var')
-gefs1_totalclim = gefs_raw1.isel(var=0).drop('var')
-gefs1_panom = gefs1_totalp - gefs1_totalclim
-gefs1_probs50 = gefs_raw1.isel(var=6)
-gefs1_probs100 = gefs_raw1.isel(var=7)
+print(date_str)
+if Path(os.path.join(gefs_rawdir,'gefs_week1_precip_' + date_str + 'IC.dat')).is_file():
+    gefs_raw1 = fc.read_in_binary_gefs(os.path.join(gefs_rawdir,'gefs_week1_precip_' + date_str + 'IC.dat'), xdimgef, ydimgef, zdimgef, xmingef, xmaxgef, ymingef, ymaxgef)
+    gefs1_totalp = gefs_raw1.isel(var=1).drop('var')
+    gefs1_totalclim = gefs_raw1.isel(var=0).drop('var')
+    gefs1_panom = gefs1_totalp - gefs1_totalclim
+    gefs1_probs50 = gefs_raw1.isel(var=6)
+    gefs1_probs100 = gefs_raw1.isel(var=7)
+    
+    #gefs wk 1 raw total precip
+    gefs1_totalp = gefs1_totalp.to_dataset(name = 'tp')
+    gefs1_totalp = gefs1_totalp.rename({'lon':'x', 'lat':'y'})
+    gefs1_total_slice = gefs1_totalp.sel(x=slice(0,359.999), y=slice(-80,80))
+    gefs1_total_crs = gefs1_total_slice.rio.write_crs('EPSG:4326', inplace = True)
+    gefs1_tp_mc = fc.convert_to_mercator(gefs1_total_crs, 'tp')
+    gefs1_tpnorm = np.clip(gefs1_tp_mc.tp, minptotal, maxptotal)
+    ptotal_cmap = ListedColormap(ptotal_colors, N=len(ptotal_colors))
+    ptotal_norm = BoundaryNorm(boundaries=ptotal_intervals, ncolors=len(ptotal_colors))
+    ptotal1_rgb = colors.apply_colormap(gefs1_tpnorm, ptotal_cmap, ptotal_norm, ptotal_intervals)
+    ptotal1_rgb.rio.to_raster(os.path.join(figure_dir, 'gefswk1ptotal.tif'), dtype="uint8")
+    
+    #gefs wk 1 raw precip anomaly
+    gefs1_panom = gefs1_panom.to_dataset(name='anom')
+    gefs1_panom = gefs1_panom.rename({'lon':'x', 'lat':'y'})
+    gefs1_panomslice = gefs1_panom.sel(x=slice(0,359.999), y=slice(-80,80))
+    gefs1_panom_crs = gefs1_panomslice.rio.write_crs('EPSG:4326', inplace = True)
+    gefs1_panom_mc = fc.convert_to_mercator(gefs1_panom_crs, 'anom')
+    gefs1_panom_norm = np.clip(gefs1_panom_mc.anom, minpanom, maxpanom)
+    panom_cmap = ListedColormap(panom_colors, N=len(panom_colors))
+    panom_norm = BoundaryNorm(boundaries=panom_intervals, ncolors=len(panom_colors))
+    panom1_rgb = colors.apply_colormap(gefs1_panom_norm, panom_cmap, panom_norm, panom_intervals)
+    panom1_rgb.rio.to_raster(os.path.join(figure_dir, 'gefswk1panom.tif'), dtype="uint8")
+    
+    #gefs wk1 raw poe50
+    gefs1_probs50 = gefs1_probs50.to_dataset(name='p50')
+    gefs1_probs50 = gefs1_probs50.rename({'lon':'x', 'lat':'y'})
+    gefs1_probs50slice = gefs1_probs50.sel(x=slice(0,359.999), y=slice(-80,80))
+    gefs1_probs50_crs = gefs1_probs50slice.rio.write_crs('EPSG:4326', inplace = True)
+    gefs1_probs50_mc = fc.convert_to_mercator(gefs1_probs50_crs, 'p50')
+    gefs1_probs50_mc['p50'] = gefs1_probs50_mc.p50 * 100
+    gefs1_probs50_norm = np.clip(gefs1_probs50_mc.p50, minp50, maxp50)
+    poe_cmap = ListedColormap(poe_colors, N=len(poe_colors))
+    poe_norm = BoundaryNorm(boundaries=poe_intervals, ncolors=len(poe_colors))
+    poe50_rgb1 = colors.apply_colormap(gefs1_probs50_norm, poe_cmap, poe_norm, poe_intervals)
+    poe50_rgb1.rio.to_raster(os.path.join(figure_dir, 'gefswk1poe50.tif'), dtype="uint8")
+    
+    #gefs wk1 raw poe100
+    gefs1_probs100 = gefs1_probs100.to_dataset(name='p100')
+    gefs1_probs100 = gefs1_probs100.rename({'lon':'x', 'lat':'y'})
+    gefs1_probs100slice = gefs1_probs100.sel(x=slice(0,359.999), y=slice(-80,80))
+    gefs1_probs100_crs = gefs1_probs100slice.rio.write_crs('EPSG:4326', inplace = True)
+    gefs1_probs100_mc = fc.convert_to_mercator(gefs1_probs100_crs, 'p100')
+    gefs1_probs100_mc['p100'] = gefs1_probs100_mc.p100 * 100
+    gefs1_probs100_norm = np.clip(gefs1_probs100_mc.p100, minp100, maxp100)
+    poe100_rgb1 = colors.apply_colormap(gefs1_probs100_norm, poe_cmap, poe_norm, poe_intervals)
+    poe100_rgb1.rio.to_raster(os.path.join(figure_dir, 'gefswk1poe100.tif'), dtype="uint8")
+else: print('no raw dat file available for gefs week 1 precip')
 
-gefs2_totalp = gefs_raw2.isel(var=1).drop('var')
-gefs2_totalclim = gefs_raw2.isel(var=0).drop('var')
-gefs2_panom = gefs2_totalp - gefs2_totalclim
-gefs2_probs50 = gefs_raw2.isel(var=6)
-gefs2_probs100 = gefs_raw2.isel(var=7)
+if Path(os.path.join(gefs_rawdir,'gefs_week2_precip_' + date_str + 'IC.dat')).is_file():
+    gefs_raw2 = fc.read_in_binary_gefs(os.path.join(gefs_rawdir,'gefs_week2_precip_' + date_str + 'IC.dat'), xdimgef, ydimgef, zdimgef, xmingef, xmaxgef, ymingef, ymaxgef)
+    gefs2_totalp = gefs_raw2.isel(var=1).drop('var')
+    gefs2_totalclim = gefs_raw2.isel(var=0).drop('var')
+    gefs2_panom = gefs2_totalp - gefs2_totalclim
+    gefs2_probs50 = gefs_raw2.isel(var=6)
+    gefs2_probs100 = gefs_raw2.isel(var=7)
+    
+    #gefs wk2 raw total p
+    gefs2_totalp = gefs2_totalp.to_dataset(name = 'tp')
+    gefs2_totalp = gefs2_totalp.rename({'lon':'x', 'lat':'y'})
+    gefs2_total_slice = gefs2_totalp.sel(x=slice(0,359.999), y=slice(-80,80))
+    gefs2_total_crs = gefs2_total_slice.rio.write_crs('EPSG:4326', inplace = True)
+    gefs2_tp_mc = fc.convert_to_mercator(gefs2_total_crs, 'tp')
+    gefs2_tpnorm = np.clip(gefs2_tp_mc.tp, minptotal, maxptotal)
+    ptotal2_rgb = colors.apply_colormap(gefs2_tpnorm, ptotal_cmap, ptotal_norm, ptotal_intervals)
+    ptotal2_rgb.rio.to_raster(os.path.join(figure_dir, 'gefswk2ptotal.tif'), dtype="uint8")
+    
+    #gefs wk2 raw anomaly precip
+    gefs2_panom = gefs2_panom.to_dataset(name='anom')
+    gefs2_panom = gefs2_panom.rename({'lon':'x', 'lat':'y'})
+    gefs2_panomslice = gefs2_panom.sel(x=slice(0,359.999), y=slice(-80,80))
+    gefs2_panom_crs = gefs2_panomslice.rio.write_crs('EPSG:4326', inplace = True)
+    gefs2_panom_mc = fc.convert_to_mercator(gefs2_panom_crs, 'anom')
+    gefs2_panom_norm = np.clip(gefs2_panom_mc.anom, minpanom, maxpanom)
+    panom_cmap = ListedColormap(panom_colors, N=len(panom_colors))
+    panom_norm = BoundaryNorm(boundaries=panom_intervals, ncolors=len(panom_colors))
+    panom2_rgb = colors.apply_colormap(gefs2_panom_norm, panom_cmap, panom_norm, panom_intervals)
+    panom2_rgb.rio.to_raster(os.path.join(figure_dir, 'gefswk2panom.tif'), dtype="uint8")
+    
+    #gefs wk2 raw poe50
+    gefs2_probs50 = gefs2_probs50.to_dataset(name='p50')
+    gefs2_probs50 = gefs2_probs50.rename({'lon':'x', 'lat':'y'})
+    gefs2_probs50slice = gefs2_probs50.sel(x=slice(0,359.999), y=slice(-80,80))
+    gefs2_probs50_crs = gefs2_probs50slice.rio.write_crs('EPSG:4326', inplace = True)
+    gefs2_probs50_mc = fc.convert_to_mercator(gefs2_probs50_crs, 'p50')
+    gefs2_probs50_mc['p50'] = gefs2_probs50_mc.p50 * 100
+    gefs2_probs50_norm = np.clip(gefs2_probs50_mc.p50, minp50, maxp50)
+    poe_cmap = ListedColormap(poe_colors, N=len(poe_colors))
+    poe_norm = BoundaryNorm(boundaries=poe_intervals, ncolors=len(poe_colors))
+    poe50_rgb2 = colors.apply_colormap(gefs2_probs50_norm, poe_cmap, poe_norm, poe_intervals)
+    poe50_rgb2.rio.to_raster(os.path.join(figure_dir, 'gefswk2poe50.tif'), dtype="uint8")
+    
+    #gefs wk2 raw poe100
+    gefs2_probs100 = gefs2_probs100.to_dataset(name='p100')
+    gefs2_probs100 = gefs2_probs100.rename({'lon':'x', 'lat':'y'})
+    gefs2_probs100slice = gefs2_probs100.sel(x=slice(0,359.999), y=slice(-80,80))
+    gefs2_probs100_crs = gefs2_probs100slice.rio.write_crs('EPSG:4326', inplace = True)
+    gefs2_probs100_mc = fc.convert_to_mercator(gefs2_probs100_crs, 'p100')
+    gefs2_probs100_mc['p100'] = gefs2_probs100_mc.p100 * 100
+    gefs2_probs100_norm = np.clip(gefs2_probs100_mc.p100, minp100, maxp100)
+    poe100_rgb2 = colors.apply_colormap(gefs2_probs100_norm, poe_cmap, poe_norm, poe_intervals)
+    poe100_rgb2.rio.to_raster(os.path.join(figure_dir, 'gefswk2poe100.tif'), dtype="uint8")
 
-gefs1_totalt = gefs_t2mraw1.isel(var=1).drop('var')
-gefs1_totaltclim = gefs_t2mraw1.isel(var=0).drop('var')
-gefs1_tanom = gefs1_totalt - gefs1_totaltclim
+else: print('no raw dat file available for gefs week 2 precip')
 
-gefs2_totalt = gefs_t2mraw2.isel(var=1).drop('var')
-gefs2_totaltclim = gefs_t2mraw2.isel(var=0).drop('var')
-gefs2_tanom = gefs2_totalt - gefs2_totaltclim
+if Path(os.path.join(gefs_rawdir,'gefs_week1_t2m_' + date_str + 'IC.dat')).is_file():
+    gefs_t2mraw1 = fc.read_in_binary_gefs(os.path.join(gefs_rawdir,'gefs_week1_t2m_' + date_str + 'IC.dat'), xdimgef, ydimgef, zdimgeft, xmingef, xmaxgef, ymingef, ymaxgef)
+    gefs1_totalt = gefs_t2mraw1.isel(var=1).drop('var')
+    gefs1_totaltclim = gefs_t2mraw1.isel(var=0).drop('var')
+    gefs1_tanom = gefs1_totalt - gefs1_totaltclim
+    
+    #gefs wk1 raw total t2m
+    gefs1_totalt = gefs1_totalt.to_dataset(name = 't2m')
+    gefs1_totalt = gefs1_totalt.rename({'lon':'x', 'lat':'y'})
+    gefs1_total_tslice = gefs1_totalt.sel(x=slice(0,359.999), y=slice(-80,80))
+    gefs1_totalt_crs = gefs1_total_tslice.rio.write_crs('EPSG:4326', inplace = True)
+    gefs1_t2m_mc = fc.convert_to_mercator(gefs1_totalt_crs, 't2m')
+    gefs1_t2mnorm = np.clip(gefs1_t2m_mc.t2m, minttotal, maxttotal)
+    ttotal_cmap = ListedColormap(ttotal_colors, N=len(ttotal_colors))
+    ttotal_norm = BoundaryNorm(boundaries=ttotal_intervals, ncolors=len(ttotal_colors))
+    ttotal1_rgb = colors.apply_colormap(gefs1_t2mnorm, ttotal_cmap, ttotal_norm, ttotal_intervals)
+    ttotal1_rgb.rio.to_raster(os.path.join(figure_dir, 'gefswk1ttotal.tif'), dtype="uint8")
+    
+    #gefs wk1 raw t2m anomaly
+    gefs1_tanom = gefs1_tanom.to_dataset(name='anom')
+    gefs1_tanom = gefs1_tanom.rename({'lon':'x', 'lat':'y'})
+    gefs1_tanomslice = gefs1_tanom.sel(x=slice(0,359.999), y=slice(-80,80))
+    gefs1_tanom_crs = gefs1_tanomslice.rio.write_crs('EPSG:4326', inplace = True)
+    gefs1_tanom_mc = fc.convert_to_mercator(gefs1_tanom_crs, 'anom')
+    gefs1_tanom_norm = np.clip(gefs1_tanom_mc.anom, mintanom, maxtanom)
+    tanom_cmap = ListedColormap(tanom_colors, N=len(tanom_colors))
+    tanom_norm = BoundaryNorm(boundaries=tanom_intervals, ncolors=len(tanom_colors))
+    tanom1_rgb = colors.apply_colormap(gefs1_tanom_norm, tanom_cmap, tanom_norm, tanom_intervals)
+    tanom1_rgb.rio.to_raster(os.path.join(figure_dir, 'gefswk1tanom.tif'), dtype="uint8")
+else: print('no raw dat file available for gefs week 1 t2m')
 
-#gefs wk 1 raw total precip
-gefs1_totalp = gefs1_totalp.to_dataset(name = 'tp')
-gefs1_totalp = gefs1_totalp.rename({'lon':'x', 'lat':'y'})
-gefs1_total_slice = gefs1_totalp.sel(x=slice(0,359.999), y=slice(-80,80))
-gefs1_total_crs = gefs1_total_slice.rio.write_crs('EPSG:4326', inplace = True)
-gefs1_tp_mc = fc.convert_to_mercator(gefs1_total_crs, 'tp')
-gefs1_tpnorm = np.clip(gefs1_tp_mc.tp, minptotal, maxptotal)
-ptotal_cmap = ListedColormap(ptotal_colors, N=len(ptotal_colors))
-ptotal_norm = BoundaryNorm(boundaries=ptotal_intervals, ncolors=len(ptotal_colors))
-ptotal1_rgb = colors.apply_colormap(gefs1_tpnorm, ptotal_cmap, ptotal_norm, ptotal_intervals)
-ptotal1_rgb.rio.to_raster(os.path.join(figure_dir, 'gefswk1ptotal.tif'), dtype="uint8")
+if Path(os.path.join(gefs_rawdir,'gefs_week2_t2m_' + date_str + 'IC.dat')).is_file():
+    gefs_t2mraw2 = fc.read_in_binary_gefs(os.path.join(gefs_rawdir,'gefs_week2_t2m_' + date_str + 'IC.dat'), xdimgef, ydimgef, zdimgeft, xmingef, xmaxgef, ymingef, ymaxgef)
+    gefs2_totalt = gefs_t2mraw2.isel(var=1).drop('var')
+    gefs2_totaltclim = gefs_t2mraw2.isel(var=0).drop('var')
+    gefs2_tanom = gefs2_totalt - gefs2_totaltclim
+    
+    #gefs wk2 raw total t2m
+    gefs2_totalt = gefs2_totalt.to_dataset(name = 't2m')
+    gefs2_totalt = gefs2_totalt.rename({'lon':'x', 'lat':'y'})
+    gefs2_total_tslice = gefs2_totalt.sel(x=slice(0,359.999), y=slice(-80,80))
+    gefs2_totalt_crs = gefs2_total_tslice.rio.write_crs('EPSG:4326', inplace = True)
+    gefs2_t2m_mc = fc.convert_to_mercator(gefs2_totalt_crs, 't2m')
+    gefs2_t2mnorm = np.clip(gefs2_t2m_mc.t2m, minttotal, maxttotal)
+    ttotal2_rgb = colors.apply_colormap(gefs2_t2mnorm, ttotal_cmap, ttotal_norm, ttotal_intervals)
+    ttotal2_rgb.rio.to_raster(os.path.join(figure_dir, 'gefswk2ttotal.tif'), dtype="uint8")
+    
+    #gefs wk2 raw total t2m
+    gefs2_tanom = gefs2_tanom.to_dataset(name='anom')
+    gefs2_tanom = gefs2_tanom.rename({'lon':'x', 'lat':'y'})
+    gefs2_tanomslice = gefs2_tanom.sel(x=slice(0,359.999), y=slice(-80,80))
+    gefs2_tanom_crs = gefs2_tanomslice.rio.write_crs('EPSG:4326', inplace = True)
+    gefs2_tanom_mc = fc.convert_to_mercator(gefs2_tanom_crs, 'anom')
+    gefs2_tanom_norm = np.clip(gefs2_tanom_mc.anom, mintanom, maxtanom)
+    tanom2_rgb = colors.apply_colormap(gefs2_tanom_norm, tanom_cmap, tanom_norm, tanom_intervals)
+    tanom2_rgb.rio.to_raster(os.path.join(figure_dir, 'gefswk2tanom.tif'), dtype="uint8")
+else: print('no raw dat file available for gefs week 1 t2m')
 
-gefs2_totalp = gefs2_totalp.to_dataset(name = 'tp')
-gefs2_totalp = gefs2_totalp.rename({'lon':'x', 'lat':'y'})
-gefs2_total_slice = gefs2_totalp.sel(x=slice(0,359.999), y=slice(-80,80))
-gefs2_total_crs = gefs2_total_slice.rio.write_crs('EPSG:4326', inplace = True)
-gefs2_tp_mc = fc.convert_to_mercator(gefs2_total_crs, 'tp')
-gefs2_tpnorm = np.clip(gefs2_tp_mc.tp, minptotal, maxptotal)
-ptotal2_rgb = colors.apply_colormap(gefs2_tpnorm, ptotal_cmap, ptotal_norm, ptotal_intervals)
-ptotal2_rgb.rio.to_raster(os.path.join(figure_dir, 'gefswk2ptotal.tif'), dtype="uint8")
-
-#gefs wk1/2 raw total t2m
-gefs1_totalt = gefs1_totalt.to_dataset(name = 't2m')
-gefs1_totalt = gefs1_totalt.rename({'lon':'x', 'lat':'y'})
-gefs1_total_tslice = gefs1_totalt.sel(x=slice(0,359.999), y=slice(-80,80))
-gefs1_totalt_crs = gefs1_total_tslice.rio.write_crs('EPSG:4326', inplace = True)
-gefs1_t2m_mc = fc.convert_to_mercator(gefs1_totalt_crs, 't2m')
-gefs1_t2mnorm = np.clip(gefs1_t2m_mc.t2m, minttotal, maxttotal)
-ttotal_cmap = ListedColormap(ttotal_colors, N=len(ttotal_colors))
-ttotal_norm = BoundaryNorm(boundaries=ttotal_intervals, ncolors=len(ttotal_colors))
-ttotal1_rgb = colors.apply_colormap(gefs1_t2mnorm, ttotal_cmap, ttotal_norm, ttotal_intervals)
-ttotal1_rgb.rio.to_raster(os.path.join(figure_dir, 'gefswk1ttotal.tif'), dtype="uint8")
-
-gefs2_totalt = gefs2_totalt.to_dataset(name = 't2m')
-gefs2_totalt = gefs2_totalt.rename({'lon':'x', 'lat':'y'})
-gefs2_total_tslice = gefs2_totalt.sel(x=slice(0,359.999), y=slice(-80,80))
-gefs2_totalt_crs = gefs2_total_tslice.rio.write_crs('EPSG:4326', inplace = True)
-gefs2_t2m_mc = fc.convert_to_mercator(gefs2_totalt_crs, 't2m')
-gefs2_t2mnorm = np.clip(gefs2_t2m_mc.t2m, minttotal, maxttotal)
-ttotal2_rgb = colors.apply_colormap(gefs2_t2mnorm, ttotal_cmap, ttotal_norm, ttotal_intervals)
-ttotal2_rgb.rio.to_raster(os.path.join(figure_dir, 'gefswk2ttotal.tif'), dtype="uint8")
-
-#gefs wk 1 raw precip anomaly
-gefs1_panom = gefs1_panom.to_dataset(name='anom')
-gefs1_panom = gefs1_panom.rename({'lon':'x', 'lat':'y'})
-gefs1_panomslice = gefs1_panom.sel(x=slice(0,359.999), y=slice(-80,80))
-gefs1_panom_crs = gefs1_panomslice.rio.write_crs('EPSG:4326', inplace = True)
-gefs1_panom_mc = fc.convert_to_mercator(gefs1_panom_crs, 'anom')
-gefs1_panom_norm = np.clip(gefs1_panom_mc.anom, minpanom, maxpanom)
-panom_cmap = ListedColormap(panom_colors, N=len(panom_colors))
-panom_norm = BoundaryNorm(boundaries=panom_intervals, ncolors=len(panom_colors))
-panom1_rgb = colors.apply_colormap(gefs1_panom_norm, panom_cmap, panom_norm, panom_intervals)
-panom1_rgb.rio.to_raster(os.path.join(figure_dir, 'gefswk1panom.tif'), dtype="uint8")
-
-gefs2_panom = gefs2_panom.to_dataset(name='anom')
-gefs2_panom = gefs2_panom.rename({'lon':'x', 'lat':'y'})
-gefs2_panomslice = gefs2_panom.sel(x=slice(0,359.999), y=slice(-80,80))
-gefs2_panom_crs = gefs2_panomslice.rio.write_crs('EPSG:4326', inplace = True)
-gefs2_panom_mc = fc.convert_to_mercator(gefs2_panom_crs, 'anom')
-gefs2_panom_norm = np.clip(gefs2_panom_mc.anom, minpanom, maxpanom)
-panom_cmap = ListedColormap(panom_colors, N=len(panom_colors))
-panom_norm = BoundaryNorm(boundaries=panom_intervals, ncolors=len(panom_colors))
-panom2_rgb = colors.apply_colormap(gefs2_panom_norm, panom_cmap, panom_norm, panom_intervals)
-panom2_rgb.rio.to_raster(os.path.join(figure_dir, 'gefswk2panom.tif'), dtype="uint8")
-
-#gefs wk1/wk2 raw t2m anomaly
-gefs1_tanom = gefs1_tanom.to_dataset(name='anom')
-gefs1_tanom = gefs1_tanom.rename({'lon':'x', 'lat':'y'})
-gefs1_tanomslice = gefs1_tanom.sel(x=slice(0,359.999), y=slice(-80,80))
-gefs1_tanom_crs = gefs1_tanomslice.rio.write_crs('EPSG:4326', inplace = True)
-gefs1_tanom_mc = fc.convert_to_mercator(gefs1_tanom_crs, 'anom')
-gefs1_tanom_norm = np.clip(gefs1_tanom_mc.anom, mintanom, maxtanom)
-tanom_cmap = ListedColormap(tanom_colors, N=len(tanom_colors))
-tanom_norm = BoundaryNorm(boundaries=tanom_intervals, ncolors=len(tanom_colors))
-tanom1_rgb = colors.apply_colormap(gefs1_tanom_norm, tanom_cmap, tanom_norm, tanom_intervals)
-tanom1_rgb.rio.to_raster(os.path.join(figure_dir, 'gefswk1tanom.tif'), dtype="uint8")
-
-gefs2_tanom = gefs2_tanom.to_dataset(name='anom')
-gefs2_tanom = gefs2_tanom.rename({'lon':'x', 'lat':'y'})
-gefs2_tanomslice = gefs2_tanom.sel(x=slice(0,359.999), y=slice(-80,80))
-gefs2_tanom_crs = gefs2_tanomslice.rio.write_crs('EPSG:4326', inplace = True)
-gefs2_tanom_mc = fc.convert_to_mercator(gefs2_tanom_crs, 'anom')
-gefs2_tanom_norm = np.clip(gefs2_tanom_mc.anom, mintanom, maxtanom)
-tanom2_rgb = colors.apply_colormap(gefs2_tanom_norm, tanom_cmap, tanom_norm, tanom_intervals)
-tanom2_rgb.rio.to_raster(os.path.join(figure_dir, 'gefswk2tanom.tif'), dtype="uint8")
-
-#gefs wk1 raw poe50
-gefs1_probs50 = gefs1_probs50.to_dataset(name='p50')
-gefs1_probs50 = gefs1_probs50.rename({'lon':'x', 'lat':'y'})
-gefs1_probs50slice = gefs1_probs50.sel(x=slice(0,359.999), y=slice(-80,80))
-gefs1_probs50_crs = gefs1_probs50slice.rio.write_crs('EPSG:4326', inplace = True)
-gefs1_probs50_mc = fc.convert_to_mercator(gefs1_probs50_crs, 'p50')
-gefs1_probs50_mc['p50'] = gefs1_probs50_mc.p50 * 100
-gefs1_probs50_norm = np.clip(gefs1_probs50_mc.p50, minp50, maxp50)
-poe_cmap = ListedColormap(poe_colors, N=len(poe_colors))
-poe_norm = BoundaryNorm(boundaries=poe_intervals, ncolors=len(poe_colors))
-poe50_rgb1 = colors.apply_colormap(gefs1_probs50_norm, poe_cmap, poe_norm, poe_intervals)
-poe50_rgb1.rio.to_raster(os.path.join(figure_dir, 'gefswk1poe50.tif'), dtype="uint8")
-
-gefs2_probs50 = gefs2_probs50.to_dataset(name='p50')
-gefs2_probs50 = gefs2_probs50.rename({'lon':'x', 'lat':'y'})
-gefs2_probs50slice = gefs2_probs50.sel(x=slice(0,359.999), y=slice(-80,80))
-gefs2_probs50_crs = gefs2_probs50slice.rio.write_crs('EPSG:4326', inplace = True)
-gefs2_probs50_mc = fc.convert_to_mercator(gefs2_probs50_crs, 'p50')
-gefs2_probs50_mc['p50'] = gefs2_probs50_mc.p50 * 100
-gefs2_probs50_norm = np.clip(gefs2_probs50_mc.p50, minp50, maxp50)
-poe_cmap = ListedColormap(poe_colors, N=len(poe_colors))
-poe_norm = BoundaryNorm(boundaries=poe_intervals, ncolors=len(poe_colors))
-poe50_rgb2 = colors.apply_colormap(gefs2_probs50_norm, poe_cmap, poe_norm, poe_intervals)
-poe50_rgb2.rio.to_raster(os.path.join(figure_dir, 'gefswk2poe50.tif'), dtype="uint8")
-
-#gefs wk1 raw poe100
-gefs1_probs100 = gefs1_probs100.to_dataset(name='p100')
-gefs1_probs100 = gefs1_probs100.rename({'lon':'x', 'lat':'y'})
-gefs1_probs100slice = gefs1_probs100.sel(x=slice(0,359.999), y=slice(-80,80))
-gefs1_probs100_crs = gefs1_probs100slice.rio.write_crs('EPSG:4326', inplace = True)
-gefs1_probs100_mc = fc.convert_to_mercator(gefs1_probs100_crs, 'p100')
-gefs1_probs100_mc['p100'] = gefs1_probs100_mc.p100 * 100
-gefs1_probs100_norm = np.clip(gefs1_probs100_mc.p100, minp100, maxp100)
-poe100_rgb1 = colors.apply_colormap(gefs1_probs100_norm, poe_cmap, poe_norm, poe_intervals)
-poe100_rgb1.rio.to_raster(os.path.join(figure_dir, 'gefswk1poe100.tif'), dtype="uint8")
-
-gefs2_probs100 = gefs2_probs100.to_dataset(name='p100')
-gefs2_probs100 = gefs2_probs100.rename({'lon':'x', 'lat':'y'})
-gefs2_probs100slice = gefs2_probs100.sel(x=slice(0,359.999), y=slice(-80,80))
-gefs2_probs100_crs = gefs2_probs100slice.rio.write_crs('EPSG:4326', inplace = True)
-gefs2_probs100_mc = fc.convert_to_mercator(gefs2_probs100_crs, 'p100')
-gefs2_probs100_mc['p100'] = gefs2_probs100_mc.p100 * 100
-gefs2_probs100_norm = np.clip(gefs2_probs100_mc.p100, minp100, maxp100)
-poe100_rgb2 = colors.apply_colormap(gefs2_probs100_norm, poe_cmap, poe_norm, poe_intervals)
-poe100_rgb2.rio.to_raster(os.path.join(figure_dir, 'gefswk2poe100.tif'), dtype="uint8")
-
+############### CONSOLIDATED FORECASTS ##########################################
 ## prep tercile forecasts
 categories = ["Below-Normal", "Near-Normal", "Above-Normal"]
 # Create colormaps
