@@ -1,0 +1,40 @@
+To set up cds api
+################Step 1
+#Add the api key to a file for user
+#For Katie, file in $/cpc/home/kkowal/.cdsapirc file:
+#API Key for Katie:
+
+#updated url to 
+url: https://cds.climate.copernicus.eu/api
+# OLD KEY FOR KATIE FROM BETA
+#url: https://cds-beta.climate.copernicus.eu/api
+#key: b04b0188-aad7-4002-83e3-18944fd830ba
+
+### OLD KEY - CDS NOW MIGRATING TO BETA VERSION
+#url: https://cds.climate.copernicus.eu/api/v2
+#key: 313950:e1a49018-00f0-4766-a04d-a509dfa8590a
+
+## store the key as a .cdsapirc file in your home directory
+## Katie did this by first creating a txt file in linux named cdsapirc, editing in jupyter lab, then renaming with mv command in linux
+## e.g. mv /cpc/home/kkowal/cdsapirc.txt /cpc/home/kkowal/.cdsapirc
+
+
+#to find your hidden .cdsapirc file to update
+ls -la
+#to edit your hidden file 
+vi .cdsapirc 
+#to save and exit
+Esc
+:wq
+
+
+###############Step 2
+
+#NEW COMMAND FOR BETA VERSION
+pip install 'cdsapi>=0.7.0'
+#OLD COMMAND
+pip install cdsapi
+
+
+### for more info, go to cds-beta site
+https://cds-beta.climate.copernicus.eu/how-to-api#use-the-cds-api-client-for-data-access
