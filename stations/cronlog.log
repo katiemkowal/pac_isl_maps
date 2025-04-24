@@ -11399,3 +11399,245 @@ removed from your working tree are ignored with this version of Git.
 
 Run 'git status' to check the paths you removed from your working tree.
 
+[temp-branch 9341c37] automated commit by cron job on Wed Apr 23 14:05:09 UTC 2025
+ 2 files changed, 472 insertions(+)
+remote: To git@github.com:katiemkowal/pac_isl_maps.git
+   fd7eca2..9341c37  temp-branch -> temp-branch
+sst.day.mean.1981.nc
+already downloaded
+sst.day.mean.1982.nc
+already downloaded
+sst.day.mean.1983.nc
+already downloaded
+sst.day.mean.1984.nc
+already downloaded
+sst.day.mean.1985.nc
+already downloaded
+sst.day.mean.1986.nc
+already downloaded
+sst.day.mean.1987.nc
+already downloaded
+sst.day.mean.1988.nc
+already downloaded
+sst.day.mean.1989.nc
+already downloaded
+sst.day.mean.1990.nc
+already downloaded
+sst.day.mean.1991.nc
+already downloaded
+sst.day.mean.1992.nc
+already downloaded
+sst.day.mean.1993.nc
+already downloaded
+sst.day.mean.1994.nc
+already downloaded
+sst.day.mean.1995.nc
+already downloaded
+sst.day.mean.1996.nc
+already downloaded
+sst.day.mean.1997.nc
+already downloaded
+sst.day.mean.1998.nc
+already downloaded
+sst.day.mean.1999.nc
+already downloaded
+sst.day.mean.2000.nc
+already downloaded
+sst.day.mean.2001.nc
+already downloaded
+sst.day.mean.2002.nc
+already downloaded
+sst.day.mean.2003.nc
+already downloaded
+sst.day.mean.2004.nc
+already downloaded
+sst.day.mean.2005.nc
+already downloaded
+sst.day.mean.2006.nc
+already downloaded
+sst.day.mean.2007.nc
+already downloaded
+sst.day.mean.2008.nc
+already downloaded
+sst.day.mean.2009.nc
+already downloaded
+sst.day.mean.2010.nc
+already downloaded
+sst.day.mean.2011.nc
+already downloaded
+sst.day.mean.2012.nc
+already downloaded
+sst.day.mean.2013.nc
+already downloaded
+sst.day.mean.2014.nc
+already downloaded
+sst.day.mean.2015.nc
+already downloaded
+sst.day.mean.2016.nc
+already downloaded
+sst.day.mean.2017.nc
+already downloaded
+sst.day.mean.2018.nc
+already downloaded
+sst.day.mean.2019.nc
+already downloaded
+sst.day.mean.2020.nc
+already downloaded
+sst.day.mean.2021.nc
+already downloaded
+sst.day.mean.2022.nc
+already downloaded
+sst.day.mean.2023.nc
+already downloaded
+sst.day.mean.2024.nc
+already downloaded
+sst.day.mean.2025.nc
+downloading:  https://downloads.psl.noaa.gov/Datasets/noaa.oisst.v2.highres/sst.day.mean.2025.nc
+OISST SST 7-Day Anomaly
+OISST SST 7-Day Anomaly Difference
+CMORPH 90 Day Precip Anomaly
+CMORPH 90 Day Precip Avg Anomaly
+CMORPH 90 Day Precip Percent
+CMORPH 3-month SPI
+CMORPH 3-month SPEI
+CMORPH 30 Day Precip Anomaly
+CMORPH 30 Day Precip Avg Anomaly
+CMORPH 30 Day Precip Percent
+CMORPH 1-month SPI
+CMORPH 1-month SPEI
+Leaky Bucket Model 1-month Surface Runoff Index
+CMORPH 7 Day Precip Total
+CMORPH 7 Day Precip Total Avg
+CMORPH 7 Day Precip Anomaly
+CMORPH 7 Day Precip Avg Anomaly
+CMORPH 7 Day SPI
+CDAS 7 Day Tmax
+CDAS 7 Day Tmax Anomaly
+GEFS Week 1 Precip Total Forecast
+GEFS Week 1 Precip Anomaly Forecast
+GEFS Week 1 Precip Exceedance Prob (50 mm)
+GEFS Week 1 Precip Exceedance Prob (100 mm)
+GEFS Week 1 Raw Precip Tercile Prob
+GEFS Week 1 Consolidated Precip Tercile Prob
+GEFS Week 1 Temp Total Forecast
+GEFS Week 1 Temp Anomaly Forecast
+Leaky Bucket Model Evaporative Stress Index Week 1 Forecast
+Leaky Bucket Model Soil Moisture Percentile Week 1 Forecast
+Leaky Bucket Model SPI Week 1 Forecast
+GEFS Week 2 Precip Total
+GEFS Week 2 Precip Anomaly
+GEFS Week 2 Temp Total Forecast
+GEFS Week 2 Temp Anomaly Forecast
+GEFS Week 2 Precip Exceedance Prob (50 mm)
+GEFS Week 2 Precip Exceedance Prob (100 mm)
+GEFS Week 2 Raw Precip Tercile Prob
+GEFS Week 2 Consolidated Precip Tercile Prob
+NMME 1 Month Precip Anomaly Forecast
+NMME 1 Month SPI Forecast
+OISST SST 7-Day Anomaly
+OISST SST 7-Day Anomaly Difference
+CMORPH 90 Day Precip Anomaly
+CMORPH 90 Day Precip Avg Anomaly
+CMORPH 90 Day Precip Percent
+CMORPH 3-month SPI
+CMORPH 3-month SPEI
+CMORPH 30 Day Precip Anomaly
+CMORPH 30 Day Precip Avg Anomaly
+CMORPH 30 Day Precip Percent
+CMORPH 1-month SPI
+CMORPH 1-month SPEI
+Leaky Bucket Model 1-month Surface Runoff Index
+CMORPH 7 Day Precip Total
+CMORPH 7 Day Precip Total Avg
+CMORPH 7 Day Precip Anomaly
+CMORPH 7 Day Precip Avg Anomaly
+CMORPH 7 Day SPI
+CDAS 7 Day Tmax
+CDAS 7 Day Tmax Anomaly
+GEFS Week 1 Precip Total Forecast
+GEFS Week 1 Precip Anomaly Forecast
+GEFS Week 1 Precip Exceedance Prob (50 mm)
+GEFS Week 1 Precip Exceedance Prob (100 mm)
+GEFS Week 1 Raw Precip Tercile Prob
+GEFS Week 1 Consolidated Precip Tercile Prob
+GEFS Week 1 Temp Total Forecast
+GEFS Week 1 Temp Anomaly Forecast
+Leaky Bucket Model Evaporative Stress Index Week 1 Forecast
+Leaky Bucket Model Soil Moisture Percentile Week 1 Forecast
+Leaky Bucket Model SPI Week 1 Forecast
+GEFS Week 2 Precip Total
+GEFS Week 2 Precip Anomaly
+GEFS Week 2 Temp Total Forecast
+GEFS Week 2 Temp Anomaly Forecast
+GEFS Week 2 Precip Exceedance Prob (50 mm)
+GEFS Week 2 Precip Exceedance Prob (100 mm)
+GEFS Week 2 Raw Precip Tercile Prob
+GEFS Week 2 Consolidated Precip Tercile Prob
+NMME 1 Month Precip Anomaly Forecast
+NMME 1 Month SPI Forecast
+GEFS Week 1 Precip Total Forecast
+GEFS Week 1 Precip Anomaly Forecast
+GEFS Week 1 Precip Exceedance Prob (50 mm)
+GEFS Week 1 Precip Exceedance Prob (100 mm)
+GEFS Week 1 Raw Precip Tercile Prob
+GEFS Week 1 Consolidated Precip Tercile Prob
+GEFS Week 1 Temp Total Forecast
+GEFS Week 1 Temp Anomaly Forecast
+Leaky Bucket Model Evaporative Stress Index Week 1 Forecast
+Leaky Bucket Model Soil Moisture Percentile Week 1 Forecast
+Leaky Bucket Model SPI Week 1 Forecast
+GEFS Week 2 Precip Total
+GEFS Week 2 Precip Anomaly
+GEFS Week 2 Temp Total Forecast
+GEFS Week 2 Temp Anomaly Forecast
+GEFS Week 2 Precip Exceedance Prob (50 mm)
+GEFS Week 2 Precip Exceedance Prob (100 mm)
+GEFS Week 2 Raw Precip Tercile Prob
+GEFS Week 2 Consolidated Precip Tercile Prob
+NMME 1 Month Precip Anomaly Forecast
+NMME 1 Month SPI Forecast
+OISST SST 7-Day Anomaly
+OISST SST 7-Day Anomaly Difference
+CMORPH 90 Day Precip Anomaly
+CMORPH 90 Day Precip Avg Anomaly
+CMORPH 90 Day Precip Percent
+CMORPH 3-month SPI
+CMORPH 3-month SPEI
+CMORPH 30 Day Precip Anomaly
+CMORPH 30 Day Precip Avg Anomaly
+CMORPH 30 Day Precip Percent
+CMORPH 1-month SPI
+CMORPH 1-month SPEI
+Leaky Bucket Model 1-month Surface Runoff Index
+CMORPH 7 Day Precip Total
+CMORPH 7 Day Precip Total Avg
+CMORPH 7 Day Precip Anomaly
+CMORPH 7 Day Precip Avg Anomaly
+CMORPH 7 Day SPI
+CDAS 7 Day Tmax
+CDAS 7 Day Tmax Anomaly
+/cpc/home/kkowal/.conda/envs/map_env/lib/python3.9/site-packages/xarray/core/indexing.py:1374: PerformanceWarning: Slicing with an out-of-order index is generating 35 times more chunks
+  return self.array[key]
+prepping cmorph files
+prepping gefs files
+20250424
+/cpc/int_desk/pac_isl/stations/station_image_prep.sh: line 39: gdal2tiles.py: command not found
+/cpc/int_desk/pac_isl/stations/station_image_prep.sh: line 40: gdal2tiles.py: command not found
+/cpc/int_desk/pac_isl/stations/station_image_prep.sh: line 41: gdal2tiles.py: command not found
+/cpc/int_desk/pac_isl/stations/station_image_prep.sh: line 42: gdal2tiles.py: command not found
+/cpc/int_desk/pac_isl/stations/station_image_prep.sh: line 43: gdal2tiles.py: command not found
+/cpc/int_desk/pac_isl/stations/station_image_prep.sh: line 44: gdal2tiles.py: command not found
+/cpc/int_desk/pac_isl/stations/station_image_prep.sh: line 45: gdal2tiles.py: command not found
+/cpc/int_desk/pac_isl/stations/station_image_prep.sh: line 46: gdal2tiles.py: command not found
+warning: You ran 'git add' with neither '-A (--all)' or '--ignore-removal',
+whose behaviour will change in Git 2.0 with respect to paths you removed.
+Paths like 'stations/.ipynb_checkpoints/cronlog-checkpoint.log' that are
+removed from your working tree are ignored with this version of Git.
+
+* 'git add --ignore-removal <pathspec>', which is the current default,
+  ignores paths you removed from your working tree.
+
+* 'git add --all <pathspec>' will let you also record the removals.
+
+Run 'git status' to check the paths you removed from your working tree.
+
